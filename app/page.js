@@ -14,15 +14,15 @@ export default function Home() {
 
 const Hero = () => (
   <section className="bg-cream flex justify-center min-h-min">
-    <div className=" flex flex-col-reverse sm:flex-row p-6 items-start max-w-screen-lg">
+    <div className=" flex flex-col-reverse sm:flex-row p-6 items-center sm:items-start max-w-screen-lg">
 
-      <article className="sm:w-2/3">
-        <h1 className="text-4xl font-bold mb-4 flex-auto ">
+      <article className="w-2/3 mt-5 sm:mt-0 items-center sm:items-start flex flex-col">
+        <h1 className="text-4xl font-bold mb-4 flex-auto leading-relaxed text-center sm:text-left">
           Let's raise kids who <span className="text-orange">take pride </span>
           in their <span className="text-blue">Muslim identity</span>
         </h1>
 
-        <button className="bg-orange text-white font-bold mt-10 py-2 px-4 rounded-full invisible sm:visible">
+        <button className="bg-orange text-white font-bold mt-5 sm:mt-10 py-2 px-4 rounded-full">
           Rergister now
         </button>
       </article>
@@ -41,15 +41,8 @@ const Hero = () => (
 const Video = () => (
   <section className="p-10">
     <div className="flex justify-center">
-      <iframe
-        height="500"
-        src="https://www.youtube.com/embed/rNORf-ds6ko"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        className="aspect-video"
-        allowfullscreen
-      ></iframe>
+    <iframe src="https://player.vimeo.com/video/692728974?h=f5c5065b18" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+
     </div>
   </section>
 );
@@ -81,13 +74,14 @@ const Explanation = () => (
         </button>
       </article>
     </div>
+    
   </section>
 );
 
 const Facets = () => (
-  <section className="bg-blue min-h-min">
+  <section className="bg-cream min-h-min">
     <div className="flex flex-col items-center">
-      <div className="flex flex-row p-6 items-center max-w-screen-lg">
+      <div className="flex flex-col sm:flex-row p-6 items-center max-w-screen-lg">
         <article className="p-6">
           <h1 className="text-4xl font-bold mb-4 flex-auto ">
             {" "}
@@ -99,7 +93,9 @@ const Facets = () => (
             encompasses six core facets{" "}
           </p>
         </article>
+        
         <svg
+          className="w-1/2 sm:w-1/1"
           preserveAspectRatio="xMidYMid meet"
           data-bbox="35 33 130 134"
           viewBox="35 33 130 134"
@@ -118,125 +114,21 @@ const Facets = () => (
           </g>
         </svg>
       </div>
+      <hr className="w-4/5" />
+      
+      <Facet num="1" title="Community and Citizenship" description="The Qube is a safe space for children and parents to build relationships, and to give and receive support. Coming together as a community will create opportunities for all to network and lease with like-minded individuals and build the necessary skills to coexist with others whilst maintaining one’s individuality and boundaries."/>
 
-      <div className="flex flex-row items-end max-w-screen-md p-10">
-        <Image
-          src="/assets/1.webp"
-          alt="one"
-          className="max-w-[60px] h-auto"
-          width={200}
-          height={200}
-        />
-        <article className=" w-5/6 ml-10">
-          <h1 className="text-4xl font-bold mb-4 flex-auto ">
-            {" "}
-            Community and Citizenship{" "}
-          </h1>
-          <p>
-            The Qube is a safe space for children and parents to build
-            relationships, and to give and receive support. Coming together as a
-            community will create opportunities for all to network and lease
-            with like-minded individuals and build the necessary skills to
-            coexist with others whilst maintaining one’s individuality and
-            boundaries.{" "}
-          </p>
-        </article>
-      </div>
+      <Facet num="2"title="Spiritual and Religious Identity" description="Our Islamic etiquette, belief in our compassionate Creator and love towards our 14 Infallible heroes are rooted in our positive emotional attachment towards our religion. Our objective at the Qube is to develop a strong positive spiritual identity, which is cultivated in the personal connection that children feel toward the spiritual teachings, history and culture."/>
 
-      <div className="flex flex-row items-end max-w-screen-md p-10">
-        <Image
-          src="/assets/2.webp"
-          alt="one"
-          className="max-w-[60px] h-auto"
-          width={200}
-          height={200}
-        />
-        <article className=" w-5/6 ml-10">
-          <h1 className="text-4xl font-bold mb-4 flex-auto ">
-            {" "}
-            Spiritual and Religious Identity{" "}
-          </h1>
-          <p>
-          Our Islamic etiquette, belief in our compassionate Creator and love towards our 14 Infallible heroes are rooted in our positive emotional attachment towards our religion. Our objective at the Qube is to develop a strong positive spiritual identity, which is cultivated in the personal connection that children feel toward the spiritual teachings, history and culture{" "}
-          </p>
-        </article>
-      </div>
+      <Facet num="3" title="Physical Health" description="The Qube provides planned regular sports activities for both parents and children accompanied with tournaments, qualifications and achievement awards to help families take control over their bodies through a conscious lifestyle that includes healthy eating, movement, and exercise."/>
 
-      <div className="flex flex-row items-end max-w-screen-md p-10">
-        <Image
-          src="/assets/3.webp"
-          alt="one"
-          className="max-w-[60px] h-auto"
-          width={200}
-          height={200}
-        />
-        <article className=" w-5/6 ml-10">
-          <h1 className="text-4xl font-bold mb-4 flex-auto ">
-            {" "}
-            Physical Health{" "}
-          </h1>
-          <p>
-          The Qube provides planned regular sports activities for both parents and children accompanied with tournaments, qualifications and achievement awards to help families take control over their bodies through a conscious lifestyle that includes healthy eating, movement, and exercise.{" "}
-          </p>
-        </article>
-      </div>
+      <Facet num="4" title="Mental & Emotional Wellness" description="At the Qube, we believe it is important to engage children in activities and conversations that help them to feel understood, loved, trusted, valued and safe. We value talking with children about their experiences, emotions, and fears and fostering strategies that build resilience."/>
 
-      <div className="flex flex-row items-end max-w-screen-md p-10">
-        <Image
-          src="/assets/4.webp"
-          alt="one"
-          className="max-w-[60px] h-auto"
-          width={200}
-          height={200}
-        />
-        <article className=" w-5/6 ml-10">
-          <h1 className="text-4xl font-bold mb-4 flex-auto ">
-            {" "}
-            Mental & Emotional Wellness{" "}
-          </h1>
-          <p>
-          At the Qube, we believe it is important to engage children in activities and conversations that help them to feel understood, loved, trusted, valued and safe. We value talking with children about their experiences, emotions, and fears and fostering strategies that build resilience.{" "}
-          </p>
-        </article>
-      </div>
+      <Facet num="5" title="Essential Life Skills" description="Life is complex, distracting, fast-moving and stressful. Our children need specific skills to navigate this tricky terrain and thrive. At the Qube, we strive to develop our skills and abilities to achieve whilst not compromising on our standard values."/>
 
-      <div className="flex flex-row items-end max-w-screen-md p-10">
-        <Image
-          src="/assets/5.webp"
-          alt="one"
-          className="max-w-[60px] h-auto"
-          width={200}
-          height={200}
-        />
-        <article className=" w-5/6 ml-10">
-          <h1 className="text-4xl font-bold mb-4 flex-auto ">
-            {" "}
-            Essential Life Skills{" "}
-          </h1>
-          <p>
-          Life is complex, distracting, fast-moving and stressful. Our children need specific skills to navigate this tricky terrain and thrive. At the Qube, we strive to develop our skills and abilities to achieve whilst not compromising on our standard values.{" "}
-          </p>
-        </article>
-      </div>
+      <Facet num="6" title="Opportunity to Explore & be Curious" description="The Qube believes in providing the field to explore our abilities, challenge ourselves and make discoveries in a safe environment. We believe in respecting children and parents’ individuality and design our packages and syllabus with care to allow self-recognition, input, and variety of choice."/>
 
-      <div className="flex flex-row items-end max-w-screen-md p-10">
-        <Image
-          src="/assets/6.webp"
-          alt="one"
-          className="max-w-[60px] h-auto"
-          width={200}
-          height={200}
-        />
-        <article className=" w-5/6 ml-10">
-          <h2 className=" flex-auto text-lg ">
-            {" "}
-            Opportunity to Explore & be Curious{" "}
-          </h2>
-          <p>
-          The Qube believes in providing the field to explore our abilities, challenge ourselves and make discoveries in a safe environment. We believe in respecting children and parents’ individuality and design our packages and syllabus with care to allow self-recognition, input, and variety of choice.{" "}
-          </p>
-        </article>
-      </div>
+      
 
 
 
@@ -244,4 +136,27 @@ const Facets = () => (
     </div>
   </section>
 );
+
+const Facet = ({title, description, num}) => (
+  <div className="flex flex-col items-center justify-center sm:flex-row sm:items-end max-w-screen-md p-10">
+        <Image
+          src={`/assets/${num}.webp`}
+          alt={num}
+          className="max-w-[60px] h-auto"
+          width={200}
+          height={200}
+        />
+        <article className=" w-5/6 sm:ml-10">
+          <h1 className=" mb-4 flex-auto text-center sm:text-left ">
+            {" "}
+            {title}{" "}
+          </h1>
+          <p>
+            {description}{" "}
+          </p>
+        </article>
+      </div>
+
+
+)
 
