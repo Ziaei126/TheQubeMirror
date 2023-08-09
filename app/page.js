@@ -1,28 +1,43 @@
 import Image from "next/image";
 import RootLayout from "./layout";
 
+
+
+
+
 export default function Home() {
   return (
     <RootLayout>
       <Hero />
       <Video />
-      <Explanation />
+      <Explanation title="What's the Qube?" description="The Qube is a passion project born from a vision to build a lasting, self-sufficient community that inspires and empowers young Shia Muslims to explore their talents, develop their passions and nurture their sense of self." img="/assets/pilot.webp" more="Learn more" bgColor='bg-white'/>
       <Facets />
+
+      <Explanation title={"What we want to achieve"} description={"We will draw from the many years of experience and knowledge we have accrued in organizing and facilitating community events to provide a safe and nurturing space for children to meet, interact and learn with others who share their Islamic heritage. We strive to help kids develop healthy stable strong identities.\n \nWe also want to provide a friendly welcoming space for parents to interact and socialize with one another and to take part in fun physical activities to promote the emotional and physical health of the family as a whole."} img="/assets/littleGirl.webp" inverted/>
+
+      <Explanation title={"How we get there"} description={"We offer a range of weekly classes and workshops for both parents and children. These include a variety of educational programs in Islamic education, physical education, and life skills.\n \nWe also provide bonding and communication opportunities for parents through events workshops and regular coffee mornings."} img="/assets/dad.webp" bgColor="bg-white"/>
+
+      <Community />
+
+      <Courses />
+
+    <h1>hello</h1>
+
     </RootLayout>
   );
 }
 
 const Hero = () => (
   <section className="bg-cream flex justify-center min-h-min">
-    <div className=" flex flex-col-reverse sm:flex-row p-6 items-center sm:items-start max-w-screen-lg">
+    <div className=" flex flex-col-reverse md:flex-row p-6 items-center md:items-start max-w-screen-lg">
 
-      <article className="w-2/3 mt-5 sm:mt-0 items-center sm:items-start flex flex-col">
-        <h1 className="text-4xl font-bold mb-4 flex-auto leading-relaxed text-center sm:text-left">
+      <article className="w-2/3 md:w-1/3 mt-5 md:mt-0 items-center md:items-start flex flex-col">
+        <h1 className="text-4xl font-bold mb-4 flex-auto leading-relaxed text-center md:text-left">
           Let's raise kids who <span className="text-orange">take pride </span>
           in their <span className="text-blue">Muslim identity</span>
         </h1>
 
-        <button className="bg-orange text-white font-bold mt-5 sm:mt-10 py-2 px-4 rounded-full">
+        <button className="bg-orange text-white font-bold mt-5 md:mt-10 py-2 px-4 rounded-full">
           Rergister now
         </button>
       </article>
@@ -30,9 +45,10 @@ const Hero = () => (
       <Image
         src="/assets/kids8.webp"
         alt="Kids smiling"
-        className=""
+        className="flex-auto object-fit md:w-2/3"
         width={1000}
         height={1000}
+
       />
     </div>
   </section>
@@ -47,34 +63,24 @@ const Video = () => (
   </section>
 );
 
-const Explanation = () => (
-  <section className="bg-cream flex justify-center min-h-min blob">
-    <div className="flex flex-col sm:flex-row p-6 items-center max-w-screen-lg">
-      <Image
-        src="/assets/pilot.webp"
-        alt="Kids smiling"
-        className="p-5 sm:w-1/2"
-        width={1000}
-        height={1000}
-      />
-      <article className="p-6 flex-row justify-center">
-        <h1 className="text-4xl font-bold mb-4 flex-auto ">
-          {" "}
-          What's the Qube?{" "}
-        </h1>
-        <p>
-          The Qube is a passion project born from a vision to build a lasting,
-          self-sufficient community that inspires and empowers young Shia
-          Muslims to explore their talents, develop their passions and nurture
-          their sense of self.{" "}
-        </p>
-
-        <button className="bg-orange text-white font-bold mt-10 py-2 px-4 rounded-full ">
-          Learn more
-        </button>
-      </article>
-    </div>
-    
+const Explanation = ({title, description, img, more, inverted, bgColor = 'bg-cream'}) => (
+  <section className={`${bgColor} flex flex-wrap justify-center min-h-min`}>
+      <div className="flex flex-col sm:flex-row p-6 items-center max-w-screen-lg">
+          <Image 
+              src={img} 
+              alt="" 
+              className={`p-5 sm:w-1/2 ${inverted ? 'order-0' : 'order-1'}`} 
+              width={1000} 
+              height={1000} 
+          />
+          <article className={`p-6 flex-row justify-center ${inverted ? 'order-1' : 'order-0'}`}>
+              <h1 className="text-4xl font-bold mb-4 flex-auto">{title}</h1>
+              <p className="whitespace-pre-wrap">{description}</p>
+              {more && (
+                  <button className="bg-orange text-white font-bold mt-10 py-2 px-4 rounded-full">{more}</button>
+              )}
+          </article>
+      </div>
   </section>
 );
 
@@ -156,7 +162,57 @@ const Facet = ({title, description, num}) => (
           </p>
         </article>
       </div>
-
-
 )
+
+
+const Community = () => (
+  <section className="flex flex-col-reverse lg:flex-row w-full bg-blue items-center">
+    
+    <div className="lg:w-1/3 lg:max-w-[400px] flex flex-col items-center p-6 space-y-5 ">
+      
+      <h2 className="text-2xl font-bold text-center">Join our community of parents on WhatsApp</h2>
+      <p className="text-center">Discussing topics related to religious upbringing in the West</p>
+      <button className="bg-orange text-white font-bold mt-10 py-2 px-4 rounded-full">Join Us</button>
+      
+    </div>
+    <div className="w-full min-h-full lg:flex-auto flex justify-center items-center overflow-hidden lg:max-h-[300px]">
+      <img className="shrink-0 min-w-full min-h-full object-cover" src="/assets/community.webp" alt="community" width={500} height={500} />
+
+    
+    </div>
+    </section>
+  
+);
+
+const Courses = () => (
+  <section className="p-6">
+    <h1 className="text-center text-3xl font-bold mb-10">Courses</h1>
+    <p className="text-center mb-10">Variety of choices in three different categories</p>
+    <div className="grid grid-rows-4 sm:grid-cols-4 gap-4 ">
+      <div className="bg-cream flex flex-row items-center sm:block ">
+        <Image className="sm:w-full hidden sm:block" src="/assets/islamic_column.webp" alt="islamic" width={200} height={200} /><div className="p-5 items-center sm:items-start">
+        <h3 className="text-center text-2xl font-bold mb-10 h-8">Islamic Education</h3>
+        <p className="text-center">Indirect internalization of Islamic beliefs through experiments and hands-on activities delivered by trained passionate teachers</p>
+      </div></div>
+      <div className="bg-blue flex flex-row  items-center sm:block ">
+      <Image className="sm:w-full hidden sm:block" src="/assets/life_skills_column.webp" alt="islamic" width={200} height={200} />
+      <div className="p-5 items-center sm:items-start">
+        <h3 className="text-center text-2xl font-bold mb-10 h-8">Life Skills</h3>
+        <p className="text-center">Clubs and courses in various categories, delivered by professional teachers</p></div>
+      </div>
+      <div className="bg-orange flex flex-row items-center sm:block ">
+      <Image className="sm:w-full hidden sm:block" src="/assets/sports_column.webp" alt="islamic" width={200} height={200} />
+      <div className="p-5 items-center sm:items-start">
+        <h3 className="text-center text-2xl font-bold mb-10 h-8">Sports Training</h3>
+        <p className="text-center">A variety of sports training provided by qualified coaches.</p></div>
+      </div>
+      <div className="bg-sky-500 flex flex-row items-center sm:block ">
+      <Image className="sm:w-full hidden sm:block" src="/assets/languages_column.webp" alt="islamic" width={200} height={200} /><div className="p-5 items-center sm:items-start">
+        <h3 className="text-center text-2xl font-bold mb-10 h-8">Languages</h3>
+        <p className="text-center">Language courses for children at different levels, taught by qualified teachers</p>
+      </div></div>
+    </div>
+  </section>
+)
+
 
