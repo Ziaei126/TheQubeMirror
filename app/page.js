@@ -1,5 +1,6 @@
 import Image from "next/image";
 import RootLayout from "./layout";
+import { Courses } from "./components/main/Courses";
 
 
 
@@ -7,7 +8,7 @@ import RootLayout from "./layout";
 
 export default function Home() {
   return (
-    <RootLayout>
+    <main>
       <Hero />
       <Video />
       <Explanation title="What's the Qube?" description="The Qube is a passion project born from a vision to build a lasting, self-sufficient community that inspires and empowers young Shia Muslims to explore their talents, develop their passions and nurture their sense of self." img="/assets/pilot.webp" more="Learn more" bgColor='bg-white'/>
@@ -20,10 +21,7 @@ export default function Home() {
       <Community />
 
       <Courses />
-
-    <h1>hello</h1>
-
-    </RootLayout>
+</ main>
   );
 }
 
@@ -33,11 +31,11 @@ const Hero = () => (
 
       <article className="w-2/3 md:w-1/3 mt-5 md:mt-0 items-center md:items-start flex flex-col">
         <h1 className="text-4xl font-bold mb-4 flex-auto leading-relaxed text-center md:text-left">
-          Let's raise kids who <span className="text-orange">take pride </span>
-          in their <span className="text-blue">Muslim identity</span>
+          Let's raise kids who <span className="text-pastel-orange">take pride </span>
+          in their <span className="text-pastel-blue">Muslim identity</span>
         </h1>
 
-        <button className="bg-orange text-white font-bold mt-5 md:mt-10 py-2 px-4 rounded-full">
+        <button className="bg-pastel-orange text-white font-bold mt-5 md:mt-10 py-2 px-4 rounded-full">
           Rergister now
         </button>
       </article>
@@ -55,7 +53,7 @@ const Hero = () => (
 );
 
 const Video = () => (
-  <section className="p-10">
+  <section className="p-5">
     <div className="flex justify-center">
     <iframe src="https://player.vimeo.com/video/692728974?h=f5c5065b18" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 
@@ -77,7 +75,7 @@ const Explanation = ({title, description, img, more, inverted, bgColor = 'bg-cre
               <h1 className="text-4xl font-bold mb-4 flex-auto">{title}</h1>
               <p className="whitespace-pre-wrap">{description}</p>
               {more && (
-                  <button className="bg-orange text-white font-bold mt-10 py-2 px-4 rounded-full">{more}</button>
+                  <button className="bg-pastel-pastel-orange text-white font-bold mt-10 py-2 px-4 rounded-full">{more}</button>
               )}
           </article>
       </div>
@@ -166,13 +164,13 @@ const Facet = ({title, description, num}) => (
 
 
 const Community = () => (
-  <section className="flex flex-col-reverse lg:flex-row w-full bg-blue items-center">
+  <section className="flex flex-col-reverse lg:flex-row w-full bg-pastel-blue items-center">
     
     <div className="lg:w-1/3 lg:max-w-[400px] flex flex-col items-center p-6 space-y-5 ">
       
       <h2 className="text-2xl font-bold text-center">Join our community of parents on WhatsApp</h2>
       <p className="text-center">Discussing topics related to religious upbringing in the West</p>
-      <button className="bg-orange text-white font-bold mt-10 py-2 px-4 rounded-full">Join Us</button>
+      <button className="bg-pastel-orange text-white font-bold mt-10 py-2 px-4 rounded-full">Join Us</button>
       
     </div>
     <div className="w-full min-h-full lg:flex-auto flex justify-center items-center overflow-hidden lg:max-h-[300px]">
@@ -183,36 +181,5 @@ const Community = () => (
     </section>
   
 );
-
-const Courses = () => (
-  <section className="p-6">
-    <h1 className="text-center text-3xl font-bold mb-10">Courses</h1>
-    <p className="text-center mb-10">Variety of choices in three different categories</p>
-    <div className="grid grid-rows-4 sm:grid-cols-4 gap-4 ">
-      <div className="bg-cream flex flex-row items-center sm:block ">
-        <Image className="sm:w-full hidden sm:block" src="/assets/islamic_column.webp" alt="islamic" width={200} height={200} /><div className="p-5 items-center sm:items-start">
-        <h3 className="text-center text-2xl font-bold mb-10 h-8">Islamic Education</h3>
-        <p className="text-center">Indirect internalization of Islamic beliefs through experiments and hands-on activities delivered by trained passionate teachers</p>
-      </div></div>
-      <div className="bg-blue flex flex-row  items-center sm:block ">
-      <Image className="sm:w-full hidden sm:block" src="/assets/life_skills_column.webp" alt="islamic" width={200} height={200} />
-      <div className="p-5 items-center sm:items-start">
-        <h3 className="text-center text-2xl font-bold mb-10 h-8">Life Skills</h3>
-        <p className="text-center">Clubs and courses in various categories, delivered by professional teachers</p></div>
-      </div>
-      <div className="bg-orange flex flex-row items-center sm:block ">
-      <Image className="sm:w-full hidden sm:block" src="/assets/sports_column.webp" alt="islamic" width={200} height={200} />
-      <div className="p-5 items-center sm:items-start">
-        <h3 className="text-center text-2xl font-bold mb-10 h-8">Sports Training</h3>
-        <p className="text-center">A variety of sports training provided by qualified coaches.</p></div>
-      </div>
-      <div className="bg-sky-500 flex flex-row items-center sm:block ">
-      <Image className="sm:w-full hidden sm:block" src="/assets/languages_column.webp" alt="islamic" width={200} height={200} /><div className="p-5 items-center sm:items-start">
-        <h3 className="text-center text-2xl font-bold mb-10 h-8">Languages</h3>
-        <p className="text-center">Language courses for children at different levels, taught by qualified teachers</p>
-      </div></div>
-    </div>
-  </section>
-)
 
 

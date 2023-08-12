@@ -9,9 +9,12 @@ module.exports = {
     extend: {
       colors: {
         'cream': 'rgb(246,246,229)',
-        'orange': 'rgb(210,109,80)',
-        'blue': 'rgb(91,151,152)',
-        // add as many colors as you need
+        'pastel-orange': 'rgb(210,109,80)',
+        'pastel-blue': 'rgb(91,151,152)',
+        'islamic': 'rgb(146,185,187)',
+        'skills': 'rgb(225,117,86)',
+        'sports': 'rgb(239, 198, 103)',
+        'languages': 'rgb(143,160,169)'
       },
     },
   },
