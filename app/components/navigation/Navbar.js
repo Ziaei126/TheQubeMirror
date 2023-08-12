@@ -38,7 +38,7 @@ const MENU_LIST = [
         <nav className={`flex p-4 justify-between items-center ${hasScrolled ?  "bg-slate-300 shadow" : "bg-cream"}`}>
           <Link href={"/"}>
             
-              <Image src="/assets/logo.webp" width='200' height='200' />
+              <Image src="/assets/logo.webp" width='150' height='50' />
             
           </Link>
           <div
