@@ -43,7 +43,7 @@ const Navbar = () => {
         // Clean up the listener when component unmounts
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('click', handleClick);
+            
         };
     }, []);
 
