@@ -36,6 +36,7 @@ const Navbar = () => {
 
         
         
+        
 
         // Add the scroll event listener to window
         window.addEventListener('scroll', handleScroll);
