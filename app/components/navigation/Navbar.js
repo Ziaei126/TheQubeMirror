@@ -40,7 +40,7 @@ const Navbar = () => {
             
           }
         
-        window.addEventListener('click', handleClick);
+        //window.addEventListener('click', handleClick);
         window.addEventListener('touchend', handleClick);
 
         // Add the scroll event listener to window
@@ -49,7 +49,7 @@ const Navbar = () => {
         // Clean up the listener when component unmounts
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('click', handleClick);
+            //window.removeEventListener('click', handleClick);
             window.removeEventListener('touchend', handleClick);
         };
     }, []);
