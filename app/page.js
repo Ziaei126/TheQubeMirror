@@ -56,7 +56,7 @@ const Hero = () => (
 const Video = () => (
   <section className="p-5">
     <div className="flex justify-center">
-    <iframe src="https://player.vimeo.com/video/692728974?h=f5c5065b18" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://player.vimeo.com/video/692728974?h=f5c5065b18" width="640" height="360" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>
 
     </div>
   </section>
