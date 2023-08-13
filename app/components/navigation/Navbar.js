@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import OutsideClickHandler from 'react-outside-click-handler';
+
 
 
 const MENU_LIST = [
@@ -18,7 +20,7 @@ const Navbar = () => {
     const [navActive, setNavActive] = useState(null);
     const [activeIdx, setActiveIdx] = useState(-1);
     const [hasScrolled, setHasScrolled] = useState(false);
-    const navRef = useRef(null);
+    
 
     const [router, setRouter] = useState(null);
 
@@ -32,15 +34,8 @@ const Navbar = () => {
             }
         };
 
-        function handleClick(event) {
-            console.log("clicked");
-            if (navActive && !navRef.current.contains(event.target)) {
-                console.log("clicked outside");
-              setNavActive(false);}
-            
-          }
         
-        window.addEventListener('click', handleClick);
+        
 
         // Add the scroll event listener to window
         window.addEventListener('scroll', handleScroll);
@@ -48,7 +43,7 @@ const Navbar = () => {
         // Clean up the listener when component unmounts
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('click', handleClick);
+            
         };
     }, []);
 
@@ -62,8 +57,13 @@ const Navbar = () => {
               <Image src="/assets/logo.webp" width='150' height='50' />
             
           </Link>
+          <OutsideClickHandler
+      onOutsideClick={() => {
+        setNavActive(false);
+      }}
+    >
           <div
-          ref={navRef}
+          
             onClick={() => setNavActive(!navActive)}
             className="flex flex-col gap-y-2 cursor-pointer md:hidden"
           >
@@ -86,6 +86,7 @@ const Navbar = () => {
             ))}
             <button className="p-2 shadow rounded bg-slate-200 hover:shadow-none">Sign In</button>
           </div>
+          </OutsideClickHandler>
 
           
         </nav>
