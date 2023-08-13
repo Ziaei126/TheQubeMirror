@@ -41,6 +41,7 @@ const Navbar = () => {
           }
         
         window.addEventListener('click', handleClick);
+        window.addEventListener('touchend', handleClick);
 
         // Add the scroll event listener to window
         window.addEventListener('scroll', handleScroll);
@@ -49,6 +50,7 @@ const Navbar = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('click', handleClick);
+            window.removeEventListener('touchend', handleClick);
         };
     }, []);
 
