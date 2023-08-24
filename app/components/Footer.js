@@ -3,21 +3,43 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <section className="flex flex-col bg-cream justify-center">
-        <p className="text-center"> © 2022 The Qube All Rights Reserved </p>
-        <Link href="/conditions" className="text-center underline"> Terms & Conditions</Link>
-        <div className="w-full bg-pastel-blue sm:bg-transparent flex flex-row justify-center fixed bottom-0 left-1/2 transform -translate-x-1/2 sm:relative">
-            <Link href="https://www.instagram.com/wearetheqube" className="w-1/2 sm:w-auto">
+<section className="flex flex-col bg-cream justify-center">
+    <p className="text-center mt-2"> © 2022 The Qube All Rights Reserved </p>
+    <Link href="/conditions" className="text-center underline mb-16 sm:mb-0"> Terms & Conditions</Link>
+    <div className="w-full bg-pastel-blue sm:bg-transparent sm:flex flex-row justify-center hidden bottom-0 relative">
+    <Link href="https://www.instagram.com/wearetheqube" className="w-1/2 sm:w-auto">
                 <img src="/assets/instagram.webp" alt="instagram" width={50} height={50} className="w-full sm:w-8"/>
             </Link>
             <Link href="https://wa.me/+447715477995" className="w-1/2 sm:w-auto">
                 <img src="/assets/whatsapp.webp" alt="whatsapp" width={50} height={50} className="w-full sm:w-8"/>
             </Link>
+    </div>
 
-        </div>
+    <div className="w-full flex flex-row justify-center sm:hidden bottom-0 fixed">
+    <Link href="mailto:admin@wearetheqube.com" className="w-1/3 bg-slate-100 p-2 flex justify-center">
+    <svg data-bbox="15 8 20 15" width="50" height="30" viewBox="15 8 20 15" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 9.992C15 8.892 15.898 8 16.99 8h16.02C34.108 8 35 8.893 35 9.992v11.016c0 1.1-.898 1.992-1.99 1.992H16.99A1.992 1.992 0 0 1 15 21.008V9.992zm3.1.867a1.004 1.004 0 0 0 .236 1.396l4.56 3.257c1.185.847 3.02.848 4.208 0l4.56-3.257c.45-.322.554-.95.235-1.396l.202.282a1.004 1.004 0 0 0-1.398-.23l-4.56 3.257c-.612.437-1.675.437-2.286 0l-4.56-3.257a1.004 1.004 0 0 0-1.398.23l.202-.282z" fill="black" fill-rule="evenodd"></path>
+    </svg>
+</Link>
+
+            <Link href="https://wa.me/+447715477995" className="w-1/3 justify-center flex bg-blue-200 p-2">
+            <svg data-bbox="15 5 19.904 20" xmlns="http://www.w3.org/2000/svg" viewBox="15 5 19.904 20" height="30" width="50" data-type="shape">
+    <g>
+        <path d="M29.512 16.985c-.248-.124-1.465-.723-1.692-.806-.227-.082-.392-.123-.557.124-.165.248-.64.806-.784.971-.145.166-.29.186-.537.062-.247-.124-1.045-.385-1.991-1.229-.736-.656-1.233-1.467-1.378-1.715-.144-.248-.015-.382.109-.506.111-.11.248-.289.371-.433.124-.145.165-.248.248-.414.082-.165.041-.31-.02-.433-.063-.124-.558-1.343-.764-1.84-.201-.482-.405-.416-.557-.424a9.932 9.932 0 0 0-.475-.009.91.91 0 0 0-.66.31c-.227.248-.867.847-.867 2.066 0 1.219.887 2.396 1.011 2.561.124.166 1.746 2.667 4.23 3.74.591.255 1.053.407 1.412.521.593.189 1.133.162 1.56.098.476-.07 1.465-.599 1.671-1.177.207-.579.207-1.074.145-1.178-.062-.103-.227-.165-.475-.289m-4.518 6.17h-.004a8.225 8.225 0 0 1-4.192-1.149l-.3-.178-3.118.817.832-3.04-.196-.31a8.218 8.218 0 0 1-1.26-4.385c.002-4.541 3.697-8.236 8.241-8.236 2.2 0 4.268.859 5.824 2.416a8.188 8.188 0 0 1 2.41 5.827c-.002 4.542-3.697 8.237-8.237 8.237m7.01-15.248A9.846 9.846 0 0 0 24.994 5c-5.463 0-9.909 4.446-9.91 9.91a9.879 9.879 0 0 0 1.322 4.954L15 25l5.254-1.378a9.902 9.902 0 0 0 4.736 1.206h.004c5.462 0 9.908-4.446 9.91-9.91a9.851 9.851 0 0 0-2.9-7.012" fill-rule="evenodd"></path>
+    </g>
+</svg>
+            </Link>
+            <Link href="https://www.instagram.com/wearetheqube" className="w-1/3 justify-center flex bg-red-200 p-2">
+            <svg data-bbox="17 7 17 17" width="50" height="30" viewBox="17 7 17 17" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <path d="M32.126 20.512c-.154.398-.338.68-.636.979a2.64 2.64 0 0 1-.977.635c-.3.117-.749.255-1.577.292-.898.041-1.166.05-3.436.05s-2.538-.009-3.435-.05c-.828-.037-1.279-.175-1.577-.292a2.632 2.632 0 0 1-.978-.635 2.638 2.638 0 0 1-.636-.979c-.116-.299-.255-.75-.293-1.578-.041-.895-.048-1.165-.048-3.434 0-2.27.007-2.539.048-3.435.038-.829.177-1.278.293-1.578.155-.398.338-.68.636-.978a2.62 2.62 0 0 1 .978-.635c.298-.117.749-.255 1.577-.293.897-.041 1.166-.05 3.435-.05 2.27 0 2.538.009 3.436.05.828.038 1.278.176 1.577.293.396.154.68.338.977.635.298.297.482.58.636.978.116.3.255.75.293 1.578.041.896.05 1.165.05 3.435 0 2.269-.009 2.539-.05 3.434-.038.829-.177 1.28-.293 1.578zm1.427-10.58a4.17 4.17 0 0 0-.98-1.506 4.174 4.174 0 0 0-1.506-.98c-.54-.21-1.158-.354-2.062-.396C28.098 7.009 27.809 7 25.5 7c-2.308 0-2.597.009-3.505.05-.904.042-1.521.186-2.062.396a4.183 4.183 0 0 0-1.506.98 4.154 4.154 0 0 0-.98 1.505c-.21.54-.354 1.16-.395 2.065C17.01 12.902 17 13.19 17 15.5c0 2.308.01 2.598.052 3.504.04.906.185 1.523.396 2.064.216.559.506 1.032.979 1.506a4.18 4.18 0 0 0 1.506.98c.54.21 1.158.354 2.062.395.908.042 1.197.051 3.505.051 2.31 0 2.598-.009 3.505-.051.904-.04 1.521-.185 2.062-.396a4.158 4.158 0 0 0 1.506-.98c.473-.473.763-.946.98-1.505.211-.54.354-1.158.395-2.064.042-.906.052-1.196.052-3.504 0-2.309-.01-2.598-.052-3.504-.04-.906-.184-1.524-.395-2.065zM22.667 15.5a2.834 2.834 0 1 1 5.667-.001 2.834 2.834 0 0 1-5.667 0zm-1.53 0a4.364 4.364 0 1 0 8.727 0 4.365 4.365 0 1 0-8.728 0zm7.88-4.538a1.02 1.02 0 1 0 2.041 0 1.02 1.02 0 0 0-2.041 0z" fill-rule="evenodd"></path>
+    </g>
+</svg>
+            </Link>
+    </div>
+</section>
 
 
-    </section>
   )
 }
 
