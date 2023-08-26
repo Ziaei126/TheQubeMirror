@@ -6,8 +6,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap');
 
 
+.will-change-transform {
+  will-change: transform;
+}
+
+.outer-list > li {
+  counter-increment: item;  /* increment the item counter */
+  
+}
 
 
+.outer-list > li > ol {
+  counter-reset: subitem;  /* reset subitem counter for each new list item */
+}
+
+.inner-list > li {
+  counter-increment: subitem;  /* increment the subitem counter */
+  
+}
+
+.inner-list > li:before {
+  content: counter(item) "." counter(subitem) " ";  /* combine item and subitem counters */
+  
+}
 
 .nav__menu-list{
   transition: all 0.2s;
