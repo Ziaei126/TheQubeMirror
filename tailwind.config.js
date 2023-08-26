@@ -16,6 +16,7 @@ module.exports = {
         'sports': 'rgb(239, 198, 103)',
         'languages': 'rgb(143,160,169)'
       },
+      
     },
   },
   plugins: [],

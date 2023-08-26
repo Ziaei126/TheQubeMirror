@@ -18,11 +18,7 @@ const MENU_LIST = [
 
 const Navbar = () => {
     const [navActive, setNavActive] = useState(null);
-    const [activeIdx, setActiveIdx] = useState(-1);
     const [hasScrolled, setHasScrolled] = useState(false);
-    
-
-    const [router, setRouter] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -34,10 +30,6 @@ const Navbar = () => {
             }
         };
 
-        
-        
-        
-
         // Add the scroll event listener to window
         window.addEventListener('scroll', handleScroll);
 
@@ -46,7 +38,7 @@ const Navbar = () => {
             window.removeEventListener('scroll', handleScroll);
             
         };
-    }, []);
+    }, [hasScrolled]);
 
     
 
@@ -73,11 +65,9 @@ const Navbar = () => {
             <div className="w-6 h-1 bg-black rounded"></div>
           </div>
           <div className={`${navActive ? "right-2" : "-right-40"} ${hasScrolled ? " bg-white" : "bg-cream"} flex flex-col fixed top-16 w-40 gap-y-6 p-6 nav__menu-list min-h-min rounded border`}>
-            {MENU_LIST.map((menu, idx) => (
+            {MENU_LIST.map((menu) => (
               <div
                 onClick={() => {
-                    console.log("clicked");
-                  setActiveIdx(idx);
                   setNavActive(false);
                 }}
                 key={menu.text}
