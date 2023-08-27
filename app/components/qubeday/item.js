@@ -1,9 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
 
-const item = ({title, description, imgs}) => {
+const item = ({title, description, imgs, bg}) => {
   return (
-    <div className="p-5 flex justify-center ">
+    <div className={`p-5 flex justify-center ${bg}`} >
         <div className="container flex flex-col gap-5 max-w-4xl ">
         <h2 className='inl'>{title}</h2>
         <ul className='list-disc list-inside'>

@@ -2,8 +2,8 @@ import React from "react";
 
 function Conditions() {
   return (
-    <section className="flex justify-center">
-      <div className="p-5 max-w-6xl">
+    <section className="p-5 max-w-6xl mx-auto">
+      
         <h1 className="text-center">Terms & Conditions</h1>
 
         <ol className="outer-list list-decimal p-5">
@@ -363,7 +363,7 @@ function Conditions() {
             </ol>
           </li>
         </ol>
-      </div>
+      
     </section>
   );
 }

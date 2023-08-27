@@ -62,14 +62,10 @@
 
 
 
-.typewriter-effect {
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-}
+
 
 .typewriter-effect::before {
-  content: '"';
+  content: '';
 }
 
 .typewriter-effect::after {

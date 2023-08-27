@@ -7,12 +7,12 @@ import Item from 'app/components/qubeday/item'
 function Day() {
   return (
     <>
-    <div className="justify-center mx-auto pt-10">
+    <div className="justify-center mx-auto pt-10 bg-cream">
       <h1 className='text-4xl font-bold mb-10 text-center'>Qube Day</h1>
       <Image src="/assets/kids10.webp" width='600' height='300' className='w-1/2 max-w-4xl mx-auto'/>
-      <div className='bg-red-500 p-5 flex justify-center flex-col sm:flex-row'>
-        <p className='text-center'>In a day at The Qube, we&nbsp; </p>
-        <TypewriterText texts={["Apply Modern Teaching Methods", "Balance Quality vs. Quantity of Information", "Appreciate Differentiation and Individuality", "Aim for Positive Emotional Attachment to Religion","Believe in Social Binding"]}/>
+      <div className='bg-red-500 p-5 min-h-[120px] flex items-center justify-center'>
+        
+        <TypewriterText texts={["Apply Modern Teaching Methods", "Balance Quality vs. Quantity of Information", "Appreciate Differentiation and Individuality", "Aim for Positive Emotional Attachment to Religion","Believe in Social Binding"]} customClass="text-3xl md:text-4xl font-bold text-center"/>
       </div>
 
     </div>

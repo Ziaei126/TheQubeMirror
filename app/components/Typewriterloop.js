@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-const TypewriterText = ({texts}) => {
+const TypewriterText = ({texts, customClass}) => {
   const [index, setIndex] = useState(0);
   
   const [text, setText] = useState("");
@@ -46,11 +46,11 @@ const TypewriterText = ({texts}) => {
   }, [text, erasing, animating, index]);
 
   return (
-    <div 
-      className="typewriter-effect text-center" 
+    <p 
+      className={`typewriter-effect ${customClass} break-word`}
     >
-      {text}
-    </div>
+      {`In a day at the Qube "${text}`}
+    </p>
   );
 }
 
