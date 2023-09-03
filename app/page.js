@@ -1,5 +1,6 @@
 import Image from "next/image";
-import RootLayout from "./layout";
+import Link from "next/link";
+
 import { Courses } from "./components/main/Courses";
 import Explanation from "./components/explanation";
 
@@ -36,9 +37,9 @@ const Hero = () => (
           in their <span className="text-pastel-blue">Muslim identity</span>
         </h1>
 
-        <button className="bg-pastel-orange text-white font-bold mt-5 md:mt-10 py-2 px-4 rounded-full">
+        <Link href="/register" className="bg-pastel-orange text-white font-bold mt-5 md:mt-10 py-2 px-4">
           Rergister now
-        </button>
+        </Link>
       </article>
 
       <Image
