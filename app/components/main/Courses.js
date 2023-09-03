@@ -13,7 +13,7 @@ export const Courses = () => (
           src="/assets/islamic_column.webp"
           alt="girl with Hijab smiling and learning"
           width={200}
-          height={200}
+          height={600}
         />
         <div className="p-5 items-center sm:items-start">
           <h3 className="text-center text-2xl font-bold mb-10 h-8">
@@ -31,7 +31,7 @@ export const Courses = () => (
           src="/assets/life_skills_column.webp"
           alt="woman helping girl cook"
           width={200}
-          height={200}
+          height={600}
         />
         <div className="p-5 items-center sm:items-start">
           <h3 className="text-center text-2xl font-bold mb-10 h-8">
@@ -50,7 +50,7 @@ export const Courses = () => (
           src="/assets/sports_column.webp"
           alt="kid holding a football"
           width={200}
-          height={200}
+          height={600}
         />
         <div className="p-5 items-center ">
           <h3 className="text-center text-2xl font-bold mb-10 h-8">
@@ -69,7 +69,7 @@ export const Courses = () => (
           src="/assets/languages_column.webp"
           alt="chald board with words in different languages"
           width={200}
-          height={200}
+          height={600}
         />
         <div className="p-5 items-center sm:items-start">
           <h3 className="text-center text-2xl font-bold mb-10 h-8">

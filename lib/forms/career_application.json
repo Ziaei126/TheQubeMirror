@@ -1,0 +1,140 @@
+{
+   "sections" : [
+    {
+        "name": "Please provide details of your availability and what you can offer the Qube.",
+        "questions" : [
+            {
+                "id": "weekly_availability",
+                "type": "MCQ",
+                "question" : "How often will you be able to volunteer for the cause?",
+                "options" : [
+                    "1 hour a week",
+                    "2-4 hours a week",
+                    "+4 hours a week"
+                ],
+                "required" : true,
+                "explenation" : false
+            },
+            {
+                "id": "sunday_availability",
+                "type": "MCQ",
+                "question" : "Will you be able to help us on-site during term time on Sundays in North West London? (10am-3pm)",
+                "options" : [
+                    "Yes",
+                    "Yes; but only for a couple of hours",
+                    "No; but I can help remotely",
+                    "other"
+                ],
+                "required" : true,
+                "explenation" : true
+            },
+            {
+                "id": "team",
+                "type": "MMCQ",
+                "question" : "What can you help us with? Choose as many as applicable",
+                "options" : [
+                    "Operations (on-site)",
+                    "Admin Team",
+                    "Marketing Team",
+                    "Education Team",
+                    "Design and Grpahics",
+                    "Communtiy Management (Whatsapp group and Instagram account)",
+                    "Events",
+                    "Research",
+                    "Copywriting (for out blog etc)",
+                    "Fundraising",
+                    "Working with children",
+                    "Teaching (please mention your area of expertise)",
+                    "Running Workshop",
+                    "Other"
+                ],
+                "required" : true,
+                "explenation" : true
+            },
+            {
+                "id": "explain",
+                "type": "long text",
+                "question" : "Please tell us a little bit about yourself and what you selected above (if needs further explanation)",
+                "required" : false,
+                "explenation" : false
+
+            }
+        ]
+    },
+    {
+        "name": "Please provide your contact details so we can get in touch with you.",
+        "questions":[
+            {
+                "id" : "name",
+                "type": "short text",
+                "question" : "Full Name",
+                "required" : true,
+                "explenation" : false
+            },
+            {
+                "id" : "email",
+                "type": "email",
+                "question" : "Email",
+                "required" : true,
+                "explenation" : false
+            },
+            {
+                "id" : "telephone",
+                "type": "tel",
+                "question" : "Contact Number",
+                "required" : false,
+                "explenation" : false
+            }
+        ]
+
+    },
+    {
+        "name": "The following optional questions will help us to make The Qube more inclusive and diverse for everyone.",
+        "questions":[
+            {
+                "id" : "age",
+                "type": "MCQ",
+                "question" : "How old are you?",
+                "options" : [
+                    "16-17",
+                    "18-25",
+                    "25-35",
+                    "36-50",
+                    "+51"
+                ],
+                "required" : false,
+                "explenation" : false
+            },
+            {
+                "id" : "gender",
+                "type": "MCQ",
+                "question" : "Gender",
+                "options" : [
+                    "Female",
+                    "Male"
+                ],
+                "required" : false,
+                "explenation" : false
+            },
+            {
+                "id" : "ethnicity",
+                "type": "MCQ",
+                "question" : "Which community/ethnicity do you identify with?",
+                "options" : [
+                    "Iraqi",
+                    "Pakistani",
+                    "Khoja",
+                    "Afghan",
+                    "Iranian",
+                    "Lebenese",
+                    "British",
+                    "Other"
+                ],
+                "required" : false,
+                "explenation" : false
+            }
+        ]
+
+    }
+   ]
+}
