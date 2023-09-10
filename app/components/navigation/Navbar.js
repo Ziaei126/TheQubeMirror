@@ -20,6 +20,7 @@ const Navbar = () => {
     const [navActive, setNavActive] = useState(null);
     const [hasScrolled, setHasScrolled] = useState(false);
 
+
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY;
@@ -29,6 +30,8 @@ const Navbar = () => {
                 setHasScrolled(false);
             }
         };
+
+        handleScroll();
 
         // Add the scroll event listener to window
         window.addEventListener('scroll', handleScroll);

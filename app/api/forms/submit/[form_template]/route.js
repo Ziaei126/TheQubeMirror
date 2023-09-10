@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: process.env.POSTGRES_USER,
-  host: process.env.POSTGRES_HOST,
-  database: process.env.POSTGRES_DATABASE,
-  password: process.env.POSTGRES_PASSWORD,
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
   port: 5432,
   ssl: {
     rejectUnauthorized: false,
@@ -53,11 +53,13 @@ const values = Object.entries(data).map(([key, value]) => {
 
   try {
     const result = await pool.query(queryText, values);
+    console.log(result)
     
     return NextResponse.json({status:200})
     
   } catch (error) {
     
+    console.log(error)
     return NextResponse.json({ error: error },{status:500});
   }
 }

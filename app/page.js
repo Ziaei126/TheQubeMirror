@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Courses } from "./components/main/Courses";
+import Video from "./components/Video"
 import Explanation from "./components/explanation";
 
 
@@ -12,7 +13,8 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <Video />
+      
+      <Video src="https://player.vimeo.com/video/692728974?h=f5c5065b18"/>
       <Explanation title="What's the Qube?" description="The Qube is a passion project born from a vision to build a lasting, self-sufficient community that inspires and empowers young Shia Muslims to explore their talents, develop their passions and nurture their sense of self." img="/assets/pilot.webp" more="Learn more" bgColor='bg-white'/>
       <Facets />
 
@@ -54,14 +56,7 @@ const Hero = () => (
   </section>
 );
 
-const Video = () => (
-  <section className="p-5">
-    <div className="flex justify-center">
-    <iframe src="https://player.vimeo.com/video/692728974?h=f5c5065b18" width="640" height="360" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>
 
-    </div>
-  </section>
-);
 
 
 

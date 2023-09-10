@@ -57,7 +57,13 @@ function Careers() {
                     "shortText" : " border rounded-md",
                     "button" : " p-3 bg-pastel-orange mx-auto w-20 mb-3"
         }}
-        />
+        >
+          <div className="flex flex-col justify-center max-w-4xl mx-auto gap-5 border rounded bg-slate-300 p-3 mb-5">
+            <h2 className="text-center">Thank you!</h2>
+            <p className="text-center"> the form is successfully sumbitted. We will be in touch shortly!</p>
+          </div>
+
+        </Form>
       </section>
     </>
   );

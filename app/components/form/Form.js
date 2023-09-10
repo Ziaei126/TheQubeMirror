@@ -4,10 +4,12 @@ import React from 'react';
 import MCQ from './MCQ';
 import { useState } from 'react';
 
-function Form({ form_template, styles }) {
+function Form({ form_template, styles, children }) {
     const data = require(`/lib/forms/${form_template}.json`);
-    //const {isLoading, setIsLoading} = useState(false)
-    //const {isDelivered, setIsDelivered} = useState(false)
+    
+    const [isLoading, setIsLoading] = useState(false)
+    const [isDelivered, setIsDelivered] = useState(false)
+    
 
     function safeAccess(obj, ...accessors) {
         return accessors.reduce((acc, curr) => (acc && acc[curr] ? acc[curr] : ''), obj);
@@ -16,9 +18,9 @@ function Form({ form_template, styles }) {
     async function handleSubmit(event) {
         event.preventDefault();
         //start loading
-        //setIsLoading(true);
 
-        event.preventDefault();
+        setIsLoading(true);
+
       
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
@@ -38,9 +40,12 @@ function Form({ form_template, styles }) {
             throw new Error
           }
           console.log(' response: ', response)
+          setIsLoading(false);
+          setIsDelivered(true);
           
     } catch (error) {
         console.log("There was a problem with sending the form" + error)
+        setIsLoading(false);
 
     } 
         
@@ -48,7 +53,12 @@ function Form({ form_template, styles }) {
     
     
     return (
-        <form onSubmit={handleSubmit} className={safeAccess(styles, "form")}>
+        <>
+        {isDelivered ? 
+
+        <>{children}</>
+            
+            :<form onSubmit={handleSubmit} className={safeAccess(styles, "form")}>
             {data.sections.map((section, sectionIndex) => (<>
             <div>
                 <h2 className={`${safeAccess(styles, "section", "title", "all")} ${safeAccess(styles, "section", "title", String(sectionIndex+1))}`}>{section.name}</h2>
@@ -111,8 +121,13 @@ function Form({ form_template, styles }) {
                     
                 </div></div></>
             ))}
-            <button type="submit" className={styles.button}>Submit</button>
-        </form>
+            
+            <button type="submit" className={styles.button}>
+                {isLoading ? <div className="loader"><span></span><span></span><span></span></div> : 'Submit'}
+            
+            </button>
+        </form>}
+        </>
     );
 }
 

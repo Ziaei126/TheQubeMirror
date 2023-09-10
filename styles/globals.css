@@ -6,6 +6,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap');
 
 
+/* button submit loading */
+
+
+.loader {
+  display: inline-block;
+}
+
+.loader span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #000; /* Using the custom property for color */
+  margin: 0 2px;
+  opacity: 0;  
+  animation: dotFlashing 0.7s infinite ease-in-out; /* Reduced to 0.7s for faster animation */
+}
+
+.loader span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loader span:nth-child(2) {
+  animation-delay: 0.1s; /* Adjusted for faster animation */
+}
+
+.loader span:nth-child(3) {
+  animation-delay: 0.2s; /* Adjusted for faster animation */
+}
+
+@keyframes dotFlashing {
+  0%, 100% {
+    opacity: 0; 
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+
+/* polaroid */
 
 .polaroid-container {
   display: flex;
@@ -60,7 +101,7 @@
 
 
 
-
+/* type writer effect */
 
 
 
@@ -72,6 +113,8 @@
   content: '"';
   
 }
+
+/* numbered nested list styling */
 
 .outer-list > li {
   counter-increment: item;  /* increment the item counter */
@@ -92,6 +135,8 @@
   content: counter(item) "." counter(subitem) " ";  /* combine item and subitem counters */
   
 }
+
+/* navigation menu styling */
 
 .nav__menu-list{
   transition: all 0.2s;
