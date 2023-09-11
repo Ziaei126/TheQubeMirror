@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
       
       <Video src="https://player.vimeo.com/video/692728974?h=f5c5065b18"/>
-      <Explanation title="What's the Qube?" description="The Qube is a passion project born from a vision to build a lasting, self-sufficient community that inspires and empowers young Shia Muslims to explore their talents, develop their passions and nurture their sense of self." img="/assets/pilot.webp" more="Learn more" bgColor='bg-white'/>
+      <Explanation title="What's the Qube?" description="The Qube is a passion project born from a vision to build a lasting, self-sufficient community that inspires and empowers young Shia Muslims to explore their talents, develop their passions and nurture their sense of self." img="/assets/pilot.webp" more="Learn more" href="/about" bgColor='bg-white'/>
       <Facets />
 
       <Explanation title={"What we want to achieve"} description={"We will draw from the many years of experience and knowledge we have accrued in organizing and facilitating community events to provide a safe and nurturing space for children to meet, interact and learn with others who share their Islamic heritage. We strive to help kids develop healthy stable strong identities.\n \nWe also want to provide a friendly welcoming space for parents to interact and socialize with one another and to take part in fun physical activities to promote the emotional and physical health of the family as a whole."} img="/assets/littleGirl.webp" inverted/>

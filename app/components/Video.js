@@ -37,7 +37,7 @@ const Video = ({src}) => {
           return () => window.removeEventListener('resize', updateSize);
         }, []);
     return (
-    <section className="w-full p-5" ref={containerRef}>
+    <section className="w-full" ref={containerRef}>
       <div style={{ height: `${containerHeight}px` }} className={`relative w-full mx-auto`}>
       <iframe className="absolute top-0 left-0 w-full h-full" 
       src={src} frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
