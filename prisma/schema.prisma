@@ -11,6 +11,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Gender {
+  male
+  female
+}
+
 model Student {
   id                  Int               @id @default(autoincrement())
   name                String
@@ -26,7 +31,9 @@ model Student {
   attendance          Attendance[]
   term                Term[]      
   report              Report[]
-  mentor              Mentor[] 
+  mentor              Mentor[]
+  house               House[]
+  registration        Registration[]
   @@unique([name, familyName, dateOfBirth])
 }
 
@@ -35,18 +42,55 @@ model Parent {
   lastName String
   email    String    @id
   students Student[]
+  registration Registration[]
+}
+
+enum CourseCatagory {
+  Islamic
+  Skill
+  Sport
+  Languge
 }
 
 model Course {
   id           Int               @id @default(autoincrement())
-  name         String
-  term         Term  @relation(fields: [term_id], references: [id])
-  term_id      Int
-  ageGroup     String
+  course_name         String
+  learning_outcomes String? @db.LongText
+  description  String? @db.LongText
+  more_info    String? @db.LongText
+  image        String?
+  
+  is_new       Boolean?
+  is_closed    Boolean?
+  term         Term?  @relation(fields: [term_id], references: [id])
+  term_id      Int?    
+  ageGroup     String?
   students     Student[]
   topics       Topic[]
-  show         Boolean
-  @@unique([name, term_id])
+  catagory     CourseCatagory?
+  show         Boolean?
+  instructor   Staff[]
+  
+
+  islamicChoice1 CourseChoice[] @relation(name: "IslamicChoice1")
+  islamicChoice2 CourseChoice[] @relation(name: "IslamicChoice2")
+  islamicChoice3 CourseChoice[] @relation(name: "IslamicChoice3")
+
+  skillChoice1 CourseChoice[] @relation(name: "SkillChoice1")
+  skillChoice2 CourseChoice[] @relation(name: "SkillChoice2")
+  skillChoice3 CourseChoice[] @relation(name: "SkillChoice3")
+
+  sportChoice1 CourseChoice[] @relation(name: "SportChoice1")
+  sportChoice2 CourseChoice[] @relation(name: "SportChoice2")
+  sportChoice3 CourseChoice[] @relation(name: "SportChoice3")
+
+  languageChoice1 CourseChoice[] @relation(name: "LanguageChoice1")
+  languageChoice2 CourseChoice[] @relation(name: "LanguageChoice2")
+  languageChoice3 CourseChoice[] @relation(name: "LanguageChoice3")
+
+
+  @@unique([course_name, term_id])
+  @@index(fields: [term_id])
 }
 
 model Calendar {
@@ -86,7 +130,11 @@ model Report {
   type    ReportType
   student Student[]
   sub_type ReportSubType
-  authour Staff
+  authour Staff  @relation(fields: [staff_email], references: [email])
+  staff_email String
+
+  @@index(fields: [staff_email])
+  @@index([term_id])
 
 
 }
@@ -96,52 +144,88 @@ model Term {
   students    Student[]
   courses     Course[]
   reports     Report[]
+  houses      House[]
 }
 
 model Staff {
   name        String
   full_name   String
-  email       String @unique
-  ...
+  email       String @id
+  mentor      Mentor?
+  reports     Report[]
+  course      Course[]
 
 }
 
 model House {
+  id  Int @id 
   name String
-  term Term
+  term Term @relation(fields: [term_id], references: [id])
+  term_id Int
   students Student[]
   point   Int
 
-  @@unique([name,term])
+  @@unique([name,term_id])
+  @@index([term_id])
 }
 
 model Mentor {
   id  Int  @id  @default(autoincrement())
-  mentor Staff
+  mentor Staff @relation(fields: [staff_email], references: [email])
+  staff_email String @unique
   students Student[]
 }
 
 model Registration {
   id Int @id @default(autoincrement())
-  parent Parent
-  student Student
-  islamic_choice_1 Course
-  islamic_choice_2 Course
-  islamic_choice_3 Course
-  skill_choice_1 Course
-  skill_choice_2 Course
-  skill_choice_3 Course
-  sport_choice_1 Course
-  sport_choice_2 Course
-  sport_choice_3 Course
-  language_choice_1 Course?
-  language_choice_2 Course?
-  language_choice_3 Course?
+  parent Parent  @relation(fields: [parent_email], references: [email])
+  parent_email String 
+  student Student  @relation(fields: [student_id], references: [id])
+  student_id Int 
+  course_choice CourseChoice?
 
-
-  terms          Boolean
+  conditions          Boolean
   payRef         Int?
   payTime        DateTime?
+
+}
+
+model CourseChoice {
+  id Int @id @default(autoincrement())
+  application Registration @relation(fields: [applicatiopn_id], references: [id])
+  applicatiopn_id Int @unique
+
+  // For Islamic courses
+  islamic_choice_1_id Int
+  islamic_choice_2_id Int
+  islamic_choice_3_id Int
+  islamic_choice_1 Course @relation(name: "IslamicChoice1", fields: [islamic_choice_1_id], references: [id])
+  islamic_choice_2 Course @relation(name: "IslamicChoice2", fields: [islamic_choice_2_id], references: [id])
+  islamic_choice_3 Course @relation(name: "IslamicChoice3", fields: [islamic_choice_3_id], references: [id])
+
+  // For Skill courses
+  skill_choice_1_id Int
+  skill_choice_2_id Int
+  skill_choice_3_id Int
+  skill_choice_1 Course @relation(name: "SkillChoice1", fields: [skill_choice_1_id], references: [id])
+  skill_choice_2 Course @relation(name: "SkillChoice2", fields: [skill_choice_2_id], references: [id])
+  skill_choice_3 Course @relation(name: "SkillChoice3", fields: [skill_choice_3_id], references: [id])
+
+  // For Skill courses
+  sport_choice_1_id Int
+  sport_choice_2_id Int
+  sport_choice_3_id Int
+  sport_choice_1 Course @relation(name: "SportChoice1", fields: [sport_choice_1_id], references: [id])
+  sport_choice_2 Course @relation(name: "SportChoice2", fields: [sport_choice_2_id], references: [id])
+  sport_choice_3 Course @relation(name: "SportChoice3", fields: [sport_choice_3_id], references: [id])
+
+  // For Skill courses
+  language_choice_1_id Int
+  language_choice_2_id Int
+  language_choice_3_id Int
+  language_choice_1 Course @relation(name: "LanguageChoice1", fields: [language_choice_1_id], references: [id])
+  language_choice_2 Course @relation(name: "LanguageChoice2", fields: [language_choice_2_id], references: [id])
+  language_choice_3 Course @relation(name: "LanguageChoice3", fields: [language_choice_3_id], references: [id])
 
 }
 
@@ -155,10 +239,10 @@ enum AttendanceState {
 
 enum ReportType {
   teacher
-  ...
+  incident
 }
 
 enum ReportSubType {
-  class
-  ...
+  behaviour
+  angry
 }
