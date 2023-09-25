@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import OutsideClickHandler from 'react-outside-click-handler';
+import SignInButton from "./SignInButton";
+
 
 
 
@@ -78,7 +80,7 @@ const Navbar = () => {
                 <Link href={menu.href} > {menu.text} </Link>
               </div>
             ))}
-            <button className="p-2 shadow rounded bg-slate-200 hover:shadow-none">Sign In</button>
+            <SignInButton />
           </div>
           </OutsideClickHandler>
 
