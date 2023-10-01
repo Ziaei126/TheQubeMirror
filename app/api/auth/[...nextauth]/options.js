@@ -4,6 +4,7 @@ import { GithubProfile } from 'next-auth/providers/github';
 import { prisma } from '/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import GooglePovider from 'next-auth/providers/google'
+import bcrypt from 'bcrypt'
 
 export const options = {
     adapter: PrismaAdapter(prisma),
@@ -30,7 +31,7 @@ export const options = {
         }),
         
         CredentialsProvider({
-            name: "Credentials",
+            name: "credentials",
             credentials: {
                 username: {
                     label: "Username:",
@@ -44,22 +45,60 @@ export const options = {
 
             },
             async authorize(credentials) {
-                // this is where you need to retrieve user data
-                // to verify with credentials
-                // Docs: configuration/providers/credentials
-                const user = {id: "42", name: "Dave", password: "nextauth", role: "admin"}
-
-                if (credentials?.username === user.name && credentials?.password === user.password) {
-                    return user
-                } else {
-                    return null
+                console.log('authorising///')
+                if(!credentials.username || !credentials.password) {
+                    console.log("error due to not providing details")
+                    throw new Error("Please enter and email and Password")
                 }
+                
+                    const user = await prisma.user.findUnique({
+                        where: {
+                            email: credentials.username
+                        }
+                    })
+                    
+
+                
+                
+
+                if (!user || !user?.hashedPassword) {
+                    console.log("passowrd not saved")
+
+                    throw new Error("No user found")
+
+                }
+                
+                    const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword)
+                
+                console.log(passwordMatch)    
+                
+                
+                if (!passwordMatch) {
+                    console.log("password error")
+                    throw new Error('Incorrect passowrd')
+                }
+                console.log('user found')
+                return user;
+
+
             }
         }) 
     ],
+    session: {
+        strategy: "jwt"
+    },
+    
     callbacks: {
+        
         async jwt({token, user}) {
-            if (user) token.role = user.role
+            const userDB = await prisma.user.findUnique({
+                where: {
+                    email: user.email
+                }
+            })
+
+            if (userDB) token.role = userDB.role
+            else token.role = user.role
             return token
         },
 
@@ -69,10 +108,14 @@ export const options = {
         },
 
         async signIn({profile}) {
-            console.log(profile)
+            console.log("This is a profile: ",profile)
             try {
 
-                const userExist = await prisma.user.findOne({email : profile.email})
+                const userExist = await prisma.user.findUnique({
+                    where: {
+                        email : profile.email
+                    }
+                    })
                 if (!userExist) {
                     const user = await prisma.user.create({
                         data: {
@@ -84,10 +127,12 @@ export const options = {
 
             } catch (err) {
 
+                console.log(err);
+
             }
         }
     }
-    
+    */
 
 }
 

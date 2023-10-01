@@ -10,8 +10,6 @@ import { usePathname, useSearchParams } from 'next/navigation'
 function SignInButton() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    console.log(pathname)
-    console.log(searchParams)
     const { data: session } = useSession()
 
     // Check if the user is signed in
@@ -21,7 +19,7 @@ function SignInButton() {
     <div >
       {isSignedIn ? (
         // User is signed in
-        <Link href={`/api/auth/signout?callbackUrl=${pathname}`} className="p-2 shadow rounded bg-slate-200 hover:shadow-none">Sign Out</Link>
+        <Link href={`/api/auth/signout?callbackUrl=${pathname}`} className="p-2 shadow rounded bg-slate-200 hover:shadow-none">{`signed in as ${session.user}`}</Link>
       ) : (
         // User is not signed in
         <Link href={`/api/auth/signin?callbackUrl=${pathname}`} className="p-2 shadow rounded bg-slate-200 hover:shadow-none">Sign In</Link>  // Change the URL to your actual sign-in page

@@ -27,21 +27,24 @@ function Form({ form_template, styles, children }) {
         
         
     try {
-        const response = await fetch(`/api/forms/submit/${form_template}`, {
+        fetch(`/api/forms/submit/${form_template}`, {
             method: 'POST',
             /* headers: {
               'Content-Type': 'application/json',
             },*/
             body: JSON.stringify(data),
           })
-          console.log(' response: ', response)
-          if (!response.ok) {
-            console.log('something is not ok')
-            throw new Error
-          }
-          console.log(' response: ', response)
-          setIsLoading(false);
+          .then(response => {
+            if (response.ok) {
+                setIsLoading(false);
           setIsDelivered(true);
+            }
+          })
+          .catch(error => {
+            
+            setIsLoading(false);
+            console.log('Error submitting form: ', error)}) 
+          
           
     } catch (error) {
         console.log("There was a problem with sending the form" + error)
