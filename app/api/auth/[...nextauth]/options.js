@@ -1,138 +1,90 @@
-import GithubProvider from 'next-auth/providers/github'
+import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from "next-auth/providers/credentials";
-import { GithubProfile } from 'next-auth/providers/github';
 import { prisma } from '/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import GooglePovider from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcrypt'
 
 export const options = {
-    adapter: PrismaAdapter(prisma),
-    providers : [
-        GithubProvider({
-            //works the same with any Oauth provider
-            profile(profile) {
-                //console.log(profile)
-                return {
-                    ...profile,
-                    role: profile.role ?? "user",
-                    id: profile.id.toString(),
-                    image: profile.avatar_url,
+  // Use the Prisma Adapter
+  adapter: PrismaAdapter(prisma),
 
-                }
+  // Configure authentication providers
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
+    CredentialsProvider({
+        name: "credentials",
+        credentials: {
+          username: {
+            label: "Username:",
+            type: "text",
+            placeholder: "your-username",
+          },
+          password: {
+            label: "Password:",
+            type: "password",
+          },
+        },
+        async authorize(credentials) {
+          console.log(credentials)
+          if (!credentials.username || !credentials.password) {
+            throw new Error("Please enter an email and password");
+          }
+  
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials.username,
             },
-            clientId: process.env.GITHUB_ID,
-            clientSecret: process.env.GITHUB_SECRET,
-            secret: process.env.NEXT_AUTH_SECRET
-        }),
-        GooglePovider({
-            clientId: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET
-        }),
-        
-        CredentialsProvider({
-            name: "credentials",
-            credentials: {
-                username: {
-                    label: "Username:",
-                    type: "text",
-                    placeholder: "your-username"
-                },
-                password: {
-                    label: "Password:",
-                    type: "password",
-                }
-
-            },
-            async authorize(credentials) {
-                console.log('authorising///')
-                if(!credentials.username || !credentials.password) {
-                    console.log("error due to not providing details")
-                    throw new Error("Please enter and email and Password")
-                }
-                
-                    const user = await prisma.user.findUnique({
-                        where: {
-                            email: credentials.username
-                        }
-                    })
-                    
-
-                
-                
-
-                if (!user || !user?.hashedPassword) {
-                    console.log("passowrd not saved")
-
-                    throw new Error("No user found")
-
-                }
-                
-                    const passwordMatch = await bcrypt.compare(credentials.password, user.hashedPassword)
-                
-                console.log(passwordMatch)    
-                
-                
-                if (!passwordMatch) {
-                    console.log("password error")
-                    throw new Error('Incorrect passowrd')
-                }
-                console.log('user found')
-                return user;
-
-
-            }
-        }) 
-    ],
-    session: {
-        strategy: "jwt"
+          });
+  
+          if (!user || !user.hashedPassword) {
+            throw new Error("No user found with that email");
+          }
+  
+          const passwordMatch = await bcrypt.compare(
+            credentials.password,
+            user.hashedPassword
+          );
+  
+          if (!passwordMatch) {
+            throw new Error("Incorrect password");
+          }
+  
+          return user;
+        },
+      }),
+  ],
+  session: {
+    strategy: 'jwt',
+  },
+  callbacks: {
+    async jwt({ token, account, profile }) {
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      if (account) {
+        console.log("account",account)
+        console.log("profile", profile)
+        console.log(
+          "token", token
+        )
+        token.accessToken = account.access_token
+        token.accountId = account.providerAccountId
+        token.id = profile.id
+      }
+      return token
     },
+    async session({ session, user, token }) {
+      // Send properties to the client, like an access_token and user id from a provider.
+    session.accessToken = token.accessToken
+    session.accountId = token.accountId
+    session.user.id = token.id
     
-    callbacks: {
-        
-        async jwt({token, user}) {
-            const userDB = await prisma.user.findUnique({
-                where: {
-                    email: user.email
-                }
-            })
+    return session
+    },
+  },
 
-            if (userDB) token.role = userDB.role
-            else token.role = user.role
-            return token
-        },
-
-        async session({session, token}) {
-            if (session?.user) session.user.role = token.role
-            return session
-        },
-
-        async signIn({profile}) {
-            console.log("This is a profile: ",profile)
-            try {
-
-                const userExist = await prisma.user.findUnique({
-                    where: {
-                        email : profile.email
-                    }
-                    })
-                if (!userExist) {
-                    const user = await prisma.user.create({
-                        data: {
-                            name: profile.name,
-                            email: profile.email
-                        }
-                    })
-                }
-
-            } catch (err) {
-
-                console.log(err);
-
-            }
-        }
-    }
-    */
-
-}
+  // Additional NextAuth configuration...
+};
 
