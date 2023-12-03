@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import {options} from "app/api/auth/[...nextauth]/options";
 import { prisma } from '/lib/prisma';
-import {NextResponse} from 'next/server'
+
 
 export async function GET(req, res) {
   console.log("running")
@@ -16,7 +16,7 @@ export async function GET(req, res) {
   
   
   if (!session || !session.accessToken) {
-    return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+    return Response.error("unaothorized")// json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
   }
   const accountId = session.accountId
   console.log(accountId)
@@ -33,7 +33,7 @@ export async function GET(req, res) {
     if (!account || !account.user) {
       // Handle the case where the account or user is not found
       console.log("user not found")
-      return NextResponse.json({ error: 'User not found for the given access token.' }, { status: 404 }) 
+      return Response.error()  // json({ error: 'User not found for the given access token.' }, { status: 404 }) 
     }
   
     // Now, find the parent associated with the user
@@ -44,12 +44,12 @@ export async function GET(req, res) {
     });
     console.log(parent)
     if (!parent) {
-      return NextResponse.json({ error: 'Parent not found for the associated user.' }, { status: 404 })
+      return Response.error() //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
     }
-    return  NextResponse.json({ status: 404 }, {data: parent})
+    return  Response.json(parent)
   } catch (error) {
     console.log(error)
-    return  NextResponse.json({ error: 'internal server error' }, { status: 500 });
+    return  Response.error() //json({ error: 'internal server error' }, { status: 500 });
   }
   
 }
