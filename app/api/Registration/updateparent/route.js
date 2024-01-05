@@ -3,7 +3,7 @@ import {options} from "app/api/auth/[...nextauth]/options";
 import { prisma } from '/lib/prisma';
 
 
-export async function GET(req, res) {
+export async function POST(req, res) {
   console.log("running")
   
   try {
@@ -35,17 +35,17 @@ export async function GET(req, res) {
       console.log("user not found")
       return Response.error()  // json({ error: 'User not found for the given access token.' }, { status: 404 }) 
     }
-  
-    // Now, find the parent associated with the user
-    const parent = await prisma.parent.findUnique({
+    const changes = await req.json()
+    // Now, update parent associated with the user
+    const parent = await prisma.parent.update({
       where: {
         user_id: account.user.id, // Assuming the email field in Parent model is used to store user ID
       },
+      data: changes
     });
     console.log(parent)
     if (!parent) {
-      console.log("parent not found!!")
-      return Response.json(false) //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
+      return Response.error() //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
     }
     return  Response.json(parent)
   } catch (error) {
@@ -54,5 +54,3 @@ export async function GET(req, res) {
   }
   
 }
-
-
