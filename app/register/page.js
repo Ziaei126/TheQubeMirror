@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import ParentDetailsForm from 'app/components/Registration/parentDetailsForm'
+import ChildDetailsForm from 'app/components/Registration/childDetailsForm'
 
 
 
@@ -16,18 +17,22 @@ export default function Register() {
     return (
       <>
       
-      <div className="justify-center mx-auto pt-10 bg-cream">
+      <div className="flex flex-col justify-center items-center pt-10 bg-cream">
       <h1 className='text-4xl font-bold mb-10 text-center'>Registration</h1>
       {
         showInfo && <Info/>
       }
-      <button className=' bg-slate-100' 
-      onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "open"}</button>
+      <button className='m-2 bg-slate-100 hover:bg-slate-200 text-black font-semibold py-2 px-4 border border-slate-300 rounded shadow' 
+      onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key information"}</button>
       
 
       {
-        session ? <ParentDetailsForm /> : <p>If you have not signed in, please <Link href="/signin">sign in</Link> first.</p>
+       session ? (<><ParentDetailsForm /> <ChildDetailsForm /></>) : <p>If you have not signed in, please <Link href="/signin">sign in</Link> first.</p>
       }
+
+      
+        
+      
         
         
         </div>

@@ -25,11 +25,11 @@ enum Gender {
 model Student {
   id                  Int               @id @default(autoincrement())
   name                String
-  familyName          String
-  dateOfBirth         DateTime
+  lastName          String
+  DOB         DateTime
   gender              String
-  internalPhotoAllowed Boolean
-  externalPhotoAllowed Boolean
+  internalPhotoAllowed Boolean?
+  externalPhotoAllowed Boolean?
   medicalNotes        String?
   yearEnteredReception Int
   parent              Parent[]
@@ -40,7 +40,7 @@ model Student {
   mentor              Mentor[]
   house               House[]
   registration        Registration[]
-  @@unique([name, familyName, dateOfBirth])
+  @@unique([name, lastName, DOB])
 }
 
 model Parent {

@@ -32,7 +32,7 @@ function ParentDetailsForm() {
     async function fetchParentData() {
       setLoading(true);
       try {
-        const response = await fetch('api/Registration/findparent',
+        const response = await fetch('api/Registration/parent/findparent',
           {
             method: "GET",
             headers: {
@@ -89,7 +89,7 @@ function ParentDetailsForm() {
         onSubmit={(values) => {
           if (newParent) {
             try {
-              fetch(`/api/Registration/newparent`, {
+              fetch(`/api/Registration/parent/newparent`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ function ParentDetailsForm() {
       console.log(changes);
 
       try {
-        fetch(`/api/Registration/updateparent`, {
+        fetch(`/api/Registration/parent/updateparent`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
