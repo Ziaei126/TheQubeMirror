@@ -20,9 +20,9 @@ const validationSchema = Yup.object().shape({
     .required('Contact Number is required'),
 });
 
-function ParentDetailsForm() {
+function ParentDetailsForm( {sucsessfulSubmit} ) {
 
-  console.log("getting parent data")
+  //console.log("getting parent data")
   const [parentData, setParentData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [newParent, setNewParent] = useState(true);
@@ -40,16 +40,16 @@ function ParentDetailsForm() {
             }
           }
         );
-        console.log('first response', response)
+        //console.log('first response', response)
         if (!response.ok) {
-          console.log(response)
+          //console.log(response)
           throw new Error(`Network response was not ok`);
         }
         const data = await response.json();
-        console.log("data: ", data)
+        //console.log("data: ", data)
         setNewParent(data ? false : true)
 
-        console.log()
+
         let Data = {
           name: data.name || '',
           lastName: data.lastName || '',
@@ -58,7 +58,7 @@ function ParentDetailsForm() {
           postcode: data.postcode || '',
           phone: data.phone || '',
         }
-        console.log("Data: ", Data)
+        //console.log("Data: ", Data)
         setParentData(Data);
       } catch (error) {
         setError(error.message);
@@ -70,9 +70,9 @@ function ParentDetailsForm() {
     fetchParentData();
   }, []);
 
-  console.log('parent data', parentData)
+  //console.log('parent data', parentData)
 
-  console.log("new parent:", newParent)
+  //console.log("new parent:", newParent)
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -88,7 +88,7 @@ function ParentDetailsForm() {
         validationSchema={validationSchema}
         onSubmit={(values) => {
           if (newParent) {
-            try {
+            
               fetch(`/api/Registration/parent/newparent`, {
                 method: 'POST',
                 headers: {
@@ -99,113 +99,112 @@ function ParentDetailsForm() {
                 .catch(error => {
                   console.log('Error submitting form: ', error)
                 })
-            } catch (error) {
-              console.log("There was a problem with sending the form" + error)
-
-            }
+                .then(
+                  sucsessfulSubmit()
+                )
           }
-              else {
-              let changes={ };
-              // Compare each field in the form
-              Object.keys(parentData).forEach(key => {
+          else {
+            let changes = {};
+            // Compare each field in the form
+            Object.keys(parentData).forEach(key => {
               if (parentData[key] !== values[key]) {
-        changes[key] = values[key];
+                changes[key] = values[key];
               }
-              });
+            });
 
-      // Now 'changes' contains only the fields that have been modified
-      console.log(changes);
+            // Now 'changes' contains only the fields that have been modified
+            console.log(changes);
 
-      try {
-        fetch(`/api/Registration/parent/updateparent`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(changes),
-        })
-          .catch(error => {
-            console.log('Error submitting form: ', error)
-          })
-      } catch (error) {
-        console.log("There was a problem with sending the form" + error)
+            
+              fetch(`/api/Registration/parent/updateparent`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(changes),
+              })
+                .catch(error => {
+                  console.log('Error submitting form: ', error)
+                })
+                .then(
+                  sucsessfulSubmit()
+                )
+                
+          }
 
-      } }
+          
+        }}
+        validateOnBlur={true}
+        validateOnChange={true}
+        enableReinitialize
+      >
+        <Form className="space-y-4 max-w-3xl mx-auto">
+          <div className="text-lg font-semibold mb-6">Step 1: Parent's Details</div>
 
-            // Call your API endpoint with the changes
-            // apiCallToUpdateDatabase(changes);
-            }}
-      validateOnBlur={true}
-      validateOnChange={true}
-      enableReinitialize
-          >
-      <Form className="space-y-4 max-w-3xl mx-auto">
-        <div className="text-lg font-semibold mb-6">Step 1: Parent's Details</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border p-5 rounded-lg bg-white">
+            {/* First Name */}
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">First Name *</label>
+              <Field name="name" type="text"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <ErrorMessage name="name" component="div" className="text-red-600" />
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border p-5 rounded-lg bg-white">
-          {/* First Name */}
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">First Name *</label>
-            <Field name="name" type="text"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <ErrorMessage name="name" component="div" className="text-red-600" />
+            {/* Surname */}
+            <div>
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Surname *</label>
+              <Field name="lastName" type="text"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <ErrorMessage name="lastName" component="div" className="text-red-600" />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email *</label>
+              <Field name="email" type="email"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <ErrorMessage name="email" component="div" className="text-red-600" />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address *</label>
+              <Field name="address" type="text"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <ErrorMessage name="address" component="div" className="text-red-600" />
+            </div>
+
+            {/* Postcode */}
+            <div>
+              <label htmlFor="postcode" className="block text-sm font-medium text-gray-700">Postcode *</label>
+              <Field name="postcode" type="text"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <ErrorMessage name="postcode" component="div" className="text-red-600" />
+            </div>
+
+            {/* Contact Number */}
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Contact Number *</label>
+              <Field name="phone" type="tel"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <ErrorMessage name="phone" component="div" className="text-red-600" />
+            </div>
           </div>
 
-          {/* Surname */}
-          <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Surname *</label>
-            <Field name="lastName" type="text"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <ErrorMessage name="lastName" component="div" className="text-red-600" />
+          <div className="flex justify-end mt-6">
+            <button type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              confirm
+            </button>
           </div>
-
-          {/* Email */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email *</label>
-            <Field name="email" type="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <ErrorMessage name="email" component="div" className="text-red-600" />
-          </div>
-
-          {/* Address */}
-          <div>
-            <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address *</label>
-            <Field name="address" type="text"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <ErrorMessage name="address" component="div" className="text-red-600" />
-          </div>
-
-          {/* Postcode */}
-          <div>
-            <label htmlFor="postcode" className="block text-sm font-medium text-gray-700">Postcode *</label>
-            <Field name="postcode" type="text"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <ErrorMessage name="postcode" component="div" className="text-red-600" />
-          </div>
-
-          {/* Contact Number */}
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Contact Number *</label>
-            <Field name="phone" type="tel"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <ErrorMessage name="phone" component="div" className="text-red-600" />
-          </div>
-        </div>
-
-        <div className="flex justify-end mt-6">
-          <button type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            confirm
-          </button>
-        </div>
-      </Form>
-    </Formik>
-        </div >
+        </Form>
+      </Formik>
+    </div >
   );
 }
 

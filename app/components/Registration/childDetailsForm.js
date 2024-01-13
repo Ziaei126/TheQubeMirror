@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
     .max(500, 'Medical notes must not exceed 500 characters'),
   });
 
-  function ChildDetailsForm() {
+  function ChildDetailsForm({sucsessfulSubmit}) {
     const [child, setChild] = useState(null)
     const [childSelected, setChildSelected] = useState(false)
     const [newChild, setNewChild] = useState(false)
@@ -86,27 +86,17 @@ const validationSchema = Yup.object().shape({
     const yearsSinceEntry = currentYear - yearOfEntryInt;
 
     // Check if the student is in reception
-    if (yearsSinceEntry === 0) {
-        return "Reception";
-    } else {
+    
         // Otherwise, return the current school year as a string
         return yearsSinceEntry;
-    }
+    
     }
 
     const calculateYearOfEntry = (currentSchoolYear) => {
         // Get the current year
         const currentYear = new Date().getFullYear();
     
-        let yearOfEntryInt;
-    
-        if (currentSchoolYear === "Reception") {
-            // If the student is in reception, the year of entry is the current year
-            yearOfEntryInt = currentYear;
-        } else {
-            // Otherwise, calculate the year of entry based on the current school year
-            yearOfEntryInt = currentYear - currentSchoolYear;
-        }
+        let yearOfEntryInt = currentYear - currentSchoolYear;
     
         return yearOfEntryInt;
     }
@@ -176,18 +166,19 @@ const validationSchema = Yup.object().shape({
 
         
        
-        <div className='flex flex-wrap items-center align-middle  space-x-4'>
+        <div className='flex flex-wrap items-center align-middle  space-x-4 m-5'>
         <h3 className="text-md font-semibold mr-4 align-middle mx-auto items-end">Choose a child: </h3>
         {
             (children.length === 0) || (
             children.map(child => (
-                <button 
+                <button key={child.id}
     onClick={() => handleChildSelect(child)}
     className="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >{child.name}</button>
             )))
 
         }
         <button 
+        key={-1}
         onClick={() => handleChildSelect(false)}
         className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">new child</button>
         </div>
@@ -206,7 +197,7 @@ const validationSchema = Yup.object().shape({
 
 
         if (newChild) {
-          try {
+          
             fetch(`/api/Registration/child/newchild`, {
               method: 'POST',
               headers: {
@@ -217,10 +208,11 @@ const validationSchema = Yup.object().shape({
               .catch(error => {
                 console.log('Error submitting form: ', error)
               })
-          } catch (error) {
-            console.log("There was a problem with sending the form" + error)
-
-          }
+              .then(response => response.json())
+        .then( child => {
+            sucsessfulSubmit({id: child.id, yearGroup: currentSchoolYear(child.yearEnteredReception)})
+        })
+          
         }
             else {
             let changes={ };
@@ -234,7 +226,7 @@ const validationSchema = Yup.object().shape({
     // Now 'changes' contains only the fields that have been modified
     console.log(changes);
 
-    try {
+    
       fetch(`/api/Registration/child/updatechild`, {
         method: 'POST',
         headers: {
@@ -245,10 +237,13 @@ const validationSchema = Yup.object().shape({
         .catch(error => {
           console.log('Error submitting form: ', error)
         })
-    } catch (error) {
-      console.log("There was a problem with sending the form" + error)
-
-    } }
+        .then(response => response.json())
+        .then( child => {
+            sucsessfulSubmit({id: child.id, yearGroup: currentSchoolYear(child.yearEnteredReception)})
+        }
+            
+          )
+     }
 
           // Call your API endpoint with the changes
           // apiCallToUpdateDatabase(changes);
@@ -294,7 +289,7 @@ const validationSchema = Yup.object().shape({
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="other">Other</option>
+            
           </Field>
           <ErrorMessage name="gender" component="div" className="text-red-600" />
         </div>
@@ -306,7 +301,7 @@ const validationSchema = Yup.object().shape({
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="">Select School Year</option>
-            <option value={"Reception"}>Reception</option>
+            <option value={0}>Reception</option>
             {[...Array(9)].map((_, i) => (
               <option key={i + 1} value={i + 1}>{i+1}</option>
             ))}

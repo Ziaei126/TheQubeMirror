@@ -15,7 +15,6 @@ function SignInButton() {
     // Check if the user is signed in
   const isSignedIn = session ? true : false;
 
-  console.log(session)
 
   return (
     <div >

@@ -1,42 +1,129 @@
 'use client'
-
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import ParentDetailsForm from 'app/components/Registration/parentDetailsForm'
 import ChildDetailsForm from 'app/components/Registration/childDetailsForm'
+import CourseForm from '@app/components/Registration/courseSelectionForm';
+import {NextUIProvider} from "@nextui-org/react";
+import {Slider} from "@nextui-org/react";
+
+
+
 
 
 
 export default function Register() {
   const { data: session } = useSession();
   const [showInfo, setShowInfo] = useState(true)
-  
+  const [parentEmail, setParentEmail] = useState(null)
+  const [step, setStep] = useState(1)
+  const [child, setChild] = useState({})
+
 
   
+  const handleParentFormSubmit = () => {
+    console.log(step)
+    setStep(step+1)
+  }
+
+  const handleChildFormSubmit = (child) => {
+    setStep(step+1)
+    setChild(child)
+  }
+
+  const handleCourseFormSubmit = (child) => {
+    setStep(step+1)
+  }
+
+  useEffect(() => {
+    console.log("step: ", step);
+    console.log("childID:" ,child)
+  }, [step, child]);
+  
     return (
-      <>
+
+      <NextUIProvider>
+      
       
       <div className="flex flex-col justify-center items-center pt-10 bg-cream">
       <h1 className='text-4xl font-bold mb-10 text-center'>Registration</h1>
+      
+  
       {
         showInfo && <Info/>
       }
       <button className='m-2 bg-slate-100 hover:bg-slate-200 text-black font-semibold py-2 px-4 border border-slate-300 rounded shadow' 
       onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key information"}</button>
+      <Slider 
+       
+       aria-label="Form Progress"
+      size="lg"
+      step={1}
+      maxValue={4}
+      minValue={1}
+      value={step}
+      disableThumbScale
+      showSteps
+      marks={[
+        {
+          value: 1,
+          label: "Parent Details",
+        },
+        {
+          value: 2,
+          label: "Child Details",
+        },
+        {
+          value: 3,
+          label: "Course Selection",
+        },
+        {
+          value: 4,
+          label: "Payment",
+        },
+      ]}
+    
+      hideValue
+
+      classNames={{
+        base: "max-w-lg m-5",
+        slider: [
+          "data-[hover=true]:cursor-default"
+        ],
+
+        thumb: [
+          "data-[hover=true]:cursor-default",
+          "data-[focused]:cursor-default"
+          
+        ],
+      }}
+    />
+      
       
 
       {
-       session ? (<><ParentDetailsForm /> <ChildDetailsForm /></>) : <p>If you have not signed in, please <Link href="/signin">sign in</Link> first.</p>
+       session ? (step == 1 && <ParentDetailsForm sucsessfulSubmit={handleParentFormSubmit} />) : <p>If you have not signed in, please <Link href="/signin">sign in</Link> first.</p>
       }
 
-      
+{
+  session && step === 2 && (
+    <ChildDetailsForm sucsessfulSubmit={handleChildFormSubmit} />
+  )
+}
+
+{
+  session && step === 3 && ( (child.yearGroup > 0 && child.yearGroup < 7) ? 
+    <CourseForm sucsessfulSubmit={handleCourseFormSubmit} /> : () => {console.log("I have been triggered")}
+  )
+}
         
-      
+
         
         
         </div>
-      </>
+      </NextUIProvider>
     );
   
  
@@ -74,3 +161,5 @@ const Info = () => (
       </ul>
     </div>
 )
+
+
