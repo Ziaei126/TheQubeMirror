@@ -72,6 +72,7 @@ export const options = {
         token.accessToken = account.access_token
         token.accountId = account.providerAccountId
         token.id = profile.id
+        token.parent_email = account.parent_email || token.parent_email || "default@example.com";
       }
       return token
     },
@@ -80,6 +81,8 @@ export const options = {
     session.accessToken = token.accessToken
     session.accountId = token.accountId
     session.user.id = token.id
+    session.user.parent_email = token.parent_email;
+    
     
     return session
     },

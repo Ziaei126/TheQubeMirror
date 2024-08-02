@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import ParentDetailsForm from 'app/components/Registration/parentDetailsForm'
 import ChildDetailsForm from 'app/components/Registration/childDetailsForm'
+import PaymentForm from 'app/components/Registration/paymentForm'
 import CourseForm from '@app/components/Registration/courseSelectionForm';
 import {NextUIProvider} from "@nextui-org/react";
 import {Slider} from "@nextui-org/react";
@@ -17,9 +18,8 @@ import {Slider} from "@nextui-org/react";
 export default function Register() {
   const { data: session } = useSession();
   const [showInfo, setShowInfo] = useState(true)
-  const [parentEmail, setParentEmail] = useState(null)
   const [step, setStep] = useState(1)
-  const [child, setChild] = useState({})
+  const [registration, setRegistration] = useState({})
 
 
   
@@ -28,19 +28,19 @@ export default function Register() {
     setStep(step+1)
   }
 
-  const handleChildFormSubmit = (child) => {
-    setStep(step+1)
-    setChild(child)
+  const handleChildFormSubmit = (registration_info) => {
+    setRegistration(registration_info)
+    (registration.ageGroup < 1 || registration.ageGroup > 6 ) ? setStep(step+2) : setStep(step+1);
   }
 
-  const handleCourseFormSubmit = (child) => {
+  const handleCourseFormSubmit = () => {
     setStep(step+1)
   }
 
   useEffect(() => {
     console.log("step: ", step);
-    console.log("childID:" ,child)
-  }, [step, child]);
+    console.log("registration" ,registration)
+  }, [step, registration]);
   
     return (
 
@@ -114,8 +114,15 @@ export default function Register() {
 }
 
 {
-  session && step === 3 && ( (child.yearGroup > 0 && child.yearGroup < 7) ? 
-    <CourseForm sucsessfulSubmit={handleCourseFormSubmit} /> : () => {console.log("I have been triggered")}
+  session && step === 3 && ( (registration.yearGroup > 0 && registration.yearGroup < 7) ? 
+    <CourseForm application={registration} sucsessfulSubmit={handleCourseFormSubmit} /> : () => {console.log("I have been triggered")}
+  )
+
+}
+
+{
+  session && step === 4 && (
+    <PaymentForm sucsessfulSubmit={handlePaymentFormSubmit} />
   )
 }
         

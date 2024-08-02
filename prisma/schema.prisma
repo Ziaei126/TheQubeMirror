@@ -8,8 +8,8 @@
 //}
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider = "postgresql"
+  url = env("LOCAL_DATABASE")
   relationMode = "prisma"
 }
 
@@ -48,11 +48,11 @@ model Parent {
   lastName String?
   address  String?
   postcode String?
-  email    String    @id
+  email    String    
   phone   String?
 
   user    User? @relation(fields: [user_id], references: [id]) 
-  user_id String? @unique
+  user_id String @unique @id
   students Student[]
   registration Registration[]
 }
@@ -61,7 +61,7 @@ enum CourseCatagory {
   Islamic
   Skill
   Sport
-  Languge
+  Language
 }
 
 model Course {
@@ -173,14 +173,14 @@ model Mentor {
 }
 
 model Registration {
-  id Int @id
-  parent Parent  @relation(fields: [parent_email], references: [email])
-  parent_email String 
+  id Int @id @default(autoincrement())
+  parent Parent  @relation(fields: [parent_id], references: [user_id])
+  parent_id String 
   student Student  @relation(fields: [student_id], references: [id])
   student_id Int 
   course_choice CourseChoice?
 
-  conditions          Boolean
+  conditions          Boolean?
   payRef         Int?
   payTime        DateTime?
 
@@ -188,30 +188,30 @@ model Registration {
 
 model CourseChoice {
   application Registration @relation(fields: [applicatiopn_id], references: [id])
-  applicatiopn_id Int @unique @id @default(autoincrement())
+  applicatiopn_id Int @unique @id 
 
   // For Islamic courses
-  islamic1  String
-  islamic2  String
-  islamic3  String
+  Islamic1  String
+  Islamic2  String
+  Islamic3  String
   
 
   // For Skill courses
-  skill1  String
-  skill2  String
-  skill3  String
+  Skill1  String
+  Skill2  String
+  Skill3  String
   
 
   // For Skill courses
-  sport1  String
-  sport2  String
-  sport3  String
+  Sport1  String
+  Sport2  String
+  Sport3  String
   
 
   // For Skill courses
-  language1  String
-  language2  String
-  language3  String
+  Language1  String
+  Language2  String
+  Language3  String
   
 
 }

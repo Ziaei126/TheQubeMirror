@@ -1,12 +1,15 @@
 import { getServerSession } from "next-auth";
 import {options} from "app/api/auth/[...nextauth]/options";
 import { prisma } from '/lib/prisma';
+import { getToken } from "next-auth/jwt";
 
 
 export async function POST(req, res) {
   console.log("running")
   
   try {
+
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const session = await getServerSession(req,
     {
       ...res,
@@ -37,6 +40,7 @@ export async function POST(req, res) {
     }
     const changes = await req.json()
     // Now, update parent associated with the user
+    token.parent_email = changes.email
     const parent = await prisma.parent.create({
       data: {
         ...changes,

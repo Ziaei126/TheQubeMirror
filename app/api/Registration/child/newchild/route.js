@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth";
 import {options} from "app/api/auth/[...nextauth]/options";
 import { prisma } from '/lib/prisma';
+import { getToken } from "next-auth/jwt";
+import { register } from "../../register/register";
 
 
 export async function POST(req, res) {
-  console.log("running")
-  
   try {
   const session = await getServerSession(req,
     {
@@ -50,7 +50,13 @@ export async function POST(req, res) {
     if (!student) {
       return Response.error() //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
     }
-    return  Response.json(student)
+    
+    
+    let application = await register(account.user.id, student.id);
+    console.log(application)
+
+
+    return  Response.json({...student, reg_id: application.id})
   } catch (error) {
     console.log(error)
     return  Response.error() //json({ error: 'internal server error' }, { status: 500 });

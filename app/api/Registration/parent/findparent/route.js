@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { getToken } from "next-auth/jwt";
 import {options} from "app/api/auth/[...nextauth]/options";
 import { prisma } from '/lib/prisma';
 
@@ -7,6 +8,8 @@ export async function GET(req, res) {
   console.log("running")
   
   try {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
   const session = await getServerSession(req,
     {
       ...res,
@@ -47,6 +50,9 @@ export async function GET(req, res) {
       console.log("parent not found!!")
       return Response.json(false) //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
     }
+    
+    token.parent_email = parent.email;
+    console.log("token_parent----------------:", token.parent_email)
     return  Response.json(parent)
   } catch (error) {
     console.log(error)

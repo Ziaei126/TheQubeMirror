@@ -33,6 +33,8 @@ const validationSchema = Yup.object().shape({
     .max(500, 'Medical notes must not exceed 500 characters'),
   });
 
+
+
   function ChildDetailsForm({sucsessfulSubmit}) {
     const [child, setChild] = useState(null)
     const [childSelected, setChildSelected] = useState(false)
@@ -160,6 +162,8 @@ const validationSchema = Yup.object().shape({
 
       if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
+  console.log( "children: ", children.length);
   
 
     return (<>
@@ -169,12 +173,16 @@ const validationSchema = Yup.object().shape({
         <div className='flex flex-wrap items-center align-middle  space-x-4 m-5'>
         <h3 className="text-md font-semibold mr-4 align-middle mx-auto items-end">Choose a child: </h3>
         {
-            (children.length === 0) || (
+            (children.length == 0 || !children) ? (<></>) : ( 
+              
             children.map(child => (
                 <button key={child.id}
     onClick={() => handleChildSelect(child)}
     className="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >{child.name}</button>
-            )))
+            ))
+            
+   
+            )
 
         }
         <button 
@@ -209,9 +217,9 @@ const validationSchema = Yup.object().shape({
                 console.log('Error submitting form: ', error)
               })
               .then(response => response.json())
-        .then( child => {
-            sucsessfulSubmit({id: child.id, yearGroup: currentSchoolYear(child.yearEnteredReception)})
-        })
+              .then( reg => {
+                sucsessfulSubmit({id: reg.reg_id, yearGroup: currentSchoolYear(reg.yearEnteredReception)})
+              })
           
         }
             else {
@@ -238,8 +246,8 @@ const validationSchema = Yup.object().shape({
           console.log('Error submitting form: ', error)
         })
         .then(response => response.json())
-        .then( child => {
-            sucsessfulSubmit({id: child.id, yearGroup: currentSchoolYear(child.yearEnteredReception)})
+        .then( reg => {
+          sucsessfulSubmit({id: reg.reg_id, yearGroup: currentSchoolYear(reg.yearEnteredReception)})
         }
             
           )
