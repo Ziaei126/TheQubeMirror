@@ -1,10 +1,22 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+//datasource db {
+//  provider = "postgresql"
+//  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+//  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+//}
+
+// datasource db {
+//   provider = "postgresql"
+//   url = env("LOCAL_DATABASE")
+//   relationMode = "prisma"
+// }
+
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator client {
@@ -19,11 +31,11 @@ enum Gender {
 model Student {
   id                  Int               @id @default(autoincrement())
   name                String
-  familyName          String
-  dateOfBirth         DateTime
+  lastName          String
+  DOB         DateTime
   gender              String
-  internalPhotoAllowed Boolean
-  externalPhotoAllowed Boolean
+  internalPhotoAllowed Boolean?
+  externalPhotoAllowed Boolean?
   medicalNotes        String?
   yearEnteredReception Int
   parent              Parent[]
@@ -34,13 +46,19 @@ model Student {
   mentor              Mentor[]
   house               House[]
   registration        Registration[]
-  @@unique([name, familyName, dateOfBirth])
+  @@unique([name, lastName, DOB])
 }
 
 model Parent {
-  name     String
-  lastName String
-  email    String    @id
+  name     String?
+  lastName String?
+  address  String?
+  postcode String?
+  email    String    
+  phone   String?
+
+  user    User? @relation(fields: [user_id], references: [id]) 
+  user_id String @unique @id
   students Student[]
   registration Registration[]
 }
@@ -49,44 +67,28 @@ enum CourseCatagory {
   Islamic
   Skill
   Sport
-  Languge
+  Language
 }
 
 model Course {
   id           Int               @id @default(autoincrement())
   course_name         String
-  learning_outcomes String? @db.LongText
-  description  String? @db.LongText
-  more_info    String? @db.LongText
+  learning_outcomes String? 
+  description  String? 
+  more_info    String? 
   image        String?
   
   is_new       Boolean?
-  is_closed    Boolean?
+  is_closed    Boolean? @default(false)
   term         Term?  @relation(fields: [term_id], references: [id])
   term_id      Int?    
-  ageGroup     String?
+  minAge     Int?     @default(1)
+  maxAge    Int?      @default(6)
   students     Student[]
   topics       Topic[]
   catagory     CourseCatagory?
   show         Boolean?
   instructor   Staff[]
-  
-
-  islamicChoice1 CourseChoice[] @relation(name: "IslamicChoice1")
-  islamicChoice2 CourseChoice[] @relation(name: "IslamicChoice2")
-  islamicChoice3 CourseChoice[] @relation(name: "IslamicChoice3")
-
-  skillChoice1 CourseChoice[] @relation(name: "SkillChoice1")
-  skillChoice2 CourseChoice[] @relation(name: "SkillChoice2")
-  skillChoice3 CourseChoice[] @relation(name: "SkillChoice3")
-
-  sportChoice1 CourseChoice[] @relation(name: "SportChoice1")
-  sportChoice2 CourseChoice[] @relation(name: "SportChoice2")
-  sportChoice3 CourseChoice[] @relation(name: "SportChoice3")
-
-  languageChoice1 CourseChoice[] @relation(name: "LanguageChoice1")
-  languageChoice2 CourseChoice[] @relation(name: "LanguageChoice2")
-  languageChoice3 CourseChoice[] @relation(name: "LanguageChoice3")
 
 
   @@unique([course_name, term_id])
@@ -178,58 +180,47 @@ model Mentor {
 
 model Registration {
   id Int @id @default(autoincrement())
-  parent Parent  @relation(fields: [parent_email], references: [email])
-  parent_email String 
+  parent Parent  @relation(fields: [parent_id], references: [user_id])
+  parent_id String 
   student Student  @relation(fields: [student_id], references: [id])
   student_id Int 
   course_choice CourseChoice?
 
-  conditions          Boolean
+  conditions          Boolean?
   payRef         Int?
   payTime        DateTime?
 
 }
 
 model CourseChoice {
-  id Int @id @default(autoincrement())
   application Registration @relation(fields: [applicatiopn_id], references: [id])
-  applicatiopn_id Int @unique
+  applicatiopn_id Int @unique @id 
 
   // For Islamic courses
-  islamic_choice_1_id Int
-  islamic_choice_2_id Int
-  islamic_choice_3_id Int
-  islamic_choice_1 Course @relation(name: "IslamicChoice1", fields: [islamic_choice_1_id], references: [id])
-  islamic_choice_2 Course @relation(name: "IslamicChoice2", fields: [islamic_choice_2_id], references: [id])
-  islamic_choice_3 Course @relation(name: "IslamicChoice3", fields: [islamic_choice_3_id], references: [id])
+  Islamic1  String
+  Islamic2  String
+  Islamic3  String
+  
 
   // For Skill courses
-  skill_choice_1_id Int
-  skill_choice_2_id Int
-  skill_choice_3_id Int
-  skill_choice_1 Course @relation(name: "SkillChoice1", fields: [skill_choice_1_id], references: [id])
-  skill_choice_2 Course @relation(name: "SkillChoice2", fields: [skill_choice_2_id], references: [id])
-  skill_choice_3 Course @relation(name: "SkillChoice3", fields: [skill_choice_3_id], references: [id])
+  Skill1  String
+  Skill2  String
+  Skill3  String
+  
 
   // For Skill courses
-  sport_choice_1_id Int
-  sport_choice_2_id Int
-  sport_choice_3_id Int
-  sport_choice_1 Course @relation(name: "SportChoice1", fields: [sport_choice_1_id], references: [id])
-  sport_choice_2 Course @relation(name: "SportChoice2", fields: [sport_choice_2_id], references: [id])
-  sport_choice_3 Course @relation(name: "SportChoice3", fields: [sport_choice_3_id], references: [id])
+  Sport1  String
+  Sport2  String
+  Sport3  String
+  
 
   // For Skill courses
-  language_choice_1_id Int
-  language_choice_2_id Int
-  language_choice_3_id Int
-  language_choice_1 Course @relation(name: "LanguageChoice1", fields: [language_choice_1_id], references: [id])
-  language_choice_2 Course @relation(name: "LanguageChoice2", fields: [language_choice_2_id], references: [id])
-  language_choice_3 Course @relation(name: "LanguageChoice3", fields: [language_choice_3_id], references: [id])
+  Language1  String
+  Language2  String
+  Language3  String
+  
 
 }
-
-
 
 enum AttendanceState {
   ontime
@@ -245,4 +236,50 @@ enum ReportType {
 enum ReportSubType {
   behaviour
   angry
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  parent        Parent?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }

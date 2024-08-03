@@ -1,6 +1,6 @@
 import React from 'react'
 import { prisma } from '/lib/prisma'
-import  Course  from 'app/components/course'
+import  Course  from '@app/components/course'
 
 
 async function Courses() {

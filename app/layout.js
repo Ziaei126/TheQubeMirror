@@ -1,9 +1,9 @@
 import "@styles/globals.css";
 import { Inter } from "next/font/google";
-import Navbar from "app/components/navigation/Navbar.js";
-import Footer from "app/components/Footer.js";
 
-
+import Navbar from "./components/navigation/Navbar";
+import Footer from "./components/Footer.js";
+import AuthProvider from "./context/AuthProvider"; // Fixed the typo
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,14 +14,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      
-      <body>
-        
-      <Navbar />
-        {children}
-        <Footer/>
-        </body>
+    <html lang="en" className={inter.className}>
+      <body className="flex flex-col min-h-screen">
+        <AuthProvider>
+          <Navbar />
+          <main className="flex-grow bg-cream">{children}</main>
+          <Footer />
+        </AuthProvider>
+      </body>
     </html>
   );
 }

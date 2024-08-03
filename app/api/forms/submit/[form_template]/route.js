@@ -57,9 +57,8 @@ const values = Object.entries(data).map(([key, value]) => {
     
     return NextResponse.json({status:200})
     
-  } catch (error) {
+  } catch {
     
-    console.log(error)
-    return NextResponse.json({ error: error },{status:500});
+    return Error('failed to send data')
   }
 }
