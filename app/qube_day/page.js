@@ -1,13 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
-import Typewriter from 'app/components/Typewriter'
-import TypewriterText from 'app/components/Typewriterloop'
-import Item from 'app/components/qubeday/item'
+import Typewriter from '@app/components/Typewriter'
+import TypewriterText from '@app/components/Typewriterloop'
+import Item from '@app/components/qubeday/item'
 
 function Day() {
   return (
     <>
-    <div className="justify-center mx-auto pt-10 bg-cream">
+    <div className="justify-center  pt-10 bg-cream">
       <h1 className='text-4xl font-bold mb-10 text-center'>Qube Day</h1>
       <Image src="/assets/kids10.webp" width='600' height='300' className='w-1/2 max-w-4xl mx-auto'/>
       <div className='bg-red-500 p-5 min-h-[160px] md:min-h-[120px] flex items-center justify-center'>

@@ -3,12 +3,12 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import ParentDetailsForm from 'app/components/Registration/parentDetailsForm'
-import ChildDetailsForm from 'app/components/Registration/childDetailsForm'
-import PaymentForm from 'app/components/Registration/paymentForm'
+import ParentDetailsForm from '@app/components/Registration/parentDetailsForm';
+import ChildDetailsForm from '@app/components/Registration/childDetailsForm'
+import PaymentForm from '@app/components/Registration/paymentForm'
 import CourseForm from '@app/components/Registration/courseSelectionForm';
-import {NextUIProvider} from "@nextui-org/react";
-import {Slider} from "@nextui-org/react";
+import ProgressBar from '@app/components/Registration/progressbar';
+
 
 
 
@@ -20,88 +20,61 @@ export default function Register() {
   const [showInfo, setShowInfo] = useState(true)
   const [step, setStep] = useState(1)
   const [registration, setRegistration] = useState({})
+  const [regset, setRegset] = useState(false);
+  const [parent_email, setParent_email] = useState('')
 
 
   
-  const handleParentFormSubmit = () => {
-    console.log(step)
-    setStep(step+1)
+  const handleParentFormSubmit = (email) => {
+    setParent_email(email);
+    console.log(step);
+    setShowInfo(false)
+    setStep(step+1);
   }
 
   const handleChildFormSubmit = (registration_info) => {
-    setRegistration(registration_info)
-    (registration.ageGroup < 1 || registration.ageGroup > 6 ) ? setStep(step+2) : setStep(step+1);
+    setRegset(true);
+    setRegistration(registration_info);
+    console.log('ageGroup: ',registration.yearGroup);
   }
 
   const handleCourseFormSubmit = () => {
     setStep(step+1)
   }
 
+  
+
   useEffect(() => {
     console.log("step: ", step);
-    console.log("registration" ,registration)
+    console.log("registration" ,registration);
+    if (regset) {
+    (registration.yearGroup < 1 || registration.yearGroup > 6 ) ? setStep(step+2) : setStep(step+1);
+      setRegset(false)
+  }
   }, [step, registration]);
   
     return (
-
-      <NextUIProvider>
+<>
+      
       
       
       <div className="flex flex-col justify-center items-center pt-10 bg-cream">
       <h1 className='text-4xl font-bold mb-10 text-center'>Registration</h1>
-      
-  
+
       {
-        showInfo && <Info/>
-      }
-      <button className='m-2 bg-slate-100 hover:bg-slate-200 text-black font-semibold py-2 px-4 border border-slate-300 rounded shadow' 
-      onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key information"}</button>
-      <Slider 
-       
-       aria-label="Form Progress"
-      size="lg"
-      step={1}
-      maxValue={4}
-      minValue={1}
-      value={step}
-      disableThumbScale
-      showSteps
-      marks={[
-        {
-          value: 1,
-          label: "Parent Details",
-        },
-        {
-          value: 2,
-          label: "Child Details",
-        },
-        {
-          value: 3,
-          label: "Course Selection",
-        },
-        {
-          value: 4,
-          label: "Payment",
-        },
-      ]}
-    
-      hideValue
+  showInfo && <Info/>
+}
+<button className='m-2 bg-slate-100 hover:bg-slate-200 text-black font-semibold py-2 px-4 border border-slate-300 rounded shadow' 
+onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key information"}</button>
 
-      classNames={{
-        base: "max-w-lg m-5",
-        slider: [
-          "data-[hover=true]:cursor-default"
-        ],
-
-        thumb: [
-          "data-[hover=true]:cursor-default",
-          "data-[focused]:cursor-default"
-          
-        ],
-      }}
-    />
       
+      {
+        <div className="w-full max-w-lg m-10">
+        <ProgressBar step={step-1} />
+        </div>
+    }
       
+      <div className='p-6 m-4 bg-white rounded-lg shadow-lg text-center'>
 
       {
        session ? (step == 1 && <ParentDetailsForm sucsessfulSubmit={handleParentFormSubmit} />) : <p>If you have not signed in, please <Link href="/signin">sign in</Link> first.</p>
@@ -122,15 +95,15 @@ export default function Register() {
 
 {
   session && step === 4 && (
-    <PaymentForm sucsessfulSubmit={handlePaymentFormSubmit} />
+    <PaymentForm customer_email={parent_email} />
   )
 }
-        
+</div>
+       
 
-        
-        
-        </div>
-      </NextUIProvider>
+
+</div>
+      </>
     );
   
  

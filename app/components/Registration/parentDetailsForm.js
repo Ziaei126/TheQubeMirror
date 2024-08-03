@@ -99,9 +99,9 @@ function ParentDetailsForm( {sucsessfulSubmit} ) {
                 .catch(error => {
                   console.log('Error submitting form: ', error)
                 })
-                .then(
-                  sucsessfulSubmit()
-                )
+                .then( parent => {
+                  sucsessfulSubmit(parent.email)
+          })
           }
           else {
             let changes = {};
@@ -126,9 +126,9 @@ function ParentDetailsForm( {sucsessfulSubmit} ) {
                 .catch(error => {
                   console.log('Error submitting form: ', error)
                 })
-                .then(
-                  sucsessfulSubmit()
-                )
+                .then( parent => {
+                  sucsessfulSubmit(parent.email)
+          })
                 
           }
 

@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import {options} from "app/api/auth/[...nextauth]/options";
+import {options} from "@app/api/auth/[...nextauth]/options";
 import { prisma } from '/lib/prisma';
 import { getToken } from "next-auth/jwt";
 

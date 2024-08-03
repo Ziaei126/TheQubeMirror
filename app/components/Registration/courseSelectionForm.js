@@ -97,10 +97,10 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
     return <div>Loading courses...</div>;
   }
 
-  const gridColumns = 'grid-cols-2'; // This will create a 2x2 grid for four items
+  const gridColumns = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'; // This will create a 2x2 grid for four items
 
   return (
-    <form onSubmit={formik.handleSubmit} className="max-w-full md:max-w-4xl mx-auto">
+    <form onSubmit={formik.handleSubmit} className="max-w-full sm:max-w-4xl mx-auto">
       <div className={`grid ${gridColumns} gap-4 p-4`}>
         {categories.map((category) => (
           <div key={category} className={`${categoryColors[category]} p-4 rounded-lg shadow-md`}>
