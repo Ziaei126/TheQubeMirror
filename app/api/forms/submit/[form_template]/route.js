@@ -15,7 +15,7 @@ const pool = new Pool({
 
 export async function POST(request, { params }) {
   const form_template = params.form_template;
-  const formTemplate = require(`lib/forms/${form_template}.json`);
+  const formTemplate = require(`@lib/forms/${form_template}.json`);
 
   // Load the submitted data
   const data = await request.json();
