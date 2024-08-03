@@ -7,10 +7,16 @@
 //  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 //}
 
+// datasource db {
+//   provider = "postgresql"
+//   url = env("LOCAL_DATABASE")
+//   relationMode = "prisma"
+// }
+
 datasource db {
   provider = "postgresql"
-  url = env("LOCAL_DATABASE")
-  relationMode = "prisma"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator client {
