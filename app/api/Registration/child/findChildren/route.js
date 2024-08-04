@@ -16,7 +16,7 @@ export async function GET(req, res) {
   
   
   if (!session || !session.accessToken) {
-    return Response.error("unaothorized")// json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
+    return res.status(401).send(response.text); //Response.error("unaothorized")// json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
   }
   const accountId = session.accountId
   console.log(accountId)
@@ -33,7 +33,7 @@ export async function GET(req, res) {
     if (!account || !account.user) {
       // Handle the case where the account or user is not found
       console.log("user not found")
-      return Response.error()  // json({ error: 'User not found for the given access token.' }, { status: 404 }) 
+      return res.status(404); //Response.error()  // json({ error: 'User not found for the given access token.' }, { status: 404 }) 
     }
   
     // Now, find the parent associated with the user
@@ -48,15 +48,15 @@ export async function GET(req, res) {
     console.log(parent)
     if (!parent) {
       console.log("parent not found!!")
-      return Response.json(false) //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
+      return res.status(404) //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
     }
 
 
 
-    return  Response.json(parent.students)
+    return  res.status(200).json(parent.students)
   } catch (error) {
     console.log(error)
-    return  Response.error() //json({ error: 'internal server error' }, { status: 500 });
+    return  res.status(500) //json({ error: 'internal server error' }, { status: 500 });
   }
   
 }
