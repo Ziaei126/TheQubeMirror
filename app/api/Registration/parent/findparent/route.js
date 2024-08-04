@@ -6,8 +6,6 @@ import { prisma } from '/lib/prisma';
 
 export async function GET(req, res) {
   console.log("running")
-  
-  try {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   const session = await getServerSession(req,
@@ -16,6 +14,9 @@ export async function GET(req, res) {
       getHeader: (name) => res.headers?.get(name),
       setHeader: (name, value) => res.headers?.set(name, value),
     }, options)
+  
+  try {
+  
   
   
   if (!session || !session.accessToken) {
