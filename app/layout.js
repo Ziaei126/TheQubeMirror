@@ -19,9 +19,11 @@ export default function RootLayout({ children }) {
       <body className="flex flex-col min-h-screen">
         <AuthProvider>
           <Navbar />
+    <main className="flex-grow bg-cream">
           <Suspense fallback={<div>Loading...</div>}>
-            <main className="flex-grow bg-cream">{children}</main>
+            {children}
           </Suspense>
+            </main>
           <Footer />
         </AuthProvider>
       </body>
