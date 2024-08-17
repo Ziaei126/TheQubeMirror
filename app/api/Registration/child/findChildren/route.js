@@ -54,7 +54,7 @@ export async function GET(req, res) {
 
 
 
-    return  res.status(200).json(parent.students)
+    return  Response.json(parent.students)
   } catch (error) {
     console.log(error)
     return  Response.error() //json({ error: 'internal server error' }, { status: 500 });
