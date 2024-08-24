@@ -4,9 +4,10 @@ import  Course  from '@app/components/course'
 
 
 async function Courses() {
-  const courses = await prisma.course.findMany({
+  const courses = await prisma.Course.findMany({
     where: {
-      show: true
+      show: true,
+      is_closed: false
     }
   }
 
