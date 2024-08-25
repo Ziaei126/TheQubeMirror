@@ -1,43 +1,24 @@
 import { getServerSession } from "next-auth";
 import {options} from "@app/api/auth/[...nextauth]/options";
 import { prisma } from '/lib/prisma';
-import { getToken } from "next-auth/jwt";
 import { register } from "@app/api/Registration/register/register";
+import { User } from '@app/api/Registration/authenticate/authenticate'
 
 
 export async function POST(req, res) {
   console.log("running")
   
   try {
+    const user = User(req, res)
+    console.log("here is user: ", user)
+    if (user === "user not found") {
+      // Handle the case where the user is not found
+      return Response.error("user not found");
+    }
 
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  const session = await getServerSession(req,
-    {
-      ...res,
-      getHeader: (name) => res.headers?.get(name),
-      setHeader: (name, value) => res.headers?.set(name, value),
-    }, options)
-  
-  
-  if (!session || !session.accessToken) {
-    return Response.error("unaothorized")// json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
-  }
-  const accountId = session.accountId
-  console.log(accountId)
-    // Find the account using the access token
-    const account = await prisma.account.findFirst({
-      where: {
-        providerAccountId: accountId,
-      },
-      include: {
-        user: true, // Include the associated user
-      },
-    });
-    
-    if (!account || !account.user) {
-      // Handle the case where the account or user is not found
-      console.log("user not found")
-      return Response.error()  // json({ error: 'User not found for the given access token.' }, { status: 404 }) 
+    if (user === "unauthorized") {
+      // Handle the case where the user is unauthorized
+      return Response.error("unaothorized");
     }
     const {id,changes} = await req.json()
     // Now, update parent associated with the user
@@ -52,7 +33,7 @@ export async function POST(req, res) {
     if (!student) {
       return Response.error() //json({ error: 'student not found for the associated user.' }, { status: 404 })
     }
-    let application = await register(account.user.id, student.id);
+    let application = await register(user.id, student.id);
     console.log(application);
     return  Response.json({...student, reg_id: application.id})
   } catch (error) {
