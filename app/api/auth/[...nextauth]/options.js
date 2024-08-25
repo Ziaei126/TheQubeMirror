@@ -1,9 +1,9 @@
-import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from '/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken';
 
 export const options = {
   // Use the Prisma Adapter
@@ -34,7 +34,7 @@ export const options = {
             throw new Error("Please enter an email and password");
           }
   
-          const user = await prisma.user.findUnique({
+          const user = await prisma.User.findUnique({
             where: {
               email: credentials.username,
             },
@@ -52,8 +52,23 @@ export const options = {
           if (!passwordMatch) {
             throw new Error("Incorrect password");
           }
-  
-          return user;
+
+
+          // Generate a JWT token for the user
+          if ( user && passwordMatch) {
+            const accessToken = jwt.sign(
+              { sub: user.id, email: user.email },
+              process.env.NEXTAUTH_SECRET, // You should have a JWT_SECRET in your .env
+              { expiresIn: '1h' } // Token expires in 1 hour, adjust as needed
+            );
+            return {
+              ...user,
+              accessToken
+            };
+          }
+
+          return null
+          
         },
       }),
   ],
@@ -61,7 +76,7 @@ export const options = {
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token, account, profile }) {
+    async jwt({ token, account , profile, user}) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
         console.log("account",account)
@@ -69,10 +84,9 @@ export const options = {
         console.log(
           "token", token
         )
-        token.accessToken = account.access_token
+        token.accessToken = account.access_token || user.accessToken
         token.accountId = account.providerAccountId
-        token.id = profile.id
-        token.parent_email = account.parent_email || token.parent_email || "default@example.com";
+        token.id = profile?.id || account.userId
       }
       return token
     },
@@ -81,9 +95,7 @@ export const options = {
     session.accessToken = token.accessToken
     session.accountId = token.accountId
     session.user.id = token.id
-    session.user.parent_email = token.parent_email;
-    
-    
+  
     return session
     },
   },
