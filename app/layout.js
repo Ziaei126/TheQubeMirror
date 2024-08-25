@@ -1,5 +1,6 @@
 import "@styles/globals.css";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 
 import Navbar from "./components/navigation/Navbar";
 import Footer from "./components/Footer.js";
@@ -16,11 +17,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
       <body className="flex flex-col min-h-screen">
+    <Suspense fallback={<div>Loading...</div>}>
         <AuthProvider>
           <Navbar />
-          <main className="flex-grow bg-cream">{children}</main>
+    <main className="flex-grow bg-cream">
+          
+            {children}
+          
+            </main>
           <Footer />
         </AuthProvider>
+    </Suspense>
       </body>
     </html>
   );

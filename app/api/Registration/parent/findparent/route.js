@@ -6,6 +6,7 @@ import { User } from '@app/api/Registration/authenticate/authenticate'
 
 
 export async function GET(req, res) {
+
  
   try {
     const user = await User(req, res)
@@ -17,8 +18,8 @@ export async function GET(req, res) {
 
     if (user === "unauthorized") {
       // Handle the case where the user is unauthorized
-      return Response.error("unaothorized");
-    }
+      return Response.error("unaothorized");}
+
   
     // Now, find the parent associated with the user
     const parent = await prisma.parent.findUnique({

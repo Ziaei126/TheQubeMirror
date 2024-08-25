@@ -6,6 +6,7 @@ import { User } from '@app/api/Registration/authenticate/authenticate'
 
 export async function GET(req, res) {
   console.log("running")
+
   
   try {
 
@@ -32,7 +33,7 @@ export async function GET(req, res) {
     console.log(parent)
     if (!parent) {
       console.log("parent not found!!")
-      return Response.json(false) //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
+      return Response.error() //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
     }
 
 

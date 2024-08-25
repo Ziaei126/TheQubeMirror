@@ -64,6 +64,7 @@ That's it! You're now ready to start contributing to the project. 🎉
 - [Prisma Getting Started](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch)
 - [Tailwind CSS for Beginners](https://tailwindcss.com/docs)
 - [Youtube tutorial: Building a full stack application using Next.js](https://www.youtube.com/watch?v=wm5gMKuwSYk&t=5286s)
+- [Youtube tutorial: using git and github](https://www.youtube.com/watch?v=tRZGeaHPoaw&t=1s)
 
 ## <a id="contributing-🤝">Contributing 🤝
 Here's how you can contribute:
