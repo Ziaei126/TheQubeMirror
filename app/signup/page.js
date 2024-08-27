@@ -58,8 +58,8 @@ const MainComponent = () => {
   return (
 
     
-      <div className="flex flex-col justify-center items-center pt-10 bg-cream mb-5">
-      <h1 className='text-4xl font-bold mb-10 text-center'>Sign up</h1>
+    <div className="flex flex-col items-center justify-center  py-2">
+    <h1 className="text-3xl font-bold mb-6">Sign Up</h1>
       <form onSubmit={formik.handleSubmit} className="max-w-sm mx-auto bg-slate-50 p-6 shadow-lg rounded-md">
       <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="name">
         Full Name:
