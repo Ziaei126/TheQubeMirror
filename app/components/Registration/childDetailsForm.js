@@ -253,8 +253,6 @@ const validationSchema = Yup.object().shape({
           )
      }
 
-          // Call your API endpoint with the changes
-          // apiCallToUpdateDatabase(changes);
           }}
   >
     <Form className="space-y-4 max-w-3xl mx-auto">

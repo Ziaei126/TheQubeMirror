@@ -19,7 +19,7 @@ export async function User(req, res) {
     if (!session || !session.accessToken) {
       return "unaothorized" // json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
     }
-    const userId = session.accountId
+    const userId = session.userId
     console.log(userId)
       // Find the account using the access token
       const user = await prisma.User.findFirst({

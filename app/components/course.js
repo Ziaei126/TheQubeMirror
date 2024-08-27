@@ -19,11 +19,11 @@ export default function Course({course}) {
               <p>{course.description}</p>
             </div>
           </div>
-          <button className='bg-green-800 w-full flex justify-between p-3 items-center' onClick={() => setIsClicked(prev => !prev)}>
+          <button className='bg-pastel-blue-dark w-full flex justify-between p-3 items-center text-2xl font-bold' onClick={() => setIsClicked(prev => !prev)}>
             <div>{isClicked ? "" : "more information"}</div>
-            <div className="text-2xl">{isClicked ? "-" : "+"}</div>
+            <div className="text-4xl">{isClicked ? "-" : "+"}</div>
           </button>
-          <div className={`bg-green-500 p-5 ${isClicked ? "" : "hidden"}`}>
+          <div className={`bg-pastel-blue-light p-5 ${isClicked ? "" : "hidden"}`}>
             <h3 className="text-xl font-bold">Learning Outcomes</h3>
             <p className="">{course.learning_outcomes}</p>
             <h3 className="text-xl font-bold mt-5">More Information</h3>
