@@ -56,6 +56,7 @@ export const options = {
 
           // Generate a JWT token for the user
           if ( user && passwordMatch) {
+            user.hashedPassword = ""
             const accessToken = jwt.sign(
               { sub: user.id, email: user.email },
               process.env.NEXTAUTH_SECRET, // You should have a JWT_SECRET in your .env
@@ -76,29 +77,28 @@ export const options = {
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token, account , profile, user}) {
+    async jwt({ token, user, account }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
-        console.log("account",account)
-        console.log("profile", profile)
-        console.log(
-          "token", token
-        )
+        console.log("account: ",account)
+        console.log("user: ", user)
+        console.log("token: ", token)
         token.accessToken = account.access_token || user.accessToken
-        token.accountId = account.providerAccountId
-        token.id = profile?.id || account.userId
       }
       return token
     },
-    async session({ session, user, token }) {
+    async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
     session.accessToken = token.accessToken
-    session.accountId = token.accountId
-    session.user.id = token.id
+    session.userId = token.sub
+
   
     return session
     },
   },
+  pages: {
+    signIn: "/signin"
+  }
 
   // Additional NextAuth configuration...
 };
