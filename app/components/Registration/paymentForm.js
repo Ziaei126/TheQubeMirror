@@ -1,9 +1,11 @@
 'use client';
+import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useState } from 'react';
 import axios from 'axios';
 
-const PaymentForm= ({ customer_email }) => {
+
+const PaymentForm = ({ customer_email }) => {
     const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -30,6 +32,7 @@ const PaymentForm= ({ customer_email }) => {
       console.log(error);
     }
   };
+      
   return (
     
     <div className=" text-center">

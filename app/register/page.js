@@ -2,12 +2,14 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 import ParentDetailsForm from '@app/components/Registration/parentDetailsForm';
 import ChildDetailsForm from '@app/components/Registration/childDetailsForm'
 import PaymentForm from '@app/components/Registration/paymentForm'
 import CourseForm from '@app/components/Registration/courseSelectionForm';
 import ProgressBar from '@app/components/Registration/progressbar';
+import Link from 'next/link';
+
 
 
 
@@ -77,7 +79,7 @@ onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key inform
       <div className='p-6 m-4 bg-white rounded-lg shadow-lg text-center'>
 
       {
-       session ? (step == 1 && <ParentDetailsForm sucsessfulSubmit={handleParentFormSubmit} />) : <p>If you have not signed in, please <Link href="/signin">sign in</Link> first.</p>
+       session ? (step == 1 && <ParentDetailsForm sucsessfulSubmit={handleParentFormSubmit} />) : <p>If you have not signed in, please <button className={'underline hover:text-blue-400'} onClick={() => signIn()}>sign in or sign up</button> first.</p>
       }
 
 {

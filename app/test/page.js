@@ -1,15 +1,6 @@
-"use client"
- 
-import React from 'react'
-import CourseForm from '@app/components/Registration/courseSelectionForm'
+import PaymentForm from "@app/components/Registration/paymentForm";
 
-function page() {
-  return (
-    <div>
-        <CourseForm />
+export default function Test() {
+    return <PaymentForm customer_email="nassah4002@gmail.com" />
 
-    </div>
-  )
 }
-
-export default page
