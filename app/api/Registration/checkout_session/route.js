@@ -1,27 +1,30 @@
-import Stripe from 'stripe';
+
 import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+
 export async function POST(request) {
-    
+  const data = await request.json();
+  const customer_email = data.customer_email;
+  const reg_id = data.reg_id;
+  
   try {
-    
-    // you can implement some basic check here like, is user valid or not
-    const data = await request.json();
-    
-    const customer_email = data.customer_email
-   
     const checkoutSession =
       await stripe.checkout.sessions.create({
         customer_email: customer_email,
         line_items: [
           {
-            price: process.env.STRIPE_PRICE_ID,
+            price: 'price_1PsYJMILdZ7gqSmFduAH6911',
             quantity: 1
           }
         ],
         mode: 'payment',
-        success_url: `http://localhost:3000/register`,
-        cancel_url: `http://localhost:3000/register`,
+        success_url: `${process.env.BASE_URL}/register/success`,
+        cancel_url: `${process.env.BASE_URL}/register/cancel`,
+        metadata: {
+          reg_id
+        }
         
       });
     return NextResponse.json({ result: checkoutSession, ok: true });

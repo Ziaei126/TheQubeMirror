@@ -171,6 +171,7 @@ const validationSchema = Yup.object().shape({
         
        
         <div className='flex flex-wrap items-center align-middle  space-x-4 m-5'>
+          
         <h3 className="text-md font-semibold mr-4 align-middle mx-auto items-end">Choose a child: </h3>
         {
             (children.length == 0 || !children) ? (<></>) : ( 

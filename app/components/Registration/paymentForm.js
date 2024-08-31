@@ -1,9 +1,13 @@
 'use client';
+import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useState } from 'react';
 import axios from 'axios';
 
-const PaymentForm= ({ customer_email }) => {
+
+function PaymentForm({ customer_email, reg }) {
+  console.log('reg', reg)
+  console.log('customer email:', customer_email)
     const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -19,7 +23,8 @@ const PaymentForm= ({ customer_email }) => {
     }
     try {
       const response = await axios.post('/api/Registration/checkout_session', {
-        customer_email: customer_email
+        customer_email,
+        reg_id: reg.id
       });
       const data = response.data;
       if (!data.ok) throw new Error('Something went wrong');
@@ -30,6 +35,7 @@ const PaymentForm= ({ customer_email }) => {
       console.log(error);
     }
   };
+      
   return (
     
     <div className=" text-center">

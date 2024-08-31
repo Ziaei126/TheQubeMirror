@@ -4,7 +4,7 @@ import {options} from "@app/api/auth/[...nextauth]/options";
 
 
 export async function User(req, res) {
-    console.log("this has started")
+    
     
     const session = await getServerSession(req,
     {
@@ -13,18 +13,15 @@ export async function User(req, res) {
       setHeader: (name, value) => res.headers?.set(name, value),
     }, options)
 
-    console.log("found session: ", session)
-  
-  
+    
     if (!session || !session.accessToken) {
       return "unaothorized" // json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
     }
-    const userId = session.userId
-    console.log(userId)
+    
       // Find the account using the access token
-      const user = await prisma.User.findFirst({
+      const user = await prisma.user.findFirst({
         where: {
-          id: userId,
+          id: session.userId,
         }
       });
       
@@ -33,8 +30,6 @@ export async function User(req, res) {
         console.log("user not found")
         return "user not found" // json({ error: 'User not found for the given access token.' }, { status: 404 }) 
       }
-
-      console.log("hello i am returning user", user)
 
       return user
     }

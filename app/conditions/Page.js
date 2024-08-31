@@ -1,7 +1,7 @@
 import React from "react";
 
 function Conditions() {
-  return (
+  return (<>
     <section className="p-5 max-w-6xl mx-auto">
       
         <h1 className="text-center">Terms & Conditions</h1>
@@ -364,7 +364,7 @@ function Conditions() {
           </li>
         </ol>
       
-    </section>
+    </section></>
   );
 }
 
