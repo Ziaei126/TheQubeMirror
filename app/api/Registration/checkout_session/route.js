@@ -6,7 +6,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   const data = await request.json();
-  const {customer_email} = data
+  const customer_email = data.customer_email;
+  const reg_id = data.reg_id;
   
   try {
     const checkoutSession =
@@ -21,6 +22,9 @@ export async function POST(request) {
         mode: 'payment',
         success_url: `${process.env.BASE_URL}/register/success`,
         cancel_url: `${process.env.BASE_URL}/register/cancel`,
+        metadata: {
+          reg_id
+        }
         
       });
     return NextResponse.json({ result: checkoutSession, ok: true });

@@ -8,6 +8,7 @@ import MiniCourseSelectionForm from './miniCourseSelectionForm';
 export default function CourseForm({ sucsessfulSubmit, application }) {
   const [courseOptions, setCourseOptions] = useState({});
   const [loading, setLoading] = useState(true);
+  console.log('application: ', application)
 
 
   // Fetch course options when the component mounts

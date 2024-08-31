@@ -187,8 +187,8 @@ model Registration {
   course_choice CourseChoice?
 
   conditions          Boolean?
-  payRef         Int?
-  payTime        DateTime?
+  payRef         String?
+  paid        Boolean? @default(false)
 
 }
 

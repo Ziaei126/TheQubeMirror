@@ -24,11 +24,13 @@ export default function Register() {
   const [registration, setRegistration] = useState({})
   const [regset, setRegset] = useState(false);
   const [parent_email, setParent_email] = useState('')
+  
 
 
   
   const handleParentFormSubmit = (email) => {
     setParent_email(email);
+    console.log(parent_email)
     console.log(step);
     setShowInfo(false)
     setStep(step+1);
@@ -40,7 +42,7 @@ export default function Register() {
     console.log('ageGroup: ',registration.yearGroup);
   }
 
-  const handleCourseFormSubmit = () => {
+  const handleCourseFormSubmit = (reg_id) => {
     setStep(step+1)
   }
 
@@ -97,7 +99,7 @@ onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key inform
 
 {
   session && step === 4 && (
-    <PaymentForm customer_email={parent_email} />
+    <PaymentForm customer_email={parent_email} reg={registration}/>
   )
 }
 </div>
