@@ -6,10 +6,10 @@ import { User } from '@app/api/Registration/authenticate/authenticate'
 
 
 export async function GET(req, res) {
-
+  const user = await User(req, res)
  
   try {
-    const user = await User(req, res)
+    
     console.log(user)
     if (user === "user not found") {
       // Handle the case where the user is not found

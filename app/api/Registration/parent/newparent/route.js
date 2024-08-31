@@ -5,9 +5,10 @@ import { User } from '@app/api/Registration/authenticate/authenticate'
 
 export async function POST(req, res) {
   console.log("running")
+  const user = await User(req, res)
   
   try {
-    const user = await User(req, res)
+    
     if (user === "user not found") {
       // Handle the case where the user is not found
       return Response.error("user not found");

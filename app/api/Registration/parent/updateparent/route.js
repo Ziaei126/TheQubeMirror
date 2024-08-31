@@ -5,9 +5,10 @@ import { User } from '@app/api/Registration/authenticate/authenticate'
 
 export async function POST(req, res) {
   console.log("running")
+  const user = await User(req, res)
   
   try {
-    const user = await User(req, res)
+    
     if (user === "user not found") {
       // Handle the case where the user is not found
       return Response.error("user not found");
@@ -19,8 +20,6 @@ export async function POST(req, res) {
     }
     const changes = await req.json()
     // Now, update parent associated with the user
-    console.log(changes)
-    console.log(changes.email)
     
     const parent = await prisma.parent.update({
       where: {
