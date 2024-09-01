@@ -15,7 +15,7 @@ export async function POST(request) {
         customer_email: customer_email,
         line_items: [
           {
-            price: 'price_1PsYJMILdZ7gqSmFduAH6911',
+            price: process.env.TERM_PRICE_ID,
             quantity: 1
           }
         ],
