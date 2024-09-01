@@ -15,7 +15,7 @@
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  url =  env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
@@ -29,7 +29,7 @@ enum Gender {
 }
 
 model Student {
-  id                  Int               @id @default(autoincrement())
+  id                  String               @id
   name                String
   lastName          String
   DOB         DateTime
@@ -39,9 +39,7 @@ model Student {
   medicalNotes        String?
   yearEnteredReception Int
   parent              Parent[]
-  courses             Course[]
-  attendance          Attendance[]
-  term                Term[]      
+  attendance          Attendance[]    
   report              Report[]
   mentor              Mentor[]
   house               House[]
@@ -80,19 +78,19 @@ model Course {
   
   is_new       Boolean?
   is_closed    Boolean? @default(false)
-  term         Term?  @relation(fields: [term_id], references: [id])
-  term_id      Int?    
+  term         Term[]
   minAge     Int?     @default(1)
   maxAge    Int?      @default(6)
-  students     Student[]
-  topics       Topic[]
   catagory     CourseCatagory?
   show         Boolean?
-  instructor   Staff[]
 
+  // Back-reference fields for the relations
+  registrations_as_islamic   Registration[] @relation("IslamicRelation")
+  registrations_as_skill     Registration[] @relation("SkillRelation")
+  registrations_as_language  Registration[] @relation("LanguageRelation")
+  registrations_as_sport     Registration[] @relation("SportRelation")
 
-  @@unique([course_name, term_id])
-  @@index(fields: [term_id])
+  
 }
 
 model Calendar {
@@ -104,7 +102,7 @@ model Calendar {
 }
 
 model Attendance {
-  student_id  Int
+  student_id  String
   student     Student   @relation(fields: [student_id], references: [id])
   date        DateTime
   class1      AttendanceState?
@@ -115,13 +113,6 @@ model Attendance {
   @@unique([student_id, date])
 }
 
-model Topic {
-  id     Int      @id @default(autoincrement())
-  course Course[]
-  title   String
-  description   String?
-
-}
 
 model Report {
   id      Int  @id
@@ -132,10 +123,10 @@ model Report {
   type    ReportType
   student Student[]
   sub_type ReportSubType
-  authour Staff  @relation(fields: [staff_email], references: [email])
-  staff_email String
+  authour Staff  @relation(fields: [staff_id], references: [user_id])
+  staff_id String
 
-  @@index(fields: [staff_email])
+  @@index(fields: [staff_id])
   @@index([term_id])
 
 
@@ -143,19 +134,18 @@ model Report {
 
 model Term {
   id    Int  @id
-  students    Student[]
   courses     Course[]
   reports     Report[]
   houses      House[]
+  registrations Registration[]
+  mentor_groups Mentor[]
 }
 
 model Staff {
-  name        String
-  full_name   String
-  email       String @id
+  user_id     String @unique @id
+  user        User @relation(fields: [user_id], references: [id])
   mentor      Mentor?
   reports     Report[]
-  course      Course[]
 
 }
 
@@ -173,8 +163,10 @@ model House {
 
 model Mentor {
   id  Int  @id  @default(autoincrement())
-  mentor Staff @relation(fields: [staff_email], references: [email])
-  staff_email String @unique
+  term_id Int 
+  term Term @relation(fields: [term_id], references: [id])
+  mentor Staff @relation(fields: [staff_id], references: [user_id])
+  staff_id String @unique
   students Student[]
 }
 
@@ -183,8 +175,23 @@ model Registration {
   parent Parent  @relation(fields: [parent_id], references: [user_id])
   parent_id String 
   student Student  @relation(fields: [student_id], references: [id])
-  student_id Int 
+  student_id String 
   course_choice CourseChoice?
+  term_id Int
+  term Term @relation(fields: [term_id], references: [id])
+
+  islamic_id     Int?
+  islamic        Course?     @relation("IslamicRelation", fields: [islamic_id], references: [id])
+
+  skill_id       Int?
+  skill          Course?    @relation("SkillRelation", fields: [skill_id], references: [id])
+
+  language_id    Int?
+  language       Course?    @relation("LanguageRelation", fields: [language_id], references: [id])
+
+  sport_id       Int?
+  sport          Course?    @relation("SportRelation", fields: [sport_id], references: [id])
+
 
   conditions          Boolean?
   payRef         String?
@@ -201,25 +208,20 @@ model CourseChoice {
   Islamic2  String
   Islamic3  String
   
-
   // For Skill courses
   Skill1  String
   Skill2  String
   Skill3  String
   
-
   // For Skill courses
   Sport1  String
   Sport2  String
   Sport3  String
   
-
   // For Skill courses
   Language1  String
   Language2  String
   Language3  String
-  
-
 }
 
 enum AttendanceState {
@@ -257,13 +259,6 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
 
 model User {
   id            String    @id @default(cuid())
@@ -273,14 +268,8 @@ model User {
   hashedPassword String?
   image         String?
   parent        Parent?
+  staff         Staff?
+  isStaff       Boolean @default(false)
+  isAdmin       Boolean @default(false)
   accounts      Account[]
-  sessions      Session[]
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
 }

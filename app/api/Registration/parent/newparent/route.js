@@ -1,4 +1,4 @@
-import { prisma } from '/lib/prisma';
+import prisma from '/lib/prisma';
 import { User } from '@app/api/Registration/authenticate/authenticate'
 
 

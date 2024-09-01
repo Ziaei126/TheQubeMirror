@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from '/lib/prisma';
+import prisma from '/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcrypt'
@@ -84,6 +84,8 @@ export const options = {
         console.log("user: ", user)
         console.log("token: ", token)
         token.accessToken = account.access_token || user.accessToken
+        token.isAdmin = user.isAdmin
+        token.isStaff = user.isStaff
       }
       return token
     },

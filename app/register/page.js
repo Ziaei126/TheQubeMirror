@@ -10,13 +10,6 @@ import CourseForm from '@app/components/Registration/courseSelectionForm';
 import ProgressBar from '@app/components/Registration/progressbar';
 import Link from 'next/link';
 
-
-
-
-
-
-
-
 export default function Register() {
   const { data: session } = useSession();
   const [showInfo, setShowInfo] = useState(true)
@@ -30,8 +23,6 @@ export default function Register() {
   
   const handleParentFormSubmit = (email) => {
     setParent_email(email);
-    console.log(parent_email)
-    console.log(step);
     setShowInfo(false)
     setStep(step+1);
   }
@@ -39,7 +30,6 @@ export default function Register() {
   const handleChildFormSubmit = (registration_info) => {
     setRegset(true);
     setRegistration(registration_info);
-    console.log('ageGroup: ',registration.yearGroup);
   }
 
   const handleCourseFormSubmit = (reg_id) => {
@@ -49,8 +39,7 @@ export default function Register() {
   
 
   useEffect(() => {
-    console.log("step: ", step);
-    console.log("registration" ,registration);
+    
     if (regset) {
     (registration.yearGroup < 1 || registration.yearGroup > 6 ) ? setStep(step+2) : setStep(step+1);
       setRegset(false)
@@ -91,8 +80,8 @@ onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key inform
 }
 
 {
-  session && step === 3 && ( (registration.yearGroup > 0 && registration.yearGroup < 7) ? 
-    <CourseForm application={registration} sucsessfulSubmit={handleCourseFormSubmit} /> : () => {console.log("I have been triggered")}
+  session && step === 3 && ( (registration.yearGroup > 0 && registration.yearGroup < 7) && 
+    <CourseForm application={registration} sucsessfulSubmit={handleCourseFormSubmit} />
   )
 
 }

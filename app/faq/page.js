@@ -6,7 +6,7 @@ function FAQ() {
   return (
     <>
     <div className='max-w-6xl mx-auto p-5'>
-    <h1 className='text-center'>FAQ</h1>
+    <h1 className='text-4xl font-bold mb-10 text-center'>FAQ</h1>
     
     <QA
       question="What's an example timetable for a day?"
