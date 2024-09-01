@@ -7,25 +7,24 @@ export default withAuth(
         console.log(request.nextauth.token)
 
         if (request.nextUrl.pathname.startsWith("/extra")
-        && request.nextauth.token?.role !== "admin") {
-    return NextResponse.rewrite(
-        new URL("/denied", request.url)
-    )
-    }
-    if (request.nextUrl.pathname.startsWith("/dashboard")
-        && request.nextauth.token?.role !== "admin"
-        && request.nextauth.token?.role !== "manager") {
-    return NextResponse.rewrite(
-        new URL("/denied", request.url)
-    )
-    }
+            && request.nextauth.token?.isAdmin != true) {
+            return NextResponse.rewrite(
+                new URL("/denied", request.url)
+            )
+        }
+        if (request.nextUrl.pathname.startsWith("/dashboard")
+            && request.nextauth.token?.isStaff != true) {
+            return NextResponse.rewrite(
+                new URL("/denied", request.url)
+            )
+        }
 
-    },{
+    }, {
     callbacks: {
-        authorized: ({token}) => !!token
+        authorized: ({ token }) => !!token
     },
 }
 
 )
 
-export const config = { matcher: ["/extra", "/dashboard"]}
+export const config = { matcher: ["/extra", "/dashboard"] }

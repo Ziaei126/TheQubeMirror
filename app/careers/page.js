@@ -8,7 +8,7 @@ function Careers() {
   return (
     <>
       <section className="">
-        <h1 className="text-center m-5">Join Us</h1>
+      <h1 className='text-4xl font-bold mb-10 text-center'>Join Us</h1>
         <div className="flex flex-col justify-center max-w-4xl mx-auto border rounded bg-pastel-orange p-3 gap-y-5 m-5">
           <h2 className="text-center">
             إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ إِنَّا لَا نُضِيعُ

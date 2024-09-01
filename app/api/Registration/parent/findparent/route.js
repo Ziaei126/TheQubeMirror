@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
 import { options } from "@app/api/auth/[...nextauth]/options";
-import { prisma } from '/lib/prisma';
+import prisma from '/lib/prisma';
 import { User } from '@app/api/Registration/authenticate/authenticate'
 
 

@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import { NextRequest } from 'next/server';
 import { headers } from 'next/headers';
-import { prisma } from '/lib/prisma';
+import prisma from '/lib/prisma';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 

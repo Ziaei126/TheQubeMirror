@@ -41,7 +41,7 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
   }, []);
 
   useEffect(() => {
-    console.log(courseOptions)
+    //console.log(courseOptions)
   }, [courseOptions])
 
   const categories = ['Islamic', 'Skill', 'Sport', 'Language']; // Add more categories as needed
@@ -49,7 +49,7 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
     Islamic: 'bg-blue-200',
     Skill: 'bg-green-200',
     Sport: 'bg-red-200',
-    Languge: 'bg-yellow-200',
+    Languge: 'bg-gray-200',
     // Add more categories and colors as needed
   };
 

@@ -1,7 +1,6 @@
 import React from 'react'
-import { prisma } from '/lib/prisma'
+import prisma from '/lib/prisma'
 import  Course  from '@app/components/course'
-
 
 async function Courses() {
   const courses = await prisma.Course.findMany({
@@ -12,11 +11,10 @@ async function Courses() {
   }
 
   );
-  console.log(courses)
   return (
     <>
 
-    <h1 className='text-center text-3xl font-bold m-5'>Courses</h1>
+<h1 className='text-4xl font-bold mb-10 text-center'>Courses</h1>
     <hr className="w-10 mx-auto m-5 " />
 
     <div className='grid grid-cols-1 sm:grid-cols-2 sm:p-1 text-white gap-1 max-w-4xl mx-auto'>
