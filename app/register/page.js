@@ -8,16 +8,37 @@ import ChildDetailsForm from '@app/components/Registration/childDetailsForm'
 import PaymentForm from '@app/components/Registration/paymentForm'
 import CourseForm from '@app/components/Registration/courseSelectionForm';
 import ProgressBar from '@app/components/Registration/progressbar';
-import Link from 'next/link';
+import ChooseRegistration from '@app/components/Registration/chooseRegistrationForm';
 
 export default function Register() {
   const { data: session } = useSession();
   const [showInfo, setShowInfo] = useState(true)
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(0)
   const [registration, setRegistration] = useState({})
   const [regset, setRegset] = useState(false);
   const [parent_email, setParent_email] = useState('')
   
+
+  const handleRegSelect = (regInfo) => {
+    if (regInfo) {
+      setRegistration(regInfo);
+      setParent_email(regInfo.parentEmail);
+      setShowInfo(false)
+
+      if (regInfo.yearGroup < 1 || regInfo.yearGroup > 6 ) {
+        setStep(4)
+      } else if (regInfo.hasCourseChoice) {
+        setStep(4)
+      } else {
+        setStep(3)
+      }
+    } else {
+      setStep(1)
+    }
+    
+    
+
+  }
 
 
   
@@ -28,8 +49,8 @@ export default function Register() {
   }
 
   const handleChildFormSubmit = (registration_info) => {
-    setRegset(true);
     setRegistration(registration_info);
+    setStep(4);
   }
 
   const handleCourseFormSubmit = (reg_id) => {
@@ -41,7 +62,7 @@ export default function Register() {
   useEffect(() => {
     
     if (regset) {
-    (registration.yearGroup < 1 || registration.yearGroup > 6 ) ? setStep(step+2) : setStep(step+1);
+    (registration.yearGroup < 1 || registration.yearGroup > 6 ) ? setStep(4) : setStep(3);
       setRegset(false)
   }
   }, [step, registration]);
@@ -70,7 +91,11 @@ onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key inform
       <div className='p-6 m-4 bg-white rounded-lg shadow-lg text-center'>
 
       {
-       session ? (step == 1 && <ParentDetailsForm sucsessfulSubmit={handleParentFormSubmit} />) : <p>If you have not signed in, please <button className={'underline hover:text-blue-400'} onClick={() => signIn()}>sign in or sign up</button> first.</p>
+        session ? (step == 0 && <ChooseRegistration sucsessfulSubmit={handleRegSelect} /> ) : <p>If you have not signed in, please <button className={'underline hover:text-blue-400'} onClick={() => signIn()}>sign in or sign up</button> first.</p>
+      }
+
+      {
+       session && (step == 1 && <ParentDetailsForm sucsessfulSubmit={handleParentFormSubmit} />)
       }
 
 {
