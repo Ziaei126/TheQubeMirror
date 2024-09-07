@@ -1,12 +1,12 @@
 import prisma from '/lib/prisma';
 
 
-export async function register(parent_id, student_id) {
+export async function register(parent_email, student_id) {
   const term = parseInt(process.env.TERM_ID);
 
   const application = await prisma.Registration.create({
     data: {
-      parent_id: parent_id,
+      parent_email: parent_email,
       student_id: student_id,
       term_id: term,
     }

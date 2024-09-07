@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
     .required('Contact Number is required'),
 });
 
-function ParentDetailsForm( {sucsessfulSubmit} ) {
+function ParentDetailsForm( {sucsessfulSubmit, session, signedIn} ) {
 
   //console.log("getting parent data")
   const [parentData, setParentData] = useState(null);
@@ -48,8 +48,6 @@ function ParentDetailsForm( {sucsessfulSubmit} ) {
         const data = await response.json();
         //console.log("data: ", data)
         setNewParent(data ? false : true)
-
-
         let Data = {
           name: data.name || '',
           lastName: data.lastName || '',
@@ -66,8 +64,23 @@ function ParentDetailsForm( {sucsessfulSubmit} ) {
         setLoading(false);
       }
     }
+    if (session) {
+      fetchParentData();
+    } else {
 
-    fetchParentData();
+        let Data = {
+          name: '',
+          lastName: '',
+          email: '',
+          address: '',
+          postcode: '',
+          phone: '',
+        }
+        //console.log("Data: ", Data)
+        setParentData(Data);
+        setLoading(false);
+    }
+    
   }, []);
 
   //console.log('parent data', parentData)
@@ -87,43 +100,12 @@ function ParentDetailsForm( {sucsessfulSubmit} ) {
         }
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          if (newParent) {
-            
-              fetch(`/api/Registration/parent/newparent`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-              })
-                .catch(error => {
-                  console.log('Error submitting form: ', error)
-                })
-                .then(response => response.json())
-                .then( parent => {
-                  //console.log('parent email: ', parent);
-                  sucsessfulSubmit(parent.email);
-          })
-          }
-          else {
-            let changes = {};
-            // Compare each field in the form
-            Object.keys(parentData).forEach(key => {
-              if (parentData[key] !== values[key]) {
-                changes[key] = values[key];
-              }
-            });
-
-            // Now 'changes' contains only the fields that have been modified
-            console.log(changes);
-
-            
               fetch(`/api/Registration/parent/updateparent`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(changes),
+                body: JSON.stringify({...values, signedIn}),
               })
                 .catch(error => {
                   console.log('Error submitting form: ', error)
@@ -133,10 +115,7 @@ function ParentDetailsForm( {sucsessfulSubmit} ) {
                   //console.log('parent email: ', parent);
                   sucsessfulSubmit(parent.email);
           })
-                
-          }
-
-          
+              
         }}
         validateOnBlur={true}
         validateOnChange={true}
