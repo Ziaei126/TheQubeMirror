@@ -27,6 +27,7 @@ function ParentDetailsForm( {sucsessfulSubmit, session, signedIn} ) {
   const [loading, setLoading] = useState(false);
   const [newParent, setNewParent] = useState(true);
   const [error, setError] = useState(null);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     async function fetchParentData() {
@@ -100,6 +101,7 @@ function ParentDetailsForm( {sucsessfulSubmit, session, signedIn} ) {
         }
         validationSchema={validationSchema}
         onSubmit={(values) => {
+          setButtonLoading((prev) => (!prev))
               fetch(`/api/Registration/parent/updateparent`, {
                 method: 'POST',
                 headers: {
@@ -181,8 +183,8 @@ function ParentDetailsForm( {sucsessfulSubmit, session, signedIn} ) {
           </div>
 
           <div className="flex justify-end mt-6">
-            <button type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              confirm
+          <button disabled={buttonLoading} type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              { buttonLoading ? "Loading..." : "confirm" }
             </button>
           </div>
         </Form>

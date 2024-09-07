@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react';
 
 
+
 const MainComponent = () => {
   const callbackUrl = useSearchParams().get('callbackUrl');
   const formik = useFormik({

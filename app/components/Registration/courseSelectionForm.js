@@ -4,12 +4,10 @@ import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import MiniCourseSelectionForm from './miniCourseSelectionForm';
 
-
 export default function CourseForm({ sucsessfulSubmit, application }) {
   const [courseOptions, setCourseOptions] = useState({});
   const [loading, setLoading] = useState(true);
-  console.log('application: ', application)
-
+  console.log('application: ', application);
 
   // Fetch course options when the component mounts
   useEffect(() => {
@@ -22,10 +20,8 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-
               yearGroup: application.yearGroup,
-            })
-
+            }),
           }
         );
         const data = await response.json();
@@ -40,20 +36,16 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
     fetchCourses();
   }, []);
 
-  useEffect(() => {
-    //console.log(courseOptions)
-  }, [courseOptions])
-
   const categories = ['Islamic', 'Skill', 'Sport', 'Language']; // Add more categories as needed
   const categoryColors = {
     Islamic: 'bg-blue-200',
     Skill: 'bg-green-200',
     Sport: 'bg-red-200',
-    Languge: 'bg-gray-200',
+    Language: 'bg-gray-200',
     // Add more categories and colors as needed
   };
 
-  // Generate initial values
+  // Generate initial values based on categories
   const initialValues = categories.reduce((values, category) => ({
     ...values,
     [`${category}1`]: '',
@@ -61,14 +53,26 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
     [`${category}3`]: '',
   }), {});
 
-  // Generate validation schema
+  // Dynamically generate validation schema
   const validationSchema = Yup.object(
-    categories.reduce((schema, category) => ({
-      ...schema,
-      [`${category}1`]: Yup.string().required('Required'),
-      [`${category}2`]: Yup.string().required('Required'),
-      [`${category}3`]: Yup.string().required('Required'),
-    }), {})
+    categories.reduce((schema, category) => {
+      if (category === 'Language') {
+        // For Language, only one option is required
+        return {
+          ...schema,
+          [`${category}1`]: Yup.string().required('You must select at least one option'),
+        };
+      }
+
+      // For other categories, require 2 or 3 options based on the number of available choices
+      const optionsAvailable = courseOptions?.[category]?.length || 3; // Default to 3 if no data is available
+      const validations = {
+        [`${category}1`]: Yup.string().required('Required'),
+        [`${category}2`]: optionsAvailable > 1 ? Yup.string().required('Required') : Yup.string(),
+        [`${category}3`]: optionsAvailable > 2 ? Yup.string().required('Required') : Yup.string(),
+      };
+      return { ...schema, ...validations };
+    }, {})
   );
 
   // Use the generated initialValues and validationSchema with useFormik
@@ -85,13 +89,13 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
         body: JSON.stringify({ content: values, id: application.id }),
       })
         .catch(error => {
-          console.log('Error submitting form: ', error)
+          console.log('Error submitting form: ', error);
         })
         .then(response => response.json())
-        .then(child => {
-          sucsessfulSubmit()
-        })
-    }
+        .then(() => {
+          sucsessfulSubmit();
+        });
+    },
   });
 
   if (loading) {
@@ -119,5 +123,5 @@ export default function CourseForm({ sucsessfulSubmit, application }) {
         </button>
       </div>
     </form>
-  )
+  );
 }

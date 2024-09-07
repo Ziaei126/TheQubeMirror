@@ -21,6 +21,7 @@ export async function POST(request) {
   let discountAmount = 0;
 
     switch (discountCode.trim().toUpperCase()) {
+      case 'QUBERAGAIN':
       case 'SECONDQUBER':
       case 'MESSENGER10':
       case 'EARLYQUBER':
@@ -80,18 +81,21 @@ export async function POST(request) {
     customer_email: customer_email,
     line_items ,
     mode: 'payment',
-    success_url: `${process.env.BASE_URL}/register/success`,
+    success_url: `${process.env.BASE_URL}/register/success?scholarship=${scholarship?.applied || false}`,
     cancel_url: `${process.env.BASE_URL}/register/cancel`,
     metadata: {
       childrenMeta,
       ScholarshipMeta
     },
-    discounts: [
+  }
+  if (scholarship?.applied) {
+    checkout.discounts = [
       {
         coupon: scholarship_id
       },
     ] 
   }
+  
 
   console.log(scholarship_id)
   
