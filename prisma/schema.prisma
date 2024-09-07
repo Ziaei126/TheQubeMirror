@@ -15,8 +15,8 @@
 
 datasource db {
   provider = "postgresql"
-  url =  env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url =  env("POSTGRES_PRISMA_URL") // uses connection pooling env("LOCAL_DATABASE")
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection env("LOCAL_DATABASE")
 }
 
 generator client {
@@ -52,11 +52,11 @@ model Parent {
   lastName String?
   address  String?
   postcode String?
-  email    String    
+  email    String  @id  
   phone   String?
 
   user    User? @relation(fields: [user_id], references: [id]) 
-  user_id String @unique @id
+  user_id String? @unique
   students Student[]
   registration Registration[]
 }
@@ -172,8 +172,8 @@ model Mentor {
 
 model Registration {
   id Int @id @default(autoincrement())
-  parent Parent  @relation(fields: [parent_id], references: [user_id])
-  parent_id String 
+  parent Parent  @relation(fields: [parent_email], references: [email])
+  parent_email String 
   student Student  @relation(fields: [student_id], references: [id])
   student_id String 
   course_choice CourseChoice?
@@ -196,6 +196,9 @@ model Registration {
   conditions          Boolean?
   payRef         String?
   paid        Boolean? @default(false)
+  scholarship_essay String?    @db.Text
+  scholarship_amount Decimal?  @db.Decimal(3, 2)
+
 
 }
 
