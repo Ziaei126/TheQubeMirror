@@ -26,16 +26,25 @@ export async function POST(req, res) {
     // Now, update parent associated with the user
     console.log('child id:', id)
     console.log("changes: ", childDetails)
-    const student = await prisma.student.upsert({
-      where: { id: id },
-      update: childDetails,
-      create: {
-        ...childDetails,
-        parent: {
-          connect: [{email}]
-        }
-      }
-    });
+    let student;
+
+if (id) {
+  // If `id` exists, it's an existing student, so update the record.
+  student = await prisma.student.update({
+    where: { id },
+    data: childDetails,
+  });
+} else {
+  // If `id` is not provided, it's a new student, so create a new record.
+  student = await prisma.student.create({
+    data: {
+      ...childDetails,
+      parent: {
+        connect: { email }, // Connecting parent using the email
+      },
+    },
+  });
+}
     console.log(student)
     if (!student) {
       return Response.error() //json({ error: 'Parent not found for the associated user.' }, { status: 404 })

@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { signIn } from 'next-auth/react';
 
 
+
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .required('Name is required')
@@ -44,6 +45,7 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
   const [initials, setInitials] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [YearSelected, setYearSelected] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   
 
@@ -294,6 +296,7 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
         initialValues={initials}
         validationSchema={validationSchema}
         onSubmit={(values) => {
+          setButtonLoading((prev) => (!prev))
           const formatedValues = {
             ...values,
             DOB: formatDateForPrisma(values.DOB),
@@ -378,9 +381,9 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
               >
                 <option value="">Select School Year</option>
-                <option value={0}>Reception</option>
-                {[...Array(9)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>{i + 1}</option>
+                {selectedYear == 0 && <option value={0}>Reception</option>}
+                {selectedYear > 0 && [...Array(3)].map((_, i) => (
+                  <option key={selectedYear*3 -2 + i} value={selectedYear*3 -2 + i}>{selectedYear*3 -2 + i}</option>
                 ))}
               </Field>
               <ErrorMessage name="yearEnteredReception" component="div" className="text-red-600" />
@@ -388,7 +391,7 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
             {/* Internal Photo Allowed */}
             <div>
               <label htmlFor="internalPhotoAllowed" className="block text-sm font-medium text-gray-700">
-                Internal Photo Allowed
+              I am happy for the photo & film of my child to be take and used for internal purposes of The Qube:
               </label>
               <Field name="internalPhotoAllowed" type="checkbox" />
               <ErrorMessage name="internalPhotoAllowed" component="div" className="text-red-600" />
@@ -397,7 +400,7 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
             {/* External Photo Allowed */}
             <div>
               <label htmlFor="externalPhotoAllowed" className="block text-sm font-medium text-gray-700">
-                External Photo Allowed
+              I am happy for the photo & film of my child to be take and used for external purposes of The Oube, such as social media & marketing:
               </label>
               <Field name="externalPhotoAllowed" type="checkbox" />
               <ErrorMessage name="externalPhotoAllowed" component="div" className="text-red-600" />
@@ -418,8 +421,8 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
 
 
           <div className="flex justify-end mt-6">
-            <button type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              confirm
+            <button disabled={buttonLoading} type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              { buttonLoading ? "Loading..." : "confirm" }
             </button>
           </div>
         </Form>

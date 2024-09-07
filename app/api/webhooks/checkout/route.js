@@ -21,7 +21,9 @@ export async function POST(request) {
   if (event.type == 'checkout.session.completed') {
   const data = event.data.object;
   const metadata = data.metadata;
-  const reg_id = metadata.reg_id;
+  const children = JSON.parse(metadata.childrenMeta)
+  const scholarship = JSON.parse(metadata.ScholarshipMeta)
+  
   const ref = data.id;
   console.log("reg id: ", reg_id )
   console.log('event.type: ', event.type)
@@ -29,6 +31,23 @@ export async function POST(request) {
   console.log("meta data: ", metadata) 
   
   try {
+
+    // Update all children registrations
+  for (let child of children) {
+    const registrationUpdate = await prisma.registration.update({
+      where: {
+        id: parseInt(child.id)  // Assuming each child object has `reg_id`
+      },
+      data: {
+        paid: true,
+        payRef: ref,
+        scholarship_essay: scholarship.essay,  // Assuming `scholarship` has an `amount` field
+        scholarship_amount: scholarship.amount
+      }
+    });
+
+    console.log(`Updated registration for child ${child.name} with ID ${child.reg_id}`);
+  }
     
     const registration = await prisma.registration.update({
       where: {

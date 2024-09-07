@@ -9,6 +9,7 @@ import PaymentForm from '@app/components/Registration/paymentForm'
 import CourseForm from '@app/components/Registration/courseSelectionForm';
 import ProgressBar from '@app/components/Registration/progressbar';
 import ChooseRegistration from '@app/components/Registration/chooseRegistrationForm';
+import Link from 'next/link';
 
 // [
 //   'Parent Details',
@@ -216,9 +217,17 @@ const InfoCourse = ({ year_index }) => {
           <h3 className="text-lg font-semibold mb-4">Course Information for Year 1-6</h3>
           <p>
             <strong>Course Selection</strong>: All courses fall under 4 main categories: Islamic, Skills Development, Sports
-            Activities, and Languages. Your registration must include 3 choices per category in order of preference.
-            All students must choose a language course, and the choice will stay the same throughout the year.
-          </p>
+            Activities, and Languages. <Link 
+  href='/courses' 
+  className="text-blue-500 underline hover:text-blue-700 focus:outline-none" 
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  See full list here.
+</Link></p>
+            <p>Your registration must include 3 choices per category in order of preference.</p>
+            <p>All students must choose a language course, and the choice will stay the same throughout the year.</p>
+          
           <p className="mt-4">
             <strong>How do I register?</strong>
           </p>
@@ -236,10 +245,13 @@ const InfoCourse = ({ year_index }) => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Course Information for Year 7-9</h3>
           <p>
-            Our program is designed to provide a dynamic and engaging learning experience for older kids, fostering an environment where they can deepen their understanding of important Islamic topics while having a blast along the way.
+            Our program is designed to provide a dynamic and engaging learning experience for older kids, fostering an environment where they can deepen their understanding of important Islamic topics while having a blast along the way. At The Qube, we take pride in offering an inclusive environment where Islamic values and concepts are at the core of our curriculum.
           </p>
           <p className="mt-4">
-            <strong>In The Qube year 7+ Program, we strive to empower young minds with:</strong>
+            In The Qube year 7+ Program, we strive to empower young minds with ago-appropriate activitios that encourage critical thinking and personal growth.
+          </p>
+          <p>
+          Here's a glimpse of what your child can expect:
           </p>
           <ul className="list-disc ml-6">
             <li>Exploring Islamic Concepts: Through discussions, interactive sessions, and hands-on activities, we dive into a number of Islamic concepts. Whether it's delving into history, belief, or Akhlaq (ethics), we challenge their curious minds while emphasizing the values and teachings of Ahlul Bayt (AS).</li>
