@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import Navbar from "./components/navigation/Navbar";
 import Footer from "./components/Footer.js";
 import AuthProvider from "./context/AuthProvider"; // Fixed the typo
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({ children }) {
     <Suspense fallback={<div>Loading...</div>}>
         <AuthProvider>
           <Navbar />
-    <main className="flex-grow bg-cream">
+            <main className="flex-grow bg-cream">
           
             {children}
           
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           <Footer />
         </AuthProvider>
     </Suspense>
+    <Analytics />
       </body>
     </html>
   );

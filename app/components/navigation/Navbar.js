@@ -9,6 +9,7 @@ import SignInButton from "./SignInButton";
 
 
 
+
 const MENU_LIST = [
     { text: "Courses", href: "/courses" },
     { text: "Register", href: "/register" },
@@ -69,7 +70,9 @@ const Navbar = () => {
             <div className="w-6 h-1 bg-black rounded"></div>
             <div className="w-6 h-1 bg-black rounded"></div>
           </div>
-          <div className={`${navActive ? "right-2" : "-right-40"} ${hasScrolled ? " bg-white" : "bg-cream border md:border-none"} flex flex-col fixed top-16 w-40 gap-y-6 p-6 nav__menu-list min-h-min rounded `}>
+
+          <div className={`${navActive ? "right-2" : "-right-40"} border md:border-none bg-white md:bg-transparent flex flex-col fixed top-16 w-40 gap-y-6 p-6 nav__menu-list min-h-min rounded `}>
+
             {MENU_LIST.map((menu) => (
               <div
                 onClick={() => {
