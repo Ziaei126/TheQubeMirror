@@ -17,7 +17,7 @@ const ScholarshipApplication = ({submission}) => {
     const validationSchema = Yup.object({
 
         essay: Yup.string().required('Essay is required'),
-        amount: Yup.number().required('pleaes select an amount').oneOf([0.75, 0.5, 0.25, 0], 'Invalid selection')
+        amount: Yup.number().required('pleaes select an amount').oneOf([0.75, 0.5, 0.25], 'Invalid selection')
     });
 
     return (
@@ -107,7 +107,6 @@ const ScholarshipApplication = ({submission}) => {
                                         <option value={0.75}>75%</option>
                                         <option value={0.5}>50%</option>
                                         <option value={0.25}>25%</option>
-                                        <option value={0}>0%</option>
                                     </Field>
                                     <ErrorMessage name="amount" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
