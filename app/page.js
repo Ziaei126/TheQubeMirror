@@ -40,7 +40,7 @@ const Hero = () => (
         </h1>
 
         <Link href="/register" className="bg-pastel-orange text-white font-bold mt-5 md:mt-10 py-2 px-4">
-          Rergister now
+          Register now
         </Link>
       </article>
 
@@ -61,7 +61,7 @@ const Hero = () => (
 
 
 const Facets = () => (
-  <section className="bg-cream min-h-min">
+  <section className="bg-pastel-amber min-h-min">
     <div className="flex flex-col items-center">
       <div className="flex flex-col sm:flex-row p-6 items-center max-w-screen-lg">
         <article className="p-6">
