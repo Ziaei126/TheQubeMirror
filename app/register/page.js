@@ -10,6 +10,7 @@ import CourseForm from '@app/components/Registration/courseSelectionForm';
 import ProgressBar from '@app/components/Registration/progressbar';
 import ChooseRegistration from '@app/components/Registration/chooseRegistrationForm';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 // [
 //   'Parent Details',
@@ -29,7 +30,30 @@ export default function Register() {
   const [signedIn, setSignedIn] = useState(true);
   const [regFocus, setRegFocus] = useState(0);
   const [yearIndex, setYearIndex] = useState(-1);
+  const router = useRouter();
+
   const regOpen = true;
+
+  const handleRouteChange = (url) => {
+    if (step != '' ) {
+      // If user is on the registration page and tries to navigate away, open in a new tab
+      window.open(url, '_blank');
+      // Stop the router from completing the route change
+      router.events.emit('routeChangeError');
+      throw 'Route change aborted.';
+    }
+  };
+
+  useEffect(() => {
+    // Intercept route change events
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    return () => {
+      // Clean up the event listener when the component unmounts
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [step, router]);
+
 
   const handleNoSignIn = () => {
     setSignedIn((prev) => false)

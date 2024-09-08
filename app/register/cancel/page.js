@@ -8,8 +8,8 @@ export default function Cancel() {
         </p>
         <p className="text-sm mb-6">
           If you want to complete the registration, you can either go to{' '}
-          <a href="/register" className="underline text-blue-600 hover:text-blue-800">  registration page again</a>  and select pay pending regisrations 
-          {' '}or reach out to us at{' '}
+          <a href="/register" className="underline text-blue-600 hover:text-blue-800">  registration page again</a>  and select pay pending regisrations. (This options will only work if you had signed in for registration) 
+          {' '}Or reach out to us at{' '}
           <a href="mailto:admin@wearetheqube.com" className="underline text-blue-600 hover:text-blue-800">
             admin@wearetheqube.com
           </a> 
