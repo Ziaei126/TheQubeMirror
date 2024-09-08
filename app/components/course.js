@@ -29,7 +29,7 @@ export default function Course({course}) {
             <div>{isClicked ? "" : "more information"}</div>
             <div className="text-4xl">{isClicked ? "-" : "+"}</div>
           </button>
-          <div className={`bg-pastel-blue-light p-5 ${isClicked ? "" : "hidden"}`}>
+          <div className={`${categoryColor} p-5 ${isClicked ? "" : "hidden"}`}>
             <h3 className="text-xl font-bold">Learning Outcomes</h3>
             <p className="">{course.learning_outcomes}</p>
             <h3 className="text-xl font-bold mt-5">More Information</h3>
