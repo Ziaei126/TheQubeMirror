@@ -16,7 +16,9 @@ export default function TermRegister() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/students');
+                const response = await fetch('/api/students', {
+                  next: { tags: ['term_register'] },
+                });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
