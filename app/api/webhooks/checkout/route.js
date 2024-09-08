@@ -17,6 +17,7 @@ export async function POST(request) {
       status: 400
     });
   }
+  
 
   if (event.type == 'checkout.session.completed') {
   const data = event.data.object;
@@ -25,7 +26,7 @@ export async function POST(request) {
   const scholarship = JSON.parse(metadata.ScholarshipMeta)
   
   const ref = data.id;
-  console.log("reg id: ", reg_id )
+  //console.log("reg id: ", reg_id )
   console.log('event.type: ', event.type)
   console.log("data: ", data )
   console.log("meta data: ", metadata) 
@@ -36,7 +37,7 @@ export async function POST(request) {
   for (let child of children) {
     const registrationUpdate = await prisma.registration.update({
       where: {
-        id: parseInt(child.id)  // Assuming each child object has `reg_id`
+        id: parseInt(child.id)  // Assuming each child object has `id`
       },
       data: {
         paid: true,
@@ -46,17 +47,8 @@ export async function POST(request) {
       }
     });
 
-    console.log(`Updated registration for child ${child.name} with ID ${child.reg_id}`);
+    console.log(`Updated registration for child ${child.name} with ID ${child.id}`);
   }
-    
-    const registration = await prisma.registration.update({
-      where: {
-        id: parseInt(reg_id)
-      }, data: {
-        paid: true,
-        payRef: ref
-      }
-    })
     
     return new Response('Payment Registered', {
       status: 200
