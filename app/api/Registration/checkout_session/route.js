@@ -56,13 +56,13 @@ export async function POST(request) {
   // Create line items with adjusted prices based on the total discount
   const line_items = children.map((child) => {
     const basePrice = child.plan === 'year' ? yearPrice : termPrice;
-    const adjustedPrice = basePrice - discountAmount; // Spread discount across children
+    const adjustedPrice = child.plan === 'year' ? basePrice : basePrice - discountAmount; // Spread discount across children
 
     return {
       price_data: {
         currency: 'gbp',
         product_data: {
-          name: `${child.name} (${child.plan} price) ${discountCode}`,
+          name: `${child.name} (${child.plan} price) ${child.plan === 'year' ? "" : "- " + discountCode}`,
         },
         unit_amount: adjustedPrice * 100, // Stripe works with amounts in cents/pence
       },

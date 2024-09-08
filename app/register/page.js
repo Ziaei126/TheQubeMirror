@@ -42,20 +42,13 @@ export default function Register() {
     setStep('Child Details')
   }
 
-  const handleRegSelect = (regInfo) => {
-    if (regInfo) {
-      setRegistrations((prev) => [...prev, regInfo]);
-      setEmail(regInfo.parentEmail);
+  const handleRegSelect = (regs) => {
+    if (regs) {
+      setRegistrations(regs);
+      setEmail(regs[0].parentEmail);
       setShowInfo(false)
 
-      if (regInfo.yearGroup < 1 || regInfo.yearGroup > 6) {
-        setStep('Payment')
-      } else if (regInfo.hasCourseChoice) {
-        setStep('Payment')
-      } else {
-        setCourseSelectToggle((prev) => true)
-        setStep('Class Selection')
-      }
+      setStep('Payment')
     } else {
       setStep('Parent Details')
     }
@@ -107,7 +100,10 @@ export default function Register() {
         <button className='m-2 bg-slate-100 hover:bg-slate-200 text-black font-semibold py-2 px-4 border border-slate-300 rounded shadow'
           onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key information"}</button>
 
-        { yearIndex >=0 && step != 'Payment' && < InfoCourse year_index={yearIndex} /> }
+        { yearIndex == 0 && step == 'Child Details' && < InfoCourse year_index={yearIndex} />}
+        { yearIndex == 3 && step == 'Child Details' && < InfoCourse year_index={yearIndex} />}
+        { yearIndex < 3 && yearIndex > 0 && step == 'Class Selection' && < InfoCourse year_index={yearIndex} />}
+        
 
 
         {
@@ -243,7 +239,7 @@ const InfoCourse = ({ year_index }) => {
             <li>Please nominate 3 different courses per category ordered by your preference. For example, under the Sports category, you may nominate Football as your first choice followed by Badminton and Athletics as your 2nd and 3rd preferences.</li>
             <li>We aim to register your first nomination, although this is not guaranteed as it will depend on the overall course demand. If your first choice is not possible, we will ensure your child is registered for one of the other choices.</li>
             <li>This term, we will assign the places as the registrations happen as all classes have size limits.</li>
-            <li>To register, follow the below steps and then proceed to the payment section. We will get in touch with you by 18th September.</li>
+            <li>To register, follow the below steps and then proceed to the payment section.</li>
           </ol>
         </div>
       )}

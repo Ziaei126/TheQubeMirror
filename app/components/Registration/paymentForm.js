@@ -28,6 +28,7 @@ function PaymentForm({ customer_email, regs, addChild}) {
     let discountAmount = 0;
 
     switch (discountCode.trim().toUpperCase()) {
+      case 'QUBERAGAIN' :
       case 'SECONDQUBER':
       case 'MESSENGER10':
       case 'EARLYQUBER':
@@ -45,16 +46,20 @@ function PaymentForm({ customer_email, regs, addChild}) {
         setDiscountError('Invalid discount code.');
     }
 
+    console.log('hello')
     // If a valid code, set the applied discount and clear any error message
-    discountAmount *= children.length
-    setAppliedDiscount(discountAmount);
+    discountAmount *= children.filter(child => child.plan === 'term').length
+    setAppliedDiscount(() => discountAmount);
     setDiscountError('');
   };
+
+  
 
   const scholarshipSubmission = (values) => {
     setScholarship(values)
   } 
 
+  
   useEffect(() => {
     const newChildren = regs.map(reg => ({
       name: reg.studentName,
@@ -62,6 +67,7 @@ function PaymentForm({ customer_email, regs, addChild}) {
       regId: reg.id
     }));
     setChildren(newChildren);
+    
     
   }, [regs]);
 
@@ -71,6 +77,7 @@ function PaymentForm({ customer_email, regs, addChild}) {
     updatedChildren[index].plan = newPlan;
     setChildren(() => updatedChildren);
     setRenderKey(prev => 1-prev)
+    applyDiscount();
     console.log(children)
   };
 
@@ -157,35 +164,42 @@ function PaymentForm({ customer_email, regs, addChild}) {
       <h3 className="text-2xl font-bold mb-6 text-center">Summary</h3>
       
       {/* Children Details */}
-      <ul key={renderKey} className="space-y-4 mb-6">
-        {children.map((child, index) => (
-          <li key={index} className="flex justify-between items-center">
-            <div>
-              {/* Conditionally render the remove (x) button if there's more than one child */}
-        {children.length > 1 && (
-          <button
-            onClick={() => removeChild(index)}
-            className="mr-2 w-4 h-4 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 focus:outline-none"
-          >
-            ✕
-          </button>
-        )}
-              <span className="font-semibold text-gray-800">{child.name}</span>
-              <select
-                value={child.plan}
-                onChange={(e) => handlePlanChange(index, e.target.value)}
-                className="ml-4 p-2 border rounded-md text-gray-700 bg-gray-100"
-              >
-                <option value="term">Pay for Term - £{termPrice}</option>
-                <option value="year">
-                  Pay for Year - £{yearPrice-yearDiscount} (15% off)
-                </option>
-              </select>
-            </div>
-            <span className="font-semibold text-gray-700">£{child.plan === "year" ? yearPrice : termPrice }</span>
-          </li>
-        ))}
-      </ul>
+<ul key={renderKey} className="space-y-6 mb-6">
+  {children.map((child, index) => (
+    <li key={index} className="flex flex-col space-y-2">
+      {/* First Row: Child Name and Price */}
+      <div className="flex justify-between items-center">
+        <div className="flex items-center">
+          {/* Conditionally render the remove (x) button if there's more than one child */}
+          {children.length > 1 && (
+            <button
+              onClick={() => removeChild(index)}
+              className="mr-2 w-5 h-5 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 focus:outline-none"
+            >
+              ✕
+            </button>
+          )}
+          <span className="font-semibold text-gray-800">{child.name}</span>
+        </div>
+
+        {/* Price */}
+        <span className="font-semibold text-gray-700">£{child.plan === "year" ? (yearPrice - yearDiscount).toFixed(2) : termPrice}</span>
+      </div>
+
+      {/* Second Row: Selection Box */}
+      <div>
+        <select
+          value={child.plan}
+          onChange={(e) => handlePlanChange(index, e.target.value)}
+          className="w-full p-2 border rounded-md text-gray-700 bg-gray-100"
+        >
+          <option value="term">Pay for Term - £{termPrice}</option>
+          <option value="year">Pay for Year - £{(yearPrice - yearDiscount).toFixed(2)} (15% off)</option>
+        </select>
+      </div>
+    </li>
+  ))}
+</ul>
 
       {/* add child button */}
       <div className="flex justify-start w-full">
@@ -234,14 +248,18 @@ function PaymentForm({ customer_email, regs, addChild}) {
 
       {/* Applied Discount */}
       {appliedDiscount > 0 && (
+        <div>
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-600">Discount Applied</span>
+          <span className="text-gray-600">{children.filter(child => child.plan === 'term').length} x Discount Applied</span>
           <span className="text-green-600">- £{appliedDiscount}</span>
+        </div>
         </div>
       )}
 
       {/* Discount Code Input */}
-      <div className="mb-4">
+      {
+      children.filter(child => child.plan === 'term').length > 0 ?
+      (<div className="mb-4">
         <label htmlFor="discountCode" className="block font-semibold text-left text-gray-700 mb-2">
           Enter Discount Code
         </label>
@@ -261,10 +279,17 @@ function PaymentForm({ customer_email, regs, addChild}) {
             Apply
           </button>
         </div>
+        <span>
+          Extra discounts do not apply to yearly payment.
+        </span>
         {discountError && (
           <p className="text-red-500 mt-2">{discountError}</p>
         )}
-      </div>
+      </div>) : (
+        <p className='mb-2'>
+          Extra discounts do not apply to yearly payment.
+        </p>
+      )}
 
       
 

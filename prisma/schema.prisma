@@ -199,7 +199,14 @@ model Registration {
   scholarship_essay String?    @db.Text
   scholarship_amount Decimal?  @db.Decimal(3, 2)
 
+  paymentPlan payPlan? 
 
+
+}
+
+enum payPlan {
+  term
+  year
 }
 
 model CourseChoice {
