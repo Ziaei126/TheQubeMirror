@@ -49,7 +49,7 @@ const Navbar = () => {
 
     return (
       <header className=" z-10 sticky top-0">
-        <nav className={`flex p-4 justify-between items-center ${hasScrolled ?  "bg-pastel-green shadow" : "bg-cream"}`}>
+        <nav className={`flex p-4 justify-between items-center ${hasScrolled ?  "bg-white shadow" : "bg-cream"}`}>
           <Link href={"/"}>
             
               <Image src="/assets/logo.webp" width='150' height='50' alt="Qube Logo"/>
@@ -69,7 +69,7 @@ const Navbar = () => {
             <div className="w-6 h-1 bg-black rounded"></div>
             <div className="w-6 h-1 bg-black rounded"></div>
           </div>
-          <div className={`${navActive ? "right-2" : "-right-40"} ${hasScrolled ? " bg-pastel-green border" : "bg-cream border md:border-none"} flex flex-col fixed top-16 w-40 gap-y-6 p-6 nav__menu-list min-h-min rounded `}>
+          <div className={`${navActive ? "right-2" : "-right-40"} ${hasScrolled ? " bg-white" : "bg-cream border md:border-none"} flex flex-col fixed top-16 w-40 gap-y-6 p-6 nav__menu-list min-h-min rounded `}>
             {MENU_LIST.map((menu) => (
               <div
                 onClick={() => {
