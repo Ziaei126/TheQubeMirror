@@ -29,6 +29,7 @@ export default function Register() {
   const [signedIn, setSignedIn] = useState(true);
   const [regFocus, setRegFocus] = useState(0);
   const [yearIndex, setYearIndex] = useState(-1);
+  const regOpen = false;
 
   const handleNoSignIn = () => {
     setSignedIn((prev) => false)
@@ -117,7 +118,13 @@ export default function Register() {
 
         <div className='p-6 m-4 bg-white rounded-lg shadow-lg text-center'>
 
-          {step == '' &&
+          {step == '' && ( !regOpen ? (
+            <div className="p-4 bg-gray-100 rounded-md">
+            <p className=" text-gray-700 text-center">
+              Registration is not open yet! Come back later...
+            </p>
+            </div>
+          ) :
             (session ? (<ChooseRegistration sucsessfulSubmit={handleRegSelect} session={session} />) :
               <div className="p-4 bg-gray-100 rounded-md">
                 <p className="mb-4 text-gray-700 text-center">
@@ -134,14 +141,14 @@ export default function Register() {
                   {/* Ignore Button */}
                   
                   <button
-                    className="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200 hover:before:content-['😢'] hover:before:mr-2"
+                    className="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200 "
                     onClick={handleNoSignIn}
                   >
                     Ignore sign in and continue
                   </button>
                 </div>
               </div>
-            )}
+            ))}
 
           {
             (step == 'Parent Details' && <ParentDetailsForm sucsessfulSubmit={handleParentFormSubmit} session={session} signedIn={signedIn} />)
