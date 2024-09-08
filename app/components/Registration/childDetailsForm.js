@@ -251,13 +251,17 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
     {YearSelected && (!childSelected ? (
 
 <div className="flex flex-col justify-center items-center space-y-8 m-5 p-8 bg-white rounded-lg shadow-xl">
+<p>
+  If you have more than one child you would like to register, select the first child or add a new child. Once you reach the payment page, click on the add child button and fill the form again this time with the details of your next child.
+</p>
 <h3 className="text-xl font-semibold text-gray-900 text-center">
   Select a child to auto-fill their details or add a new one:
 </h3>
 
+
 {/* Children Selection */}
 <div className="flex flex-wrap justify-center gap-4">
-  {children.filter(filterChildrenByYearGroup).map((child) => (
+  {children.filter((childd) => filterChildrenByYearGroup(childd, selectedYear)).map((child) => (
     <button
       key={child.id}
       onClick={() => handleChildSelect(child)}
@@ -329,103 +333,130 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
 
         }}
       >
-        <Form className="space-y-4 max-w-3xl mx-auto">
-          <div className="text-lg font-semibold mb-6">Step 2: Child's Details</div>
+       <Form className="space-y-8 max-w-3xl mx-auto">
+  <div className="text-xl font-semibold mb-6 text-indigo-600">Step 2: Child's Details</div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border p-5 rounded-lg bg-white">
-            {/* Name */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name *</label>
-              <Field name="name" type="text"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              <ErrorMessage name="name" component="div" className="text-red-600" />
-            </div>
+  {/* Child Information Section */}
+  <div className="border p-6 rounded-lg bg-white shadow-md space-y-4">
+    <h2 className="text-lg font-bold text-gray-800">Child's Information</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      {/* Name */}
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name *</label>
+        <Field name="name" type="text"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        />
+        <ErrorMessage name="name" component="div" className="text-red-600 mt-1" />
+      </div>
 
-            {/* Last Name */}
-            <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name *</label>
-              <Field name="lastName" type="text"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              <ErrorMessage name="lastName" component="div" className="text-red-600" />
-            </div>
+      {/* Last Name */}
+      <div>
+        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name *</label>
+        <Field name="lastName" type="text"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        />
+        <ErrorMessage name="lastName" component="div" className="text-red-600 mt-1" />
+      </div>
 
-            {/* Date of Birth */}
-            <div>
-              <label htmlFor="DOB" className="block text-sm font-medium text-gray-700">Date of Birth *</label>
-              <Field name="DOB" type="date"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              <ErrorMessage name="DOB" component="div" className="text-red-600" />
-            </div>
+      {/* Date of Birth */}
+      <div>
+        <label htmlFor="DOB" className="block text-sm font-medium text-gray-700">Date of Birth *</label>
+        <Field name="DOB" type="date"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        />
+        <ErrorMessage name="DOB" component="div" className="text-red-600 mt-1" />
+      </div>
 
-            {/* Gender */}
-            <div>
-              <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender *</label>
-              <Field name="gender" as="select"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+      {/* Gender */}
+      <div>
+        <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender *</label>
+        <Field name="gender" as="select"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        >
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </Field>
+        <ErrorMessage name="gender" component="div" className="text-red-600 mt-1" />
+      </div>
 
-              </Field>
-              <ErrorMessage name="gender" component="div" className="text-red-600" />
-            </div>
+      {/* School Year */}
+      <div>
+        <label htmlFor="schoolYear" className="block text-sm font-medium text-gray-700">School Year *</label>
+        <Field name="yearEnteredReception" as="select"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        >
+          <option value="">Select School Year</option>
+          {selectedYear === 0 && <option value={0}>Reception</option>}
+          {selectedYear > 0 && [...Array(3)].map((_, i) => (
+            <option key={selectedYear * 3 - 2 + i} value={selectedYear * 3 - 2 + i}>{selectedYear * 3 - 2 + i}</option>
+          ))}
+        </Field>
+        <ErrorMessage name="yearEnteredReception" component="div" className="text-red-600 mt-1" />
+      </div>
+    </div>
+  </div>
 
-            {/* School Year */}
-            <div>
-              <label htmlFor="schoolYear" className="block text-sm font-medium text-gray-700">School Year *</label>
-              <Field name="yearEnteredReception" as="select"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-              >
-                <option value="">Select School Year</option>
-                {selectedYear == 0 && <option value={0}>Reception</option>}
-                {selectedYear > 0 && [...Array(3)].map((_, i) => (
-                  <option key={selectedYear*3 -2 + i} value={selectedYear*3 -2 + i}>{selectedYear*3 -2 + i}</option>
-                ))}
-              </Field>
-              <ErrorMessage name="yearEnteredReception" component="div" className="text-red-600" />
-            </div>
-            {/* Internal Photo Allowed */}
-            <div>
-              <label htmlFor="internalPhotoAllowed" className="block text-sm font-medium text-gray-700">
-              I am happy for the photo & film of my child to be take and used for internal purposes of The Qube:
-              </label>
-              <Field name="internalPhotoAllowed" type="checkbox" />
-              <ErrorMessage name="internalPhotoAllowed" component="div" className="text-red-600" />
-            </div>
+  {/* Permission Section */}
+  <div className="border p-6 rounded-lg bg-white shadow-md space-y-4">
+    <h2 className="text-lg font-bold text-gray-800">Permissions</h2>
+    
+    <div className="space-y-4">
+      {/* Internal Photo Allowed */}
+      <div className="flex items-start">
+        <div className="flex items-center h-5">
+          <Field name="internalPhotoAllowed" type="checkbox" id="internalPhotoAllowed"
+            className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+          />
+        </div>
+        <div className="ml-3 text-sm">
+          <label htmlFor="internalPhotoAllowed" className="font-medium text-gray-700">
+            I am happy for photos & film of my child to be taken and used for internal purposes at The Qube.
+          </label>
+          <ErrorMessage name="internalPhotoAllowed" component="div" className="text-red-600 mt-1" />
+        </div>
+      </div>
 
-            {/* External Photo Allowed */}
-            <div>
-              <label htmlFor="externalPhotoAllowed" className="block text-sm font-medium text-gray-700">
-              I am happy for the photo & film of my child to be take and used for external purposes of The Oube, such as social media & marketing:
-              </label>
-              <Field name="externalPhotoAllowed" type="checkbox" />
-              <ErrorMessage name="externalPhotoAllowed" component="div" className="text-red-600" />
-            </div>
+      {/* External Photo Allowed */}
+      <div className="flex items-start">
+        <div className="flex items-center h-5">
+          <Field name="externalPhotoAllowed" type="checkbox" id="externalPhotoAllowed"
+            className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+          />
+        </div>
+        <div className="ml-3 text-sm">
+          <label htmlFor="externalPhotoAllowed" className="font-medium text-gray-700">
+            I am happy for photos & film of my child to be taken and used for external purposes at The Qube (e.g., social media & marketing).
+          </label>
+          <ErrorMessage name="externalPhotoAllowed" component="div" className="text-red-600 mt-1" />
+        </div>
+      </div>
+    </div>
+  </div>
 
-            {/* Medical Notes */}
-            <div>
-              <label htmlFor="medicalNotes" className="block text-sm font-medium text-gray-700">
-                Medical Notes
-              </label>
-              <Field name="medicalNotes" as="textarea"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              <ErrorMessage name="medicalNotes" component="div" className="text-red-600" />
-            </div>
+  {/* Medical Notes Section */}
+  <div className="border p-6 rounded-lg bg-white shadow-md space-y-4">
+    <h2 className="text-lg font-bold text-gray-800">Medical Information</h2>
 
-          </div>
+    <div>
+      <label htmlFor="medicalNotes" className="block text-sm font-medium text-gray-700">
+        Medical Notes
+      </label>
+      <Field name="medicalNotes" as="textarea"
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+      />
+      <ErrorMessage name="medicalNotes" component="div" className="text-red-600 mt-1" />
+    </div>
+  </div>
 
-
-          <div className="flex justify-end mt-6">
-            <button disabled={buttonLoading} type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              { buttonLoading ? "Loading..." : "confirm" }
-            </button>
-          </div>
-        </Form>
+  {/* Submit Button */}
+  <div className="flex justify-end mt-6">
+    <button disabled={buttonLoading} type="submit" className="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      {buttonLoading ? "Loading..." : "Confirm"}
+    </button>
+  </div>
+</Form>
       </Formik>
     )}
 

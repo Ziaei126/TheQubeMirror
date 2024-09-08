@@ -3,9 +3,15 @@
 import { useState } from "react";
 import Image from "next/image";
 
+const categoryColors = {
+  "Islamic": "bg-pastel-blue",
+  "Skill": "bg-pastel-orange",
+  "Sport": "bg-yellow-500",
+  "Language": "bg-gray-400",
+};
 
 export default function Course({course}) {
-
+    const categoryColor = categoryColors[course.catagory] || "bg-gray-200";
     const [isClicked, setIsClicked] = useState(false)
       return (
         <div>
@@ -19,7 +25,7 @@ export default function Course({course}) {
               <p>{course.description}</p>
             </div>
           </div>
-          <button className='bg-pastel-blue-dark w-full flex justify-between p-3 items-center text-2xl font-bold' onClick={() => setIsClicked(prev => !prev)}>
+          <button className={`${categoryColor} w-full flex justify-between p-3 items-center text-2xl font-bold`} onClick={() => setIsClicked(prev => !prev)}>
             <div>{isClicked ? "" : "more information"}</div>
             <div className="text-4xl">{isClicked ? "-" : "+"}</div>
           </button>

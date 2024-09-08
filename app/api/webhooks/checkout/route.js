@@ -43,7 +43,8 @@ export async function POST(request) {
         paid: true,
         payRef: ref,
         scholarship_essay: scholarship?.essay || null,  // Assuming `scholarship` has an `amount` field
-        scholarship_amount: scholarship?.amount || null
+        scholarship_amount: scholarship?.amount || null,
+        paymentPlan: child.plan
       }
     });
 
