@@ -11,8 +11,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'cream': 'rgb(246,246,229)',
+        'cream': 'rgb(255,239,224)',
+        'pastel-amber': 'rgb(251,225,172)',
         'pastel-orange': 'rgb(210,109,80)',
+        'pastel-green' : 'rgb(68,153,153)',
         'pastel-blue': 'rgb(91,151,152)',
         'pastel-blue-light': 'rgb(116,178,178)',
         'pastel-blue-dark': 'rgb(40,142,142)',
