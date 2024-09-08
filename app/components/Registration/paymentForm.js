@@ -258,11 +258,9 @@ function PaymentForm({ customer_email, regs, addChild}) {
 
       {/* Discount Code Input */}
       {
-      children.filter(child => child.plan === 'term').length > 0 ?
-      (<div className="mb-4">
-        <label htmlFor="discountCode" className="block font-semibold text-left text-gray-700 mb-2">
-          Enter Discount Code
-        </label>
+      children.filter(child => child.plan === 'term').length > 0 &&
+      (<div className="mb-2 mt-2">
+
         <div className="flex space-x-4">
           <input
             type="text"
@@ -279,22 +277,18 @@ function PaymentForm({ customer_email, regs, addChild}) {
             Apply
           </button>
         </div>
-        <span>
+        {discountError && (
+          <span className="text-red-500 mt-2">{discountError}</span>
+        )}
+      </div>)}
+      <span className=' text-red-500'>
           Extra discounts do not apply to yearly payment.
         </span>
-        {discountError && (
-          <p className="text-red-500 mt-2">{discountError}</p>
-        )}
-      </div>) : (
-        <p className='mb-2'>
-          Extra discounts do not apply to yearly payment.
-        </p>
-      )}
 
       
 
       {/* Total */}
-      <div className="flex justify-between items-center font-semibold text-xl mb-6">
+      <div className="flex justify-between items-center font-semibold text-xl mt-3 mb-6">
         <span>Total</span>
         <span>£{calculateSholarship(calculateTotal()).toFixed(2)}</span>
       </div>

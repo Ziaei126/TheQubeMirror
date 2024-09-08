@@ -1,4 +1,5 @@
 import prisma from '/lib/prisma';
+import { revalidatePath } from 'next/cache'
 
 
 export async function register(parent_email, student_id) {
@@ -15,6 +16,7 @@ export async function register(parent_email, student_id) {
       console.log("application not created!!")
       return application
     }
+    revalidatePath('/dashboard/term_register')
     return  application
   } 
   
