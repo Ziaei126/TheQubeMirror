@@ -37,7 +37,7 @@ export async function POST(request) {
   for (let child of children) {
     const registrationUpdate = await prisma.registration.update({
       where: {
-        id: parseInt(child.id)  // Assuming each child object has `id`
+        id: parseInt(child.regId)  // Assuming each child object has `id`
       },
       data: {
         paid: true,
