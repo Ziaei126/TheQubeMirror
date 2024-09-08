@@ -31,7 +31,7 @@ export default function Register() {
   const [regFocus, setRegFocus] = useState(0);
   const [yearIndex, setYearIndex] = useState(-1);
   
-  const regOpen = false;
+  const regOpen = true;
 
   const handleNoSignIn = () => {
     setSignedIn((prev) => false)

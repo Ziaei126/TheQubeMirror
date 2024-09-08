@@ -6,12 +6,6 @@ export default withAuth(
         console.log(request.nextUrl.pathname)
         console.log(request.nextauth.token)
 
-        if (request.nextUrl.pathname.startsWith("/extra")
-            && request.nextauth.token?.isAdmin != true) {
-            return NextResponse.rewrite(
-                new URL("/denied", request.url)
-            )
-        }
         if (request.nextUrl.pathname.startsWith("/dashboard")
             && request.nextauth.token?.isStaff != true) {
             return NextResponse.rewrite(
@@ -27,4 +21,7 @@ export default withAuth(
 
 )
 
-export const config = { matcher: ["/extra", "/dashboard"] }
+export const config = { matcher: [
+        "/dashboard",     // Protects the /dashboard page
+        "/dashboard/:path*" // Protects all sub-paths under 
+        ] }
