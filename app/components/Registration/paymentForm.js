@@ -27,6 +27,8 @@ function PaymentForm({ customer_email, regs, addChild}) {
   const applyDiscount = () => {
     let discountAmount = 0;
 
+    if (! scholarship?.applied) {
+      
     switch (discountCode.trim().toUpperCase()) {
       case 'QUBERAGAIN' :
       case 'SECONDQUBER':
@@ -49,6 +51,7 @@ function PaymentForm({ customer_email, regs, addChild}) {
     console.log('hello')
     // If a valid code, set the applied discount and clear any error message
     discountAmount *= children.filter(child => child.plan === 'term').length
+  }
     setAppliedDiscount(() => discountAmount);
     setDiscountError('');
   };
@@ -57,6 +60,7 @@ function PaymentForm({ customer_email, regs, addChild}) {
 
   const scholarshipSubmission = (values) => {
     setScholarship(values)
+    setAppliedDiscount(() => 0);
   } 
 
   
@@ -258,7 +262,7 @@ function PaymentForm({ customer_email, regs, addChild}) {
 
       {/* Discount Code Input */}
       {
-      children.filter(child => child.plan === 'term').length > 0 &&
+      children.filter(child => child.plan === 'term').length > 0 && ! scholarship?.applied &&
       (<div className="mb-2 mt-2">
 
         <div className="flex space-x-4">
@@ -282,7 +286,7 @@ function PaymentForm({ customer_email, regs, addChild}) {
         )}
       </div>)}
       <span className=' text-red-500'>
-          Extra discounts do not apply to yearly payment.
+          Extra discounts do not apply to yearly payment or Scholarship
         </span>
 
       
