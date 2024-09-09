@@ -18,7 +18,7 @@ const getCachedRegistrations = unstable_cache(
         sport: true,    // Include the Sport course
       },
     });
-  },
+  },['term_regist'],
   { tags: ['term_register'] }
 );
 
