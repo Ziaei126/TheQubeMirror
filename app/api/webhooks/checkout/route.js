@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import { NextRequest } from 'next/server';
 import { headers } from 'next/headers';
 import prisma from '/lib/prisma';
-import { revalidateTag } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -51,7 +51,7 @@ export async function POST(request) {
 
     console.log(`Updated registration for child ${child.name} with ID ${child.id}`);
   }
-  revalidateTag('term_register')
+  revalidatePath('/dashboard/term_register')
     return new Response('Payment Registered', {
       status: 200
     }) 

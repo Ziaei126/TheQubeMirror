@@ -12,10 +12,9 @@ const getCachedRegistrations = unstable_cache(
       },
       include: {
         student: true,  // Include student details
-        islamic: true,  // Include the Islamic course
-        skill: true,    // Include the Skill course
-        language: true, // Include the Language course
-        sport: true,    // Include the Sport course
+        course_choice: true,
+        parent: true,
+        paid: true
       },
     });
   },['term_regist'],

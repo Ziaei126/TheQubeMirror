@@ -1,5 +1,5 @@
 import prisma from '/lib/prisma';
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 
 
 export async function register(parent_email, student_id) {
@@ -16,7 +16,7 @@ export async function register(parent_email, student_id) {
       console.log("application not created!!")
       return application
     }
-    revalidateTag('term_register')
+    revalidatePath('/dashboard/term_register')
     return  application
   } 
   
