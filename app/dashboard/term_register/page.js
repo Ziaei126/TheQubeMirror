@@ -18,8 +18,8 @@ export default async function TermRegister() {
 
     //console.log("data: ", data)
 
-    //const registrations = data.filter(({ paid }) => paid);
-    const registrations = data;
+    const registrations = data.filter(({ paid }) => paid);
+    //const registrations = data;
     const students = registrations.map(registration => ({
         student: registration.student,
         grade: gradeCalculator(registration.student.yearEnteredReception),  // Calculate the student's age
