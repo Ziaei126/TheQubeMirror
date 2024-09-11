@@ -1,5 +1,5 @@
 import prisma from '/lib/prisma';
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 
 
 export async function register(parent_email, student_id) {
