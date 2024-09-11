@@ -49,16 +49,21 @@ async function Courses() {
           <h2 className="underline text-2xl font-light tracking-wide sm:mb-8 mb-1 sm:mt-8">Languages</h2>
           <p>Language courses for children at different levels.</p>
         </a>
+        
       </div>
+      
 
       {/* Display courses grouped by catagory */}
       <div className="max-w-4xl mx-auto flex flex-col gap-y-5 p-1 ">
+      <hr />
         {Object.keys(groupedCourses).map((catagory) => (
           <div key={catagory} id={catagory.replace(/\s+/g, "-")} className="flex flex-col gap-y-2">
-            <h2 className="text-3xl font-bold mb-5">{catagory}</h2>
+            
+            <h2 className="text-3xl font-bold mt-5">{catagory}</h2>
             {groupedCourses[catagory].map((course) => (
               <Course key={course.id} course={course} />
             ))}
+            <hr />
           </div>
         ))}
       </div>

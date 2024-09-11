@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { signIn } from 'next-auth/react';
+import CustomDatePicker from './CustomDatePicker';
 
 
 
@@ -343,7 +343,7 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
       
       {/* Name */}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name *</label>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 text-left">Name *</label>
         <Field name="name" type="text"
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
         />
@@ -352,25 +352,17 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
 
       {/* Last Name */}
       <div>
-        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name *</label>
+        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 text-left">Last Name *</label>
         <Field name="lastName" type="text"
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
         />
         <ErrorMessage name="lastName" component="div" className="text-red-600 mt-1" />
       </div>
 
-      {/* Date of Birth */}
-      <div>
-        <label htmlFor="DOB" className="block text-sm font-medium text-gray-700">Date of Birth *</label>
-        <Field name="DOB" type="date"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
-        <ErrorMessage name="DOB" component="div" className="text-red-600 mt-1" />
-      </div>
 
       {/* Gender */}
       <div>
-        <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender *</label>
+        <label htmlFor="gender" className="block text-sm font-medium text-gray-700 text-left">Gender *</label>
         <Field name="gender" as="select"
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
         >
@@ -383,7 +375,7 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
 
       {/* School Year */}
       <div>
-        <label htmlFor="schoolYear" className="block text-sm font-medium text-gray-700">School Year *</label>
+        <label htmlFor="schoolYear" className="block text-sm font-medium text-gray-700 text-left">School Year *</label>
         <Field name="yearEnteredReception" as="select"
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
         >
@@ -395,6 +387,13 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
         </Field>
         <ErrorMessage name="yearEnteredReception" component="div" className="text-red-600 mt-1" />
       </div>
+
+      {/* Date of Birth */}
+      <div>
+            {/* MUI DatePicker */}
+            <label htmlFor="DOB" className="block text-sm font-medium text-gray-700 text-left mb-1">Date of birth *</label>
+            <Field name="DOB" component={CustomDatePicker} label="Date of Birth" />
+          </div>
     </div>
   </div>
 
