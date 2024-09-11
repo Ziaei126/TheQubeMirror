@@ -19,8 +19,8 @@ export default function Course({course}) {
             { course.image && <Image src={course.image} height="300" width="300" alt={course.name} 
             className="w-full max-h-64 sm:max-h-none sm:w-auto object-cover "/>}
             
-            <div className={`p-3  w-full ${course.image || "flex flex-col items-center"}`}>
-              <h3 className="text-lg font-bold">{`${course.minAge} - ${course.maxAge}`}</h3>
+            <div className={`p-3 bg-white w-full ${course.image || "flex flex-col items-center"}`}>
+              <h3 className="text-lg font-bold">Year {`${course.minAge} - ${course.maxAge}`}</h3>
               <h2 className="text-2xl mt-3 mb-2 font-extrabold">{course.course_name}</h2>
               <p>{course.description}</p>
             </div>
