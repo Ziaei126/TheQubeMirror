@@ -49,7 +49,7 @@ export async function POST(request) {
       }
     });
 
-    console.log(`Updated registration for child ${child.name} with ID ${child.id}`);
+    console.log(`Updated registration for child ${child.name} with ID ${child.regId}`);
   }
   revalidatePath('/dashboard/term_register')
     return new Response('Payment Registered', {
