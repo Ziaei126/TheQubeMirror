@@ -137,13 +137,14 @@ export default function Register() {
                     Sign in or Sign up
                   </button>
                   {/* Ignore Button */}
-                  
-                  <button
+
+                  {/* <button
                     className="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200 "
                     onClick={handleNoSignIn}
                   >
                     Ignore sign in and continue
                   </button>
+                  */}
                 </div>
               </div>
             ))}
