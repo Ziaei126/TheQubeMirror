@@ -16,7 +16,7 @@ const ScholarshipApplication = ({submission}) => {
     // Define validation schema using Yup
     const validationSchema = Yup.object({
 
-        essay: Yup.string().required('Essay is required').max(400, 'Essay cannot be more than 500 characters'),
+        essay: Yup.string().required('Essay is required').max(400, 'Essay cannot be more than 400 characters'),
         amount: Yup.number().required('pleaes select an amount').oneOf([0.75, 0.5], 'Invalid selection')
     });
 
@@ -81,7 +81,7 @@ const ScholarshipApplication = ({submission}) => {
                                         name="essay"
                                         className="mt-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                         rows="4"
-                                        placeholder="Your response here..."
+                                        placeholder="Your response here... (maximum 400 characters)"
                                         onChange={(e) => {
                                             handleChange(e);
                                             setFieldValue('applyForScholarship', scholarship); // Update form value for validation
