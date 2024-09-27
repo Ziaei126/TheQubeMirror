@@ -37,6 +37,8 @@ export default async function TermRegister() {
           sport: registration.course_choice?.sport?.course_name,
         },
         parent_name: registration.parent.name + " " + registration.parent.lastName,
+        internal_photo: registration.student.internalPhotoAllowed,
+        external_photo: registration.student.externalPhotoAllowed
       }));
 
 
