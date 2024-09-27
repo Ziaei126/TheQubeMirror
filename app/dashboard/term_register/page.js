@@ -11,8 +11,15 @@ export default async function TermRegister() {
       },
       include: {
         student: true,  // Include student details
-        course_choice: true,
         parent: true,
+        course_choice: {
+          include: {
+            islamic: true,
+            skill: true,
+            sport: true,
+            language: true,
+          },
+        },
       },
     });
 
@@ -24,10 +31,10 @@ export default async function TermRegister() {
         student: registration.student,
         grade: gradeCalculator(registration.student.yearEnteredReception),  // Calculate the student's age
         courses: {
-          islamic: registration.course_choice?.Islamic1,
-          skill: registration.course_choice?.Skill1,
-          language: registration.course_choice?.Language1,
-          sport: registration.course_choice?.Sport1,
+          islamic: registration.course_choice?.islamic?.course_name,
+          skill: registration.course_choice?.skill?.course_name,
+          language: registration.course_choice?.language?.course_name,
+          sport: registration.course_choice?.sport?.course_name,
         },
         parent_name: registration.parent.name + " " + registration.parent.lastName,
       }));
