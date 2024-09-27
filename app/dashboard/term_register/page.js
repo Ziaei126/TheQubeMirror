@@ -1,7 +1,7 @@
 import Table from './table'
 import { gradeCalculator, } from '/lib/gradeCalculator';
 import prisma from '/lib/prisma';
-const termId = parseInt(porcess.env.TERM_ID);
+const termId = parseInt(process.env.TERM_ID);
 
 export default async function TermRegister() {
         
