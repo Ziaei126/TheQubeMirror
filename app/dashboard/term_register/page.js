@@ -1,7 +1,7 @@
 import Table from './table'
 import { gradeCalculator, } from '/lib/gradeCalculator';
 import prisma from '/lib/prisma';
-const termId = parseInt(process.env.TERM_ID);
+const termId = parseInt(porcess.env.TERM_ID);
 
 export default async function TermRegister() {
         
@@ -37,13 +37,14 @@ export default async function TermRegister() {
           sport: registration.course_choice?.sport?.course_name,
         },
         parent_name: registration.parent.name + " " + registration.parent.lastName,
-        internal_photo: registration.student.internalPhotoAllowed,
-        external_photo: registration.student.externalPhotoAllowed
+        internal_photo: registration.student.internalPhotoAllowed ,
+        external_photo: registration.student.externalPhotoAllowed ,
+        medical: registration.student.medicalNotes
       }));
 
 
     return (
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-2">
         <h1 className="text-3xl font-bold text-center mb-8">Register List</h1>
         <Table registrations={students} />
       </div>

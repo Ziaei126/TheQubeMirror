@@ -1,10 +1,13 @@
 'use client'
 
 import React, { useState } from 'react';
+import { gradeCalculator, gradeCalcString } from '/lib/gradeCalculator';
 
 export default function Table({ registrations }) {
   const [students, setStudents] = useState(registrations);
-  const [selectedCourse, setSelectedCourse] = useState('all');
+  const [selectedCourseGlobal, setSelectedCourse] = useState('all');
+  const [minAgeGlobal, setMinAge] = useState(0);
+  const [maxAgeGlobal, setMaxAge] = useState(9);
 
   const allCourses = [
     ...new Set([
@@ -49,7 +52,9 @@ export default function Table({ registrations }) {
         maxAge = parseInt(selectedValue);
         break;
     }
-
+    setMinAge(minAge)
+    setMaxAge(maxAge)
+    let selectedCourse = selectedCourseGlobal
     setStudents(
       registrations.filter(({ grade, courses }) => {
         const ageMatch = grade >= minAge && grade <= maxAge;
@@ -64,9 +69,28 @@ export default function Table({ registrations }) {
     );
   };
 
+  const handleCourseChange = (selectedCourse) => {
+      let minAge = minAgeGlobal;
+      let maxAge = maxAgeGlobal;
+      setSelectedCourse(selectedCourse);
+    setStudents(
+      registrations.filter(({ grade, courses }) => {
+        const ageMatch = grade >= minAge && grade <= maxAge;
+        const courseMatch = selectedCourse === 'all' ||
+          courses.islamic === selectedCourse ||
+          courses.skill === selectedCourse ||
+          courses.language === selectedCourse ||
+          courses.sport === selectedCourse;
+
+        return ageMatch && courseMatch;
+      })
+    );
+  }
+
+
   return (
-    <div className="p-1">
-      <div className="mb-4 flex justify-center space-x-4">
+    <div className="">
+      <div className="mb-4 flex justify-center md:space-x-4 flex-col md:flex-row space-y-2 md:space-y-0">
         <div>
           <label htmlFor="ageRange" className="mr-2">Select Age Range:</label>
           <select
@@ -87,8 +111,7 @@ export default function Table({ registrations }) {
           <label htmlFor="course" className="mr-2">Select Course:</label>
           <select
             id="course"
-            value={selectedCourse}
-            onChange={(e) => setSelectedCourse(e.target.value)}
+            onChange={(e) => handleCourseChange(e.target.value)}
             className="border rounded px-2 py-1"
           >
             <option value="all">All</option>
@@ -105,17 +128,18 @@ export default function Table({ registrations }) {
       <tr>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">#</th> {/* Replaced ID with index */}
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Child</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Internal Photo</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">External Photo</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Year</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Islamic</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Skill</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Language</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Sport</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Internal Photo</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">External Photo</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Medical Notes</th>
       </tr>
     </thead>
     <tbody>
-      {students.map(({ student, grade, courses, internal_photo, external_photo }, index) => (
+      {students.map(({ student, grade, courses, internal_photo, external_photo, medical }, index) => (
         <tr key={index}>
           {/* Displaying the index + 1 so it starts from 1 instead of 0 */}
           <td className="py-2 px-4 border-b border-gray-200 text-left">
@@ -124,12 +148,7 @@ export default function Table({ registrations }) {
           <td className="py-2 px-4 border-b border-gray-200 text-left">
             {student.name} {student.lastName}
           </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-left">
-            {internal_photo}
-          </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-left">
-            {external_photo}
-          </td>
+          
           <td className="py-2 px-4 border-b border-gray-200 text-left">
             {gradeCalcString(grade)}
           </td>
@@ -145,6 +164,16 @@ export default function Table({ registrations }) {
           <td className="py-2 px-4 border-b border-gray-200 text-left">
             {courses.sport || '-'}
           </td>
+          <td className="py-2 px-4 border-b border-gray-200 text-centre">
+          {internal_photo ? <span className="text-green-500 text-xl">✓</span> : <span className="text-red-500 text-xl">✘</span>}
+          </td>
+          <td className="py-2 px-4 border-b border-gray-200 text-centre">
+          {external_photo ? <span className="text-green-500 text-xl">✓</span> : <span className="text-red-500 text-xl">✘</span>}
+          </td>
+          <td className="py-2 px-4 border-b border-gray-200 text-centre">
+          {medical}
+          </td>
+          
         </tr>
       ))}
     </tbody>
