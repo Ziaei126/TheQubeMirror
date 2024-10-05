@@ -10,6 +10,9 @@ import CourseForm from '@app/components/Registration/courseSelectionForm';
 import ProgressBar from '@app/components/Registration/progressbar';
 import ChooseRegistration from '@app/components/Registration/chooseRegistrationForm';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation'
+const regClosed = true
+
 
 
 // [
@@ -30,8 +33,18 @@ export default function Register() {
   const [signedIn, setSignedIn] = useState(true);
   const [regFocus, setRegFocus] = useState(0);
   const [yearIndex, setYearIndex] = useState(-1);
-  
+  const [closed, setClosed] = useState(regClosed);
   const regOpen = true;
+
+  
+  const searchParams = useSearchParams();
+  const regClosedSearch = searchParams.get('regopen');
+
+  useEffect(() => {
+    if (regClosedSearch) {
+      setClosed(false);
+    }
+  }, [regClosedSearch]);
 
   const handleNoSignIn = () => {
     setSignedIn((prev) => false)
@@ -88,6 +101,26 @@ export default function Register() {
     }
   }, [regset]);
 
+
+
+
+
+  if (closed) {
+    return (
+      <div className="flex flex-col justify-center items-center pt-10 bg-cream">
+         <div className='bg-pastel-orange border rounded-lg max-w-4xl mx-auto p-5'>
+         <h2 className='text-2xl font-bold text-center pb-2'>Register your interest</h2>
+    <p>Thank you for your interest in The Qube! Registration for this term is closed.</p>
+    
+    <p>
+      Please <Link href={'mailto:admin@wearetheqube.com'} className='underline'> get in touch</Link> and join our community  to stay up to date with the Qube.
+    </p>
+  </div>
+        
+      </ div>
+    )
+  }
+
   return (
     <>
 
@@ -95,9 +128,10 @@ export default function Register() {
 
       <div className="flex flex-col justify-center items-center pt-10 bg-cream">
         <h1 className='text-4xl font-bold mb-10 text-center'>Registration</h1>
+      
 
         {
-          showInfo && <Info />
+          showInfo && <Info /> 
         }
         <button className='m-2 bg-slate-100 hover:bg-slate-200 text-black font-semibold py-2 px-4 border border-slate-300 rounded shadow'
           onClick={() => setShowInfo(!showInfo)}>{showInfo ? "collapse" : "View key information"}</button>
@@ -181,7 +215,6 @@ export default function Register() {
 
 
 }
-
 
 
 
