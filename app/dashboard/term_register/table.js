@@ -73,7 +73,7 @@ export default function Table({ registrations }) {
     return 1;
   }
   return 0;
-});
+})
     );
   };
 
@@ -99,7 +99,7 @@ export default function Table({ registrations }) {
     return 1;
   }
   return 0;
-});
+})
     );
   }
 
