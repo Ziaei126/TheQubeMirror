@@ -4,7 +4,15 @@ import React, { useState } from 'react';
 import { gradeCalculator, gradeCalcString } from '/lib/gradeCalculator';
 
 export default function Table({ registrations }) {
-  const [students, setStudents] = useState(registrations);
+  const [students, setStudents] = useState(registrations.sort((a, b) => {
+  if (a.student.name.toLowerCase() < b.student.name.toLowerCase()) {
+    return -1;
+  }
+  if (a.student.name.toLowerCase() > b.student.name.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}));
   const [selectedCourseGlobal, setSelectedCourse] = useState('all');
   const [minAgeGlobal, setMinAge] = useState(0);
   const [maxAgeGlobal, setMaxAge] = useState(9);
