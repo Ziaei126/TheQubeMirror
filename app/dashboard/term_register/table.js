@@ -65,7 +65,15 @@ export default function Table({ registrations }) {
           courses.sport === selectedCourse;
 
         return ageMatch && courseMatch;
-      })
+      }).sort((a, b) => {
+  if (a.student.name.toLowerCase() < b.student.name.toLowerCase()) {
+    return -1;
+  }
+  if (a.student.name.toLowerCase() > b.student.name.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+});
     );
   };
 
@@ -83,7 +91,15 @@ export default function Table({ registrations }) {
           courses.sport === selectedCourse;
 
         return ageMatch && courseMatch;
-      })
+      }).sort((a, b) => {
+  if (a.student.name.toLowerCase() < b.student.name.toLowerCase()) {
+    return -1;
+  }
+  if (a.student.name.toLowerCase() > b.student.name.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+});
     );
   }
 
