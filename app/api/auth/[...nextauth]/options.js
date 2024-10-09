@@ -4,6 +4,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
+import EmailProvider from 'next-auth/providers/email';
 
 export const options = {
   // Use the Prisma Adapter
@@ -14,6 +15,10 @@ export const options = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+    }),
+    EmailProvider({
+      server: process.env.EMAIL_SERVER,
+      from: process.env.EMAIL_FROM,
     }),
     CredentialsProvider({
         name: "credentials",

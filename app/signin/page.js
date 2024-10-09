@@ -12,6 +12,7 @@ function capitalizeWords(string) {
 export default function SignIn() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
   const callbackUrl = useSearchParams().get('callbackUrl');
   const providers = ['google', 'credentials']
   
@@ -21,6 +22,14 @@ export default function SignIn() {
     await signIn('credentials', {
       username,
       password,
+      callbackUrl: callbackUrl || '/',
+    });
+  };
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    await signIn('email', {
+      email,
       callbackUrl: callbackUrl || '/',
     });
   };
@@ -41,7 +50,7 @@ export default function SignIn() {
             className="w-full flex items-center justify-center p-2 border rounded-md bg-white text-gray-700 hover:bg-gray-100"
           >
             <img loading="lazy" height="24" width="24" id="provider-logo" src={`https://authjs.dev/img/providers/${provider}.svg`} />
-            <span className='ml-4'>Sign in / Sign Up with {capitalizeWords(provider)}</span>
+            <span className='ml-4'>Continue with {capitalizeWords(provider)}</span>
             
           </button>
         </div>
@@ -55,6 +64,34 @@ export default function SignIn() {
     <hr className="flex-grow border-gray-300" />
   </div>
 
+  <form onSubmit={handleEmailSubmit} className="w-full max-w-sm">
+      <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+        Email
+      </label>
+      <input
+        id="email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Enter your email"
+      />
+    </div>
+    <div className="flex items-center justify-between">
+      <button
+        type="submit"
+        className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+      >
+        Sign In with Email
+      </button>
+    </div>
+  </form>
+  <div className="my-6 w-full max-w-sm flex items-center">
+    <hr className="flex-grow border-gray-300" />
+    <span className="mx-2 text-gray-500">OR</span>
+    <hr className="flex-grow border-gray-300" />
+  </div>
   <form onSubmit={handleSubmit} className="w-full max-w-sm">
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
