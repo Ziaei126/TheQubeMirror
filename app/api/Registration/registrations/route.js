@@ -8,8 +8,10 @@ export async function GET(req, res) {
   const termId = parseInt(process.env.TERM_ID);
   console.log("running")
   const user = await User(req, res)
+  console.log("user: ", user)
 
   try {
+    
     if (user === "user not found") {
       // Handle the case where the user is not found
       return Response.error("user not found");
@@ -20,8 +22,9 @@ export async function GET(req, res) {
     }
 
     // Now, find the parent associated with the user
-    const registrations = await prisma.registration.findMany({
-        where: {
+    if (user.id) {
+      const registrations = await prisma.registration.findMany({
+          where: {
           parent: {
             user_id: user.id,  // Filter by specific parent
           },
@@ -46,11 +49,12 @@ export async function GET(req, res) {
           course_choice: true,
         },
       });
+    }
     console.log(registrations)
 
     if (!registrations) {
       console.log("registrations not found!!")
-      return Response.error() //json({ error: 'Parent not found for the associated user.' }, { status: 404 })
+      return Response.error() 
     }
 
     const result = registrations.map(registration => ({

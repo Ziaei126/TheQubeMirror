@@ -62,17 +62,8 @@ export const options = {
           // Generate a JWT token for the user
           if ( user && passwordMatch) {
             user.hashedPassword = ""
-            const accessToken = jwt.sign(
-              { sub: user.id, email: user.email },
-              process.env.NEXTAUTH_SECRET, // You should have a JWT_SECRET in your .env
-              { expiresIn: '1h' } // Token expires in 1 hour, adjust as needed
-            );
-            return {
-              ...user,
-              accessToken
-            };
+            return user
           }
-
           return null
           
         },
@@ -82,25 +73,34 @@ export const options = {
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token, user, account }) {
-      // Persist the OAuth access_token and or the user id to the token right after signin
-      if (account) {
-        console.log("account: ",account)
-        console.log("user: ", user)
-        console.log("token: ", token)
-        token.accessToken = account.access_token || user.accessToken
-        token.isAdmin = user.isAdmin
-        token.isStaff = user.isStaff
+    async jwt({ token, user, account, trigger }) {
+      // For sign in and token update
+      if (trigger === "signIn" || trigger === "update") {
+        if (account) {
+          // OAuth sign-in
+          console.log("account: ", account)
+          console.log("user: ", user)
+          const accessToken = jwt.sign(
+            { sub: token.sub, email: token.email },
+            process.env.NEXTAUTH_SECRET,
+            { expiresIn: '1h' }
+          );
+          token.accessToken = account.access_token || accessToken
+        } 
+        
+      
       }
+      
       return token
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
-    session.accessToken = token.accessToken
-    session.userId = token.sub
+      session.accessToken = token.accessToken
+      session.userId = token.sub
+      session.isAdmin = token.isAdmin
+      session.isStaff = token.isStaff
 
-  
-    return session
+      return session
     },
   },
   pages: {

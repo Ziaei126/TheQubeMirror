@@ -15,7 +15,7 @@ export async function User(req, res) {
 
     
     if (!session || !session.accessToken) {
-      return "unaothorized" // json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
+      return "unauthorized" // json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
     }
     
       // Find the account using the access token
