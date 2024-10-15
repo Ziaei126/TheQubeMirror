@@ -86,6 +86,8 @@ export const options = {
             { expiresIn: '1h' }
           );
           token.accessToken = account.access_token || accessToken
+          token.isAdmin = user.isAdmin
+          token.isStaff = user.isStaff
         } 
         
       
