@@ -52,9 +52,9 @@ export async function GET(req, res) {
     }
     console.log(registrations)
 
-    if (!registrations) {
+    if (!registrations || registrations.length == 0) {
       console.log("registrations not found!!")
-      return Response.error() 
+      return []
     }
 
     const result = registrations.map(registration => ({
