@@ -22,7 +22,9 @@ export async function GET(req, res) {
     }
 
     // Now, find the parent associated with the user
+    //console.log("user.id: ", user.id)
     if (user.id) {
+      console.log("user.id: ", user.id)
       const registrations = await prisma.registration.findMany({
           where: {
           parent: {
@@ -49,25 +51,24 @@ export async function GET(req, res) {
           course_choice: true,
         },
       });
+
+      if (!registrations || registrations.length == 0) {
+        console.log("registrations not found!!")
+        return Response.json([])
+      }
+  
+      const result = registrations.map(registration => ({
+          id: registration.id,
+          paid: registration.paid,
+          studentName: registration.student.name,
+          yearGroup: gradeCalculator(registration.student.yearEnteredReception),
+          parentEmail: registration.parent.email,
+          hasCourseChoice: registration.course_choice !== null,
+        }));
+  
+      return  Response.json(result)
     }
-    console.log(registrations)
-
-    if (!registrations || registrations.length == 0) {
-      console.log("registrations not found!!")
-      return []
-    }
-
-    const result = registrations.map(registration => ({
-        id: registration.id,
-        paid: registration.paid,
-        studentName: registration.student.name,
-        yearGroup: gradeCalculator(registration.student.yearEnteredReception),
-        parentEmail: registration.parent.email,
-        hasCourseChoice: registration.course_choice !== null,
-      }));
-
-    return  Response.json(result)
-
+    return Response.json([])
   } catch (error) {
     console.log(error)
     return  Response.error() //json({ error: 'internal server error' }, { status: 500 });

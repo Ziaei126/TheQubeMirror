@@ -47,9 +47,8 @@ const MainComponent = () => {
     .catch(error => {
       console.log('Error submitting form: ', error)
     })
-    .then(() => signIn('credentials', {
-      username: values.email,
-      password: values.password,
+    .then(() => signIn('email', {
+      email: values.email,
       callbackUrl: callbackUrl || '/',
     }))
     

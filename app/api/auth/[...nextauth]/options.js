@@ -58,8 +58,6 @@ export const options = {
             throw new Error("Incorrect password");
           }
 
-
-          // Generate a JWT token for the user
           if ( user && passwordMatch) {
             user.hashedPassword = ""
             return user

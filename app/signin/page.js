@@ -12,26 +12,43 @@ function capitalizeWords(string) {
 export default function SignIn() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
+  
   const callbackUrl = useSearchParams().get('callbackUrl');
   const providers = ['google', 'credentials']
   
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signIn('credentials', {
-      username,
-      password,
-      callbackUrl: callbackUrl || '/',
-    });
-  };
+    await fetch('/api/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: username
+      }),
+    })
+    .catch(error => {
+      console.log('Error submitting form: ', error)
+    })
+    .then(response => response.json())
+    .then(({email}) => {
+      console.log('email: ', email)
+      if (email) {
+        signIn('email', {
+          email: username,
+          callbackUrl: callbackUrl || '/',
+        })
+      } else {
+        signIn('credentials', {
+          username,
+          password,
+          callbackUrl: callbackUrl || '/',
+        });
+      } 
 
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    await signIn('email', {
-      email,
-      callbackUrl: callbackUrl || '/',
-    });
+    })
+
   };
 
   return (
@@ -57,36 +74,7 @@ export default function SignIn() {
       );
     })}
   </div>
-
-  <div className="my-6 w-full max-w-sm flex items-center">
-    <hr className="flex-grow border-gray-300" />
-    <span className="mx-2 text-gray-500">OR</span>
-    <hr className="flex-grow border-gray-300" />
-  </div>
-
-  <form onSubmit={handleEmailSubmit} className="w-full max-w-sm">
-      <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-        Email
-      </label>
-      <input
-        id="email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        placeholder="Enter your email"
-      />
-    </div>
-    <div className="flex items-center justify-between">
-      <button
-        type="submit"
-        className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-      >
-        Sign In with Email
-      </button>
-    </div>
-  </form>
+  
   <div className="my-6 w-full max-w-sm flex items-center">
     <hr className="flex-grow border-gray-300" />
     <span className="mx-2 text-gray-500">OR</span>
