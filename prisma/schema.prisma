@@ -39,6 +39,7 @@ model Student {
   medicalNotes        String?
   yearEnteredReception Int
   parent              Parent[]
+  pic                 String?
   attendance          Attendance[]    
   report              Report[]
   mentor              Mentor[]
