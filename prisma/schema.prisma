@@ -33,6 +33,7 @@ model Student {
   name                String
   lastName          String
   DOB         DateTime
+  pic             String?
   gender              String
   internalPhotoAllowed Boolean?
   externalPhotoAllowed Boolean?

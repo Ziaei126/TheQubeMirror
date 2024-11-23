@@ -10,7 +10,20 @@ export default async function TermRegister() {
         term_id: termId,
       },
       include: {
-        student: true,  // Include student details
+        student: {
+          select: {
+            id: true,
+            name: true,
+            lastName: true,
+            DOB: true,
+            gender: true,
+            internalPhotoAllowed: true,
+            externalPhotoAllowed: true,
+            medicalNotes: true,
+            yearEnteredReception: true,
+            pic: true 
+          }
+        },  // Include student details
         parent: true,
         course_choice: {
           include: {
@@ -36,11 +49,11 @@ export default async function TermRegister() {
           language: registration.course_choice?.language?.course_name,
           sport: registration.course_choice?.sport?.course_name,
         },
-        parent_name: registration.parent.name + " " + registration.parent.lastName,
-        internal_photo: registration.student.internalPhotoAllowed ,
-        external_photo: registration.student.externalPhotoAllowed ,
-        medical: registration.student.medicalNotes
+        parent: registration.parent,
+      
       }));
+
+      console.log(students[0])
 
 
     return (
