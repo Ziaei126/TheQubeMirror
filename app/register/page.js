@@ -225,8 +225,8 @@ const Info = () => (
     <h2 className='text-2xl font-bold mt-5'>Key information</h2>
     <h3 className='text-l font-bold mt-5 mb-3'>Dates</h3>
     <ul>
-      <li>The Autumn term starts from <b>22 September to 01 December 2024.</b></li>
-      <li>The classes are held every Sunday from 9:45am to 3pm (except for the half-term Sunday on 20th October)</li>
+      <li>The Spring term starts from <b>12 January to 23 March 2025.</b></li>
+      <li>The classes are held every Sunday from 9:45am to 3pm (except for the half-term Sunday on 16th Feburary)</li>
     </ul>
 
     <h3 className='text-l font-bold mt-5 mb-3'>Cost and location</h3>
