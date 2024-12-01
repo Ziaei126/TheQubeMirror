@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 async function main() {
     const reports = [];
 
-    fs.createReadStream('reports_add.csv')
+    fs.createReadStream('reports_final.csv')
         .pipe(csv())
         .on('data', (row) => {
 

@@ -403,10 +403,10 @@ export default function Table({ registrations }) {
       {/* Full Profile Link */}
       <div className="mt-8 border-t border-gray-300 pt-4 text-center">
         <a
-          href={`/students/${modalContent.id}`}
+          href={`/dashboard/report/${modalContent.student.id}`}
           className="text-blue-600 hover:text-blue-800 font-semibold"
         >
-          View Full Profile &rarr;
+          View Report &rarr;
         </a>
       </div>
     </div>

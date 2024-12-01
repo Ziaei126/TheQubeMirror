@@ -1,4 +1,5 @@
 import Print from "./printable";
+import prisma from '/lib/prisma';
 const termId = 10;
 export default async function Hello({params}) {
     // Fetch the registration data
