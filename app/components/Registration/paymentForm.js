@@ -45,6 +45,10 @@ function PaymentForm({ customer_email, regs, addChild}) {
       case 'GIRLS7PLUS':
         discountAmount = 92;
         break;
+      case 'YAFATEMEH':
+        discountAmount = 40;
+        break;
+
       default:
         setDiscountError('Invalid discount code.');
     }

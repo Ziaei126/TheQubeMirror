@@ -35,6 +35,9 @@ export async function POST(request) {
       case 'GIRLS7PLUS':
         discountAmount = 92;
         break;
+      case 'YAFATEMEH':
+        discountAmount = 40;
+        break;
       default:
         break;
     }

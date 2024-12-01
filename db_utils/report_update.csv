@@ -1,0 +1,114 @@
+blank,reg_ID,student ID,Student ID,Student F Name,Student L Name,Islamic class,positive A,positive B,bad,uniquie,Skills class,positive A,positive B,bad,uniquie,Languages class,positive A,positive B,bad,uniquie,prompt,report,Approved
+1,103,ALFA9,ALFA,Ali,Fahimpour,Reception,Smart,Focused,-,Strong Memory,,,,,,,,,,,"Instructions: You are a helpful AI assistant creating end-of-term reports for Reception students at the Qube, a weekend school fostering community, spiritual identity, and exploration.
+Input:For each student, you'll receive:
+Student Name, list of subjects they have done in a term, Strengths: 2-5 strengths per subject, Weaknesses: 1-3 areas for improvement per subject , Something Unique about the student per subject
+Output:Generate a 200-word report with these sections:
+To the Student: Address them by name.combine the strength, weaknesses for each subject to provide an overview. Gently mention areas for growth, framed positively. Offer encouragement. use a bit of age-appropriate humor. make sure you don't repeat the weakness if each subject is repeated.
+To the Parents: Briefly acknowledge the overall strengths and the area for growth by mentioning the subjects and thank them for their support.
+end parents section by TWO sentences in the next paragraph capturing the essence of Qube values link to the student development in the subjects they had by referencing Qube values: The Qube fosters a strong community where families can connect and build relationships. It emphasizes Islamic spiritual identity through positive engagement with religious teachings and history. The Qube promotes physical health with regular sports activities and a focus on healthy living. It prioritizes mental and emotional well-being by creating a safe space for children to feel understood and valued. The Qube equips individuals with essential life skills for navigating challenges and encourages exploration and curiosity in a safe environment. It respects individuality and offers diverse choices in its programs.
+Formatting: I need you to follow the following formatting: {response to student} {response to parent}
+Report details: Name:
+Ali Fahimpour,strengths: Smart and Focused. weakness : -. unique:Strong Memory","{Dear Ali, 
+
+It's been so much fun having you in class this term! You have a super brain that remembers so much - wow!  Keep using that amazing memory of yours to learn new and exciting things. You are a smart cookie!}
+
+{To Ali's parents,
+
+Ali has shown great strengths this term. We can see he is a bright and capable student. Thank you for your support. 
+
+The Qube emphasizes Islamic spiritual identity through positive engagement with religious teachings and history, which will help Ali develop a strong sense of self. The Qube equips individuals with essential life skills for navigating challenges and encourages exploration and curiosity in a safe environment, allowing Ali to grow and thrive. 
+} 
+",TRUE
+1,124,AYAZ,AYAZ,Aya,Azzam,Drama,Clever,Eager to learn,Should socialise with students more,Fits in well despite being one of the youngest ,Game desing,Engaged with the activities,Polite and asks for help when needed,Nothing to mention,Curious about the tasks and likes to try new things,Arabic - 2,Problem solving,Curiosity ,Poor Attendance,Independence ,"Instructions: You are a helpful AI assistant creating end-of-term reports for students at the Qube, a weekend school fostering community, spiritual identity, and exploration.
+Input:For each student, you'll receive:
+Student Name, list of subjects they have done in a term, Strengths: 2-5 strengths per subject, Weaknesses: 1-3 areas for improvement per subject , Something Unique about the student per subject
+Output:Generate a 200-word report with these sections:
+To the Student: Address them by name.combine the strength, weaknesses for each subject to provide an overview. Gently mention areas for growth, framed positively. Offer encouragement. use a bit of age-appropriate humor. make sure you don't repeat the weakness if each subject is repeated.
+To the Parents: Briefly acknowledge the overall strengths and the area for growth by mentioning the subjects and thank them for their support.
+end parents section by TWO sentences in the next paragraph capturing the essence of Qube values link to the student development in the subjects they had by referencing Qube values: The Qube fosters a strong community where families can connect and build relationships. It emphasizes Islamic spiritual identity through positive engagement with religious teachings and history. The Qube promotes physical health with regular sports activities and a focus on healthy living. It prioritizes mental and emotional well-being by creating a safe space for children to feel understood and valued. The Qube equips individuals with essential life skills for navigating challenges and encourages exploration and curiosity in a safe environment. It respects individuality and offers diverse choices in its programs.
+Formatting: I need you to follow the following formatting: {response to student} {response to parent}
+Report details: Name 
+Aya Azzam, Islamic subject: Drama. strength for Islamic subject  Clever and Eager to learn. weakness for Islamic subject  Should socialise with students more. unique for Islamic subject :Fits in well despite being one of the youngest  Skills subject: Game desing. strength for skills subject :Engaged with the activities and Polite and asks for help when needed. weakness for skills subject Nothing to mention. unique for skills subject :Curious about the tasks and likes to try new things
+Language subject: Arabic - 2
+. strength for language subject :
+Problem solving and Curiosity . weakness for Language subject 
+Poor Attendance. unique for Language subject :Independence ","{Dear Aya, 
+You have had a wonderful term at the Qube!  
+
+In Islamic Studies, your cleverness and eagerness to learn shine through.  While you are doing great, remember, Islam emphasizes the importance of community, so don't be shy to chat with your classmates.  It's fantastic that you fit in so well, even as one of the youngest in the class!
+
+In Game Design, your engagement really shows! You are a polite student who isn't afraid to ask for help when needed, which is a great life skill to have.  Keep exploring and trying new things in the world of game design - your curiosity will take you far!
+
+In Arabic, your problem-solving skills and curiosity are impressive!  To help your Arabic flourish even more, try to come to class regularly.  Remember, consistency is key! Your independence in tackling challenges is admirable. Keep up the great work, Aya!}
+
+{Dear Parents,
+
+Aya has demonstrated great strengths in Islamic Studies, Game Design, and Arabic. We encourage her continued efforts in improving her social interaction and class attendance. Thank you for your support in Aya's journey at the Qube.
+
+The Qube fosters a strong community where families can connect and build relationships, which can further support Aya in her social development. It also encourages exploration and curiosity in a safe environment, which is evident in Aya's positive engagement in Game Design. 
+}",TRUE
+1,131,ALAL4,ALAL4,Alia Zahra,Ali,Art,We'll behaved ,Quiet,Project her voice,Clever,Cooking,"Displays positivity and good manners, respects peers and teachers",actively listens and cooperates well without continous supervision,alia needs to be more engaging in classroom discussion and quizes,waits patiently for her turn and always asks for help if needed,Arabic - 1,polite girl ,Motivates ,Quiet,Shy and quiet ,"Instructions: You are a helpful AI assistant creating end-of-term reports for students at the Qube, a weekend school fostering community, spiritual identity, and exploration.
+Input:For each student, you'll receive:
+Student Name, list of subjects they have done in a term, Strengths: 2-5 strengths per subject, Weaknesses: 1-3 areas for improvement per subject , Something Unique about the student per subject
+Output:Generate a 200-word report with these sections:
+To the Student: Address them by name.combine the strength, weaknesses for each subject to provide an overview. Gently mention areas for growth, framed positively. Offer encouragement. use a bit of age-appropriate humor. make sure you don't repeat the weakness if each subject is repeated.
+To the Parents: Briefly acknowledge the overall strengths and the area for growth by mentioning the subjects and thank them for their support.
+end parents section by TWO sentences in the next paragraph capturing the essence of Qube values link to the student development in the subjects they had by referencing Qube values: The Qube fosters a strong community where families can connect and build relationships. It emphasizes Islamic spiritual identity through positive engagement with religious teachings and history. The Qube promotes physical health with regular sports activities and a focus on healthy living. It prioritizes mental and emotional well-being by creating a safe space for children to feel understood and valued. The Qube equips individuals with essential life skills for navigating challenges and encourages exploration and curiosity in a safe environment. It respects individuality and offers diverse choices in its programs.
+Formatting: I need you to follow the following formatting: {response to student} {response to parent}
+Report details: Name 
+Alia Zahra Ali, Islamic subject: Art. strength for Islamic subject  We'll behaved  and Quiet. weakness for Islamic subject  Project her voice. unique for Islamic subject :Clever Skills subject: Cooking. strength for skills subject :Displays positivity and good manners, respects peers and teachers and actively listens and cooperates well without continous supervision. weakness for skills subject alia needs to be more engaging in classroom discussion and quizes. unique for skills subject :waits patiently for her turn and always asks for help if needed
+Language subject: Arabic - 1
+. strength for language subject :
+polite girl  and Motivates . weakness for Language subject 
+Quiet. unique for Language subject :Shy and quiet ","{Dear Alia Zahra Ali, 
+
+You have a knack for being well-behaved and quiet in Islamic Studies, Alia, and we appreciate your cleverness in Art class!  While you excel at displaying positivity and good manners in Cooking class, how about adding a sprinkle of engagement during classroom discussions and quizzes? Remember, even chefs have to taste and adjust their recipes as they go! In Arabic, your politeness shines, but don't be afraid to turn up the volume on your voice – your thoughts and ideas are valuable! Keep up the great work, Alia, the sky's the limit! }
+
+{Dear Alia Zahra Ali's parents,
+
+Alia has demonstrated commendable strengths in various areas, particularly her well-mannered behavior and positive attitude.  We encourage her continued efforts in active participation across subjects. Thank you for your unwavering support in her journey at The Qube. 
+
+The Qube prioritizes mental and emotional well-being by creating a safe space for children to feel understood and valued, which is reflected in Alia's politeness and respect for her peers.  We also encourage exploration and curiosity in a safe environment, and we hope to see Alia embrace this more through classroom engagement and participation. 
+}",TRUE
+1,137,HAFA7,HAFA7,Hana,Farasat,STEM,Attitude,Curiosity,Communication,"Team player, always works with a smile on her face",Cooking,"has become more confident in cooking and baking, contributes to the classroom discussions alot more in class",positive attitude that cooperates well and is open to new ideas and experiences,Needs to show more initiative and participate more in discussions,follows the rules of the class and performs each task well,Farsi - 2,زیبا نویسی و خوانا نویسی دقیق در زبان فارسی,شناخت بیشتر کلمات فارسی ,نیاز به تمرین برای نوشتن سریع تر جملات دارد,با سایر همکلاسی ها و معلم بسیار مهربان هست,"Instructions: You are a helpful AI assistant creating end-of-term reports for students at the Qube, a weekend school fostering community, spiritual identity, and exploration.
+Input:For each student, you'll receive:
+Student Name, list of subjects they have done in a term, Strengths: 2-5 strengths per subject, Weaknesses: 1-3 areas for improvement per subject , Something Unique about the student per subject
+Output:Generate a 200-word report with these sections:
+To the Student: Address them by name.combine the strength, weaknesses for each subject to provide an overview. Gently mention areas for growth, framed positively. Offer encouragement. use a bit of age-appropriate humor. make sure you don't repeat the weakness if each subject is repeated.
+To the Parents: Briefly acknowledge the overall strengths and the area for growth by mentioning the subjects and thank them for their support.
+end parents section by TWO sentences in the next paragraph capturing the essence of Qube values link to the student development in the subjects they had by referencing Qube values: The Qube fosters a strong community where families can connect and build relationships. It emphasizes Islamic spiritual identity through positive engagement with religious teachings and history. The Qube promotes physical health with regular sports activities and a focus on healthy living. It prioritizes mental and emotional well-being by creating a safe space for children to feel understood and valued. The Qube equips individuals with essential life skills for navigating challenges and encourages exploration and curiosity in a safe environment. It respects individuality and offers diverse choices in its programs.
+Formatting: I need you to follow the following formatting: {response to student} {response to parent}
+Report details: Name 
+Hana Farasat, Islamic subject: STEM. strength for Islamic subject  Attitude and Curiosity. weakness for Islamic subject  Communication. unique for Islamic subject :Team player, always works with a smile on her face Skills subject: Cooking. strength for skills subject :has become more confident in cooking and baking, contributes to the classroom discussions alot more in class and positive attitude that cooperates well and is open to new ideas and experiences. weakness for skills subject Needs to show more initiative and participate more in discussions. unique for skills subject :follows the rules of the class and performs each task well
+Language subject: Farsi - 2
+. strength for language subject :
+زیبا نویسی و خوانا نویسی دقیق در زبان فارسی and شناخت بیشتر کلمات فارسی . weakness for Language subject 
+نیاز به تمرین برای نوشتن سریع تر جملات دارد. unique for Language subject :با سایر همکلاسی ها و معلم بسیار مهربان هست","{Dear Hana, 
+It's been a joy having you in class this term! Your positive attitude and curiosity in Islamic Studies shine through. Remember, sharing your thoughts with the class is a great way to learn and grow. Keep up the fantastic teamwork! In Cooking, you've really blossomed! Your confidence in the kitchen is inspiring, and your contributions to class discussions are invaluable.  Don't be afraid to take the lead and share even more of your creative ideas.  And in Farsi - 2, your beautiful handwriting and accurate reading skills are impressive.  To become even faster at writing sentences, how about challenging yourself with some fun writing prompts at home?  Keep up the great work and your friendly spirit!
+}
+{Dear Hana's Parents, 
+Hana has demonstrated great strengths in Islamic Studies, Cooking, and Farsi - 2 this term.  We are working with her to participate more in class. Thank you for your continued support. 
+
+The Qube fosters a strong community where families can connect and build relationships, and we see Hana contributing to this through her teamwork in Islamic Studies and her positive attitude in Cooking class. The Qube also prioritizes mental and emotional well-being by creating a safe space for children to feel understood and valued, which is reflected in Hana's kindness towards her classmates and teacher in Farsi class. 
+}",TRUE
+1,157,AMZA0,AMZA0,Amin,Zarrad,Drama,Good listener,Overall good behaviour ,"Inside voice, more confidence ",Clever ,Cooking,"Amin is enthusiastic, eager to learn and shows initiaitve","cooperative and works well within the team and individually, has good cognitive and food handling skills",needs to show more intitiative and problem solving strategies ,Amin's positive energy is contagious and his persistance in attemting to remake the bread recipe by memory at home is admirable and rewarding. ,Arabic - 2,Problem solving,Independence,Speaking loudly ,Resilience ,"Instructions: You are a helpful AI assistant creating end-of-term reports for students at the Qube, a weekend school fostering community, spiritual identity, and exploration.
+Input:For each student, you'll receive:
+Student Name, list of subjects they have done in a term, Strengths: 2-5 strengths per subject, Weaknesses: 1-3 areas for improvement per subject , Something Unique about the student per subject
+Output:Generate a 200-word report with these sections:
+To the Student: Address them by name.combine the strength, weaknesses for each subject to provide an overview. Gently mention areas for growth, framed positively. Offer encouragement. use a bit of age-appropriate humor. make sure you don't repeat the weakness if each subject is repeated.
+To the Parents: Briefly acknowledge the overall strengths and the area for growth by mentioning the subjects and thank them for their support.
+end parents section by TWO sentences in the next paragraph capturing the essence of Qube values link to the student development in the subjects they had by referencing Qube values: The Qube fosters a strong community where families can connect and build relationships. It emphasizes Islamic spiritual identity through positive engagement with religious teachings and history. The Qube promotes physical health with regular sports activities and a focus on healthy living. It prioritizes mental and emotional well-being by creating a safe space for children to feel understood and valued. The Qube equips individuals with essential life skills for navigating challenges and encourages exploration and curiosity in a safe environment. It respects individuality and offers diverse choices in its programs.
+Formatting: I need you to follow the following formatting: {response to student} {response to parent}
+Report details: Name 
+Amin Zarrad, Islamic subject: Drama. strength for Islamic subject  Good listener and Overall good behaviour . weakness for Islamic subject  Inside voice, more confidence . unique for Islamic subject :Clever  Skills subject: Cooking. strength for skills subject :Amin is enthusiastic, eager to learn and shows initiaitve and cooperative and works well within the team and individually, has good cognitive and food handling skills. weakness for skills subject needs to show more intitiative and problem solving strategies . unique for skills subject :Amin's positive energy is contagious and his persistance in attemting to remake the bread recipe by memory at home is admirable and rewarding. 
+Language subject: Arabic - 2
+. strength for language subject :
+Problem solving and Independence. weakness for Language subject 
+Speaking loudly . unique for Language subject :Resilience ","{Dear Amin, 
+You have a wonderful ability to listen attentively and consistently demonstrate commendable behavior in Islamic Studies. While your inside voice is a treasure, projecting it with more confidence will allow everyone to appreciate your thoughts even more. Keep exploring your clever ideas! In Cooking, your enthusiasm and eagerness to learn shine through. Your initiative, teamwork, and individual skills are impressive, and your cognitive and food handling skills are excellent.  Remember, a little problem-solving can go a long way! Your positive energy in the kitchen is infectious, and your determination to recreate the bread recipe at home is truly admirable. In Arabic, your problem-solving skills and independence are remarkable. Speaking up a little louder will ensure your voice is heard. Keep nurturing your resilience, it's a valuable strength. }
+
+{Dear Mr. and Mrs. Zarrad, 
+Amin has demonstrated notable strengths in Islamic Studies, Cooking, and Arabic. His eagerness to learn, positive attitude, and problem-solving abilities are commendable. We encourage him to continue building his confidence and speaking up. Thank you for your unwavering support. 
+
+The Qube fosters a strong community where families can connect and build relationships, reflected in Amin's collaborative spirit in Cooking class. It emphasizes Islamic spiritual identity through positive engagement with religious teachings and history, evident in Amin's attentive listening and good behavior in Islamic Studies. 
+}",TRUE
