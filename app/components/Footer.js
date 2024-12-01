@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-<section className="flex flex-col bg-cream justify-center">
+<section className="flex flex-col bg-cream justify-center print:hidden">
     <p className="text-center mt-2"> © 2022 The Qube All Rights Reserved </p>
     <Link href="/conditions" className="text-center underline mb-16 sm:mb-0"> Terms & Conditions</Link>
     <div className="w-full bg-pastel-blue sm:bg-transparent sm:flex flex-row justify-center hidden bottom-0 relative">

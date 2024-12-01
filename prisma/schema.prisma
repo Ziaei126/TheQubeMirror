@@ -45,6 +45,7 @@ model Student {
   mentor              Mentor[]
   house               House[]
   registration        Registration[]
+  
   //@@unique([name, lastName, DOB])
 }
 
@@ -97,7 +98,7 @@ model Course {
 model Calendar {
   title   String
   date    DateTime
-  private Boolean
+  private Boolean?
 
   @@unique([title,date])
 }
@@ -185,8 +186,9 @@ model Registration {
   paid        Boolean? @default(false)
   scholarship_essay String?    @db.Text
   scholarship_amount Decimal?  @db.Decimal(3, 2)
-
+  endOfTermReports    EndOfTermReport[]
   paymentPlan payPlan? 
+  confirmed  Boolean?
 
 
 }
@@ -290,4 +292,13 @@ model VerificationToken {
   expires    DateTime
  
   @@id([identifier, token])
+}
+
+model EndOfTermReport {
+  registration Registration @relation(fields: [reg_id], references: [id])
+  reg_id Int @id
+  message_to_student String @db.Text
+  message_to_parent  String @db.Text
+
+  
 }

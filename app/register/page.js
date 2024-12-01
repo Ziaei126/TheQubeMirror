@@ -11,7 +11,7 @@ import ProgressBar from '@app/components/Registration/progressbar';
 import ChooseRegistration from '@app/components/Registration/chooseRegistrationForm';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation'
-const regClosed = true
+const regClosed = false
 
 
 

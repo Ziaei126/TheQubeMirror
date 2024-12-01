@@ -63,6 +63,7 @@ async function main() {
       parent_last_name: parent.lastName,
       parent_phone: parent.phone,
       parent_email: parent.email,
+      student_id: student.id,
       student_name: student.name,
       student_last_name: student.lastName,
       student_DOB: student.DOB,

@@ -49,7 +49,7 @@ const Navbar = () => {
     
 
     return (
-      <header className=" z-10 sticky top-0">
+      <header className=" z-10 sticky top-0 print:hidden">
         <nav className={`flex p-4 justify-between items-center ${hasScrolled ?  "bg-white shadow" : "bg-cream"}`}>
           <Link href={"/"}>
             

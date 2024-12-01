@@ -319,7 +319,7 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
               .then(response => response.json())
               .then(reg => {
                 sucsessfulSubmit({
-    
+                  student_id: reg.student_id,
                   paid: false,
                   studentName: reg.name,
                   hasCourseChoice: null,

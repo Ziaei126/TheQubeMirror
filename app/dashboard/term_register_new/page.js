@@ -1,7 +1,7 @@
 import Table from './table'
 import { gradeCalculator, } from '/lib/gradeCalculator';
 import prisma from '/lib/prisma';
-const termId = parseInt(process.env.TERM_ID);
+const termId = 11;
 
 export default async function TermRegister() {
         
@@ -38,7 +38,7 @@ export default async function TermRegister() {
 
     //console.log("data: ", data)
 
-    const registrations = data.filter(({ paid }) => paid);
+    const registrations = data.filter(({ confirmed }) => confirmed);
     //const registrations = data;
     const students = registrations.map(registration => ({
         student: registration.student,

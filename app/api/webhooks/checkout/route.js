@@ -45,7 +45,8 @@ export async function POST(request) {
         payRef: ref,
         scholarship_essay: scholarship?.essay || null,  // Assuming `scholarship` has an `amount` field
         scholarship_amount: scholarship?.amount || null,
-        paymentPlan: child.plan
+        paymentPlan: child.plan,
+        confirmed: true
       }
     });
 

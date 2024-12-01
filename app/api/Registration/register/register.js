@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache'
 
 
 export async function register(parent_email, student_id) {
-  const term = parseInt(process.env.TERM_ID);
+  const term = 11; //parseInt(process.env.TERM_ID);
 
   const application = await prisma.Registration.create({
     data: {

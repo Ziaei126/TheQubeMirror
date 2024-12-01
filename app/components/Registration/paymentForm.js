@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import Link from 'next/link';
@@ -18,10 +19,10 @@ function PaymentForm({ customer_email, regs, addChild}) {
   const [renderKey, setRenderKey] = useState(0);
   const [discount, setDiscount] = useState(null);
   const termPrice = 305;
-  const yearPrice = 915;
+  const yearPrice = 610; // this is changed for term 1, 2 & 3
   const donationPrice = 30;
   const MutliChildDiscount = 30;
-  const yearDiscount = 140;
+  const yearDiscount = 92; // this is changed for term 1, 2 & 3
 
   // Function to validate the discount code and apply the discount
   const applyDiscount = () => {
@@ -48,7 +49,6 @@ function PaymentForm({ customer_email, regs, addChild}) {
         setDiscountError('Invalid discount code.');
     }
 
-    console.log('hello')
     // If a valid code, set the applied discount and clear any error message
     discountAmount *= children.filter(child => child.plan === 'term').length
   }
@@ -65,14 +65,40 @@ function PaymentForm({ customer_email, regs, addChild}) {
 
   
   useEffect(() => {
-    const newChildren = regs.map(reg => ({
-      name: reg.studentName,
-      plan: 'term',
-      regId: reg.id
-    }));
-    setChildren(newChildren);
-    
-    
+    const fetchEligibilityAndSetChildren = async () => {
+      const newChildren = [];
+  
+      for (const reg of regs) {
+        try {
+          const response = await axios.post('/api/Registration/check_yearly_plan', {
+            student_id: reg.student_id,
+            parent_email: customer_email,
+          });
+  
+          // Add to new children array with eligibility data
+          newChildren.push({
+            name: reg.studentName,
+            plan: 'term',
+            regId: reg.id,
+            prev_yearly: response.data.eligibleForFreeTerm, // Store the eligibility directly in the child object
+          });
+        } catch (error) {
+          console.error('Error checking eligibility:', error);
+  
+          // Add to new children array with default eligibility as false
+          newChildren.push({
+            name: reg.studentName,
+            plan: 'term',
+            regId: reg.id,
+            prev_yearly: false,
+          });
+        }
+      }
+  
+      setChildren(newChildren); // Update children with eligibility
+    };
+  
+    fetchEligibilityAndSetChildren();
   }, [regs]);
 
   const handlePlanChange = (index, newPlan) => {
@@ -100,6 +126,9 @@ function PaymentForm({ customer_email, regs, addChild}) {
 
   const calculateTotal = () => {
     let total = children.reduce((sum, child) => {
+      if (child.prev_yearly) {
+        return sum; // Free term students don't contribute to the total
+      }
       if (child.plan === "year") {
         return sum + yearPrice - yearDiscount;
       } else {
@@ -115,32 +144,51 @@ function PaymentForm({ customer_email, regs, addChild}) {
 
     return total;
   };
-
-  const handleSubmit = async () => {
+  const router = useRouter(); // Initialize router for redirection
+  const handleSubmit = async (noPayment) => {
+    
+  
     if (!conditions || isSubmitting) return; // Prevent multiple submissions
-
-    const stripe = await loadStripe(
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-    );
-    if (!stripe) return;
-
+  
     setIsSubmitting(true);
-
+  
     try {
-      const response = await axios.post('/api/Registration/checkout_session', {
-        customer_email,
-        children,
-        donation,
-        scholarship,
-        discountCode
-      });
-      const data = response.data;
-      if (!data.ok) throw new Error('Something went wrong');
-      await stripe.redirectToCheckout({
-        sessionId: data.result.id
-      });
+      if (noPayment) {
+        // Process registrations directly if no payment is needed
+        const response = await axios.post('api/Registration/update_payment_details', {
+          customer_email,
+          children,
+        });
+  
+        if (!response.data.ok) throw new Error('Something went wrong');
+        
+        // Redirect to success page
+        router.push('/register/success');
+      } else {
+        // Handle payment via Stripe
+        const stripe = await loadStripe(
+          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        );
+        if (!stripe) throw new Error('Stripe not loaded');
+  
+        const response = await axios.post('/api/Registration/checkout_session', {
+          customer_email,
+          children,
+          donation,
+          scholarship,
+          discountCode,
+        });
+  
+        const data = response.data;
+        if (!data.ok) throw new Error('Something went wrong');
+        
+        await stripe.redirectToCheckout({
+          sessionId: data.result.id,
+        });
+      }
     } catch (error) {
       console.error(error);
+      alert('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -168,13 +216,11 @@ function PaymentForm({ customer_email, regs, addChild}) {
       <h3 className="text-2xl font-bold mb-6 text-center">Summary</h3>
       
       {/* Children Details */}
-<ul key={renderKey} className="space-y-6 mb-6">
+      <ul key={renderKey} className="space-y-6 mb-6">
   {children.map((child, index) => (
     <li key={index} className="flex flex-col space-y-2">
-      {/* First Row: Child Name and Price */}
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          {/* Conditionally render the remove (x) button if there's more than one child */}
           {children.length > 1 && (
             <button
               onClick={() => removeChild(index)}
@@ -185,22 +231,24 @@ function PaymentForm({ customer_email, regs, addChild}) {
           )}
           <span className="font-semibold text-gray-800">{child.name}</span>
         </div>
-
-        {/* Price */}
-        <span className="font-semibold text-gray-700">£{child.plan === "year" ? (yearPrice - yearDiscount).toFixed(2) : termPrice}</span>
+        {child.prev_yearly ? (
+          <span className="text-green-600">Free this term</span>
+        ) : (
+          <span className="font-semibold text-gray-700">£{child.plan === "year" ? (yearPrice - yearDiscount).toFixed(2) : termPrice}</span>
+        )}
       </div>
-
-      {/* Second Row: Selection Box */}
-      <div>
-        <select
-          value={child.plan}
-          onChange={(e) => handlePlanChange(index, e.target.value)}
-          className="w-full p-2 border rounded-md text-gray-700 bg-gray-100"
-        >
-          <option value="term">Pay for Term - £{termPrice}</option>
-          <option value="year">Pay for Year - £{(yearPrice - yearDiscount).toFixed(2)} (15% off)</option>
-        </select>
-      </div>
+      {!child.prev_yearly && (
+        <div>
+          <select
+            value={child.plan}
+            onChange={(e) => handlePlanChange(index, e.target.value)}
+            className="w-full p-2 border rounded-md text-gray-700 bg-gray-100"
+          >
+            <option value="term">Pay for Term - £{termPrice}</option>
+            <option value="year">Pay for Year - £{(yearPrice - yearDiscount).toFixed(2)} (15% off)</option>
+          </select>
+        </div>
+      )}
     </li>
   ))}
 </ul>
@@ -336,22 +384,28 @@ function PaymentForm({ customer_email, regs, addChild}) {
       </div>
 
       {/* Submit Button */}
-      <button
-        onClick={handleSubmit}
-        className={`w-full py-3 text-lg font-bold rounded-lg transition duration-300 ease-in-out focus:outline-none ${
-          conditions
-            ? 'bg-blue-500 hover:bg-blue-600 text-white'
-            : 'bg-gray-300 cursor-not-allowed text-gray-500'
-        } ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
-        disabled={!conditions || isSubmitting}
-      >
-        {isSubmitting ? 'Processing...' : 'Pay Now'}
-      </button>
+<button
+  onClick={() => handleSubmit(calculateSholarship(calculateTotal()) === 0)}
+  className={`w-full py-3 text-lg font-bold rounded-lg transition duration-300 ease-in-out focus:outline-none ${
+    conditions
+      ? 'bg-blue-500 hover:bg-blue-600 text-white'
+      : 'bg-gray-300 cursor-not-allowed text-gray-500'
+  } ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
+  disabled={!conditions || isSubmitting}
+>
+  {isSubmitting
+    ? 'Processing...'
+    : calculateSholarship(calculateTotal()) === 0
+    ? 'Confirm'
+    : 'Pay Now'}
+</button>
 
-      {/* Subtle Text */}
-      <p className="mt-4 text-sm text-gray-600 text-center">
-        Your payment information is safe and secure.
-      </p>
+{/* Subtle Text */}
+<p className="mt-4 text-sm text-gray-600 text-center">
+  {calculateSholarship(calculateTotal()) === 0
+    ? 'Please confirm your registration.'
+    : 'Your payment information is safe and secure.'}
+</p>
     </div>
     </div>
     </div>

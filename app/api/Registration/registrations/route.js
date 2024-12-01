@@ -5,7 +5,7 @@ import { gradeCalculator } from '/lib/gradeCalculator'
 
 export async function GET(req, res) {
 
-  const termId = parseInt(process.env.TERM_ID);
+  const termId = 11;
   console.log("running")
   const user = await User(req, res)
   console.log("user: ", user)
