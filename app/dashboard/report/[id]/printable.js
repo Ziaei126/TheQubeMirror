@@ -108,9 +108,9 @@ export default function Print({ student, courses, report }) {
                         {report ? (
                             <div>
                                 <div className="mt-4">
-                                    <p className="text-gray-800">{report.message_to_student}</p>
+                                    <p className="text-gray-800 print:text-justify">{report.message_to_student}</p>
                                     <hr className="m-5" />
-                                    <p className="text-gray-800">{report.message_to_parent}</p>
+                                    <p className="text-gray-800 print:text-justify">{report.message_to_parent}</p>
                                 </div>
                             </div>
                         ) : (
