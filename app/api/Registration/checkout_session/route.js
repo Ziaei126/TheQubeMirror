@@ -84,7 +84,7 @@ export async function POST(request) {
     customer_email: customer_email,
     line_items ,
     mode: 'payment',
-    success_url: `${process.env.BASE_URL}/register/success?scholarship=${scholarship?.applied || false}`,
+    success_url: `${process.env.BASE_URL}/register/success?scholarship=${scholarship?.applied || false}&donation=${donation}`,
     cancel_url: `${process.env.BASE_URL}/register/cancel`,
     metadata: {
       childrenMeta,

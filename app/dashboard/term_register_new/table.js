@@ -165,21 +165,22 @@ export default function Table({ registrations }) {
     <thead>
       <tr>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">#</th> {/* Replaced ID with index */}
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Reg ID</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Picture</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">ID</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Child</th>
         <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Year</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Islamic</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Skill</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Language</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Sport</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Internal Photo</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">External Photo</th>
-        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Medical Notes</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Confirmed</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Islamic - 1</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Skill - 1</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Language - 1</th>
+        <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left">Sport - 1</th>
+        
+        
       </tr>
     </thead>
     <tbody>
-      {students.map(({ student, grade, courses, parent }, index) => (
+      {students.map(({ student, grade, courses, parent, confirmed, reg_id }, index) => (
         <tr  key={index}
         className="cursor-pointer hover:bg-gray-100"
         onClick={() =>
@@ -191,6 +192,10 @@ export default function Table({ registrations }) {
           <td className="py-2 px-4 border-b border-gray-200 text-left">
             {index + 1}
           </td>
+          <td className="py-2 px-4 border-b border-gray-200 text-left">
+            {reg_id}
+          </td>
+
           <td className="py-2 px-4 border-b border-gray-200 text-left">
         {student.pic ? (
           <img
@@ -212,27 +217,23 @@ export default function Table({ registrations }) {
           <td className="py-2 px-4 border-b border-gray-200 text-left">
             {gradeCalcString(grade)}
           </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-left">
-            {courses.islamic || '-'}
-          </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-left">
-            {courses.skill || '-'}
-          </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-left">
-            {courses.language || '-'}
-          </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-left">
-            {courses.sport || '-'}
-          </td>
           <td className="py-2 px-4 border-b border-gray-200 text-centre">
-          {student.internalPhotoAllowed ? <span className="text-green-500 text-xl">✓</span> : <span className="text-red-500 text-xl">✘</span>}
+          {confirmed ? <span className="text-green-500 text-xl">✓</span> : <span className="text-red-500 text-xl">✘</span>}
           </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-centre">
-          {student.externalPhotoAllowed ? <span className="text-green-500 text-xl">✓</span> : <span className="text-red-500 text-xl">✘</span>}
+          <td className="py-2 px-4 border-b border-gray-200 text-left">
+            {courses.Islamic1 || '-'}
           </td>
-          <td className="py-2 px-4 border-b border-gray-200 text-left truncate max-w-[8rem]">
-               {student.medicalNotes}
-              </td>
+          <td className="py-2 px-4 border-b border-gray-200 text-left">
+            {courses.Skill1 || '-'}
+          </td>
+          <td className="py-2 px-4 border-b border-gray-200 text-left">
+            {courses.Language1 || '-'}
+          </td>
+          <td className="py-2 px-4 border-b border-gray-200 text-left">
+            {courses.Sport1 || '-'}
+          </td>
+          
+          
               
         </tr>
       ))}
