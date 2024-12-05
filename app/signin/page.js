@@ -116,7 +116,7 @@ export default function SignIn() {
       </button>
       <p className="mt-1 text-sm text-gray-600">
     Forgot Password?{' '}
-    <Link href={`/signup?callbackUrl=${encodeURIComponent(callbackUrl || '/')}`} className="text-blue-500 hover:text-blue-700 font-bold">
+    <Link href={`/forgot_password?callbackUrl=${encodeURIComponent(callbackUrl || '/')}`} className="text-blue-500 hover:text-blue-700 font-bold">
       reset here
     </Link>
   </p>
