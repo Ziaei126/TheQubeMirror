@@ -107,15 +107,26 @@ export default function SignIn() {
         placeholder="********"
       />
     </div>
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col items-center justify-between">
       <button
         type="submit"
         className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
       >
         Sign In with credentials
       </button>
+      <p className="mt-1 text-sm text-gray-600">
+    Forgot Password?{' '}
+    <Link href={`/signup?callbackUrl=${encodeURIComponent(callbackUrl || '/')}`} className="text-blue-500 hover:text-blue-700 font-bold">
+      reset here
+    </Link>
+  </p>
     </div>
   </form>
+  <div className="my-6 w-full max-w-sm flex items-center">
+    <hr className="flex-grow border-gray-300" />
+    <span className="mx-2 text-gray-500">OR</span>
+    <hr className="flex-grow border-gray-300" />
+  </div>
 
   <p className="mt-4 text-sm text-gray-600">
     Don't have an account?{' '}

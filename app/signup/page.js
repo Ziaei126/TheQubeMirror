@@ -31,27 +31,36 @@ const MainComponent = () => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Confirm password is required')
     }),
-    onSubmit: (values) => {
-      // Assuming you have an API endpoint to handle signup
-    fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: values.email,
-        name: values.name,
-        password: values.password,
-      }),
-    })
-    .catch(error => {
-      console.log('Error submitting form: ', error)
-    })
-    .then(() => signIn('email', {
-      email: values.email,
-      callbackUrl: callbackUrl || '/',
-    }))
-    
+    onSubmit: async (values) => {
+      try {
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: values.email,
+            name: values.name,
+            password: values.password,
+          }),
+        });
+
+        if (!response.ok) {
+          // Handle server error
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Something went wrong during signup.');
+        }
+
+        // Proceed to sign in only if signup was successful
+        await signIn('email', {
+          email: values.email,
+          callbackUrl: callbackUrl || '/',
+        });
+        
+      } catch (error) {
+        console.error('Error during signup process:', error.message);
+        alert(error.message); // Display error message to the user
+      }
     },
   });
 
