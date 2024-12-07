@@ -46,7 +46,7 @@ function ChooseRegistration({sucsessfulSubmit}) {
 
     if (loading) return <div>Loading...</div>;
 
-    if (error) return <div>Error: {error}</div>;
+    if (error) return <div> An error occured. Try signing out and signing back in agian.</div>;
 
     return (
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 m-5 p-6 bg-white rounded-lg shadow-xl">
