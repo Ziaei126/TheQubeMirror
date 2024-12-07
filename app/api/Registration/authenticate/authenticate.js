@@ -13,8 +13,10 @@ export async function User(req, res) {
       setHeader: (name, value) => res.headers?.set(name, value),
     }, options)
 
+    console.log(session)
+
     
-    if (!session || !session.accessToken) {
+    if (!session) {
       return "unauthorized" // json({ error: 'Unauthorised' }, { status: 401 }); res.status(401).send(response.text);
     }
     
