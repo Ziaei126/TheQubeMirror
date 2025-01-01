@@ -41,7 +41,6 @@ model Student {
   yearEnteredReception Int
   parent              Parent[]
   attendance          Attendance[]    
-  report              Report[]
   mentor              Mentor[]
   house               House[]
   registration        Registration[]
@@ -117,39 +116,26 @@ model Attendance {
 
 
 model Report {
-  id      Int  @id
-  create_date DateTime
-  report  String
-  term    Term  @relation(fields: [term_id], references: [id])
-  term_id Int
+  id      String @id @default(uuid()) 
+  create_date DateTime @default(now())
+  report  String @db.Text
   type    ReportType
-  student Student[]
-  sub_type ReportSubType
-  authour Staff  @relation(fields: [staff_id], references: [user_id])
-  staff_id String
-
-  @@index(fields: [staff_id])
-  @@index([term_id])
-
+  course_category CourseCatagory?
+  authour User  @relation(fields: [user_id], references: [id])
+  user_id String
+  registration Registration @relation(fields: [registration_id], references: [id])
+  registration_id Int
 
 }
 
 model Term {
   id    Int  @id
   courses     Course[]
-  reports     Report[]
   houses      House[]
   registrations Registration[]
   mentor_groups Mentor[]
 }
 
-model Staff {
-  user_id     String @unique @id
-  user        User @relation(fields: [user_id], references: [id])
-  mentor      Mentor?
-  reports     Report[]
-
-}
 
 model House {
   id  Int @id 
@@ -167,9 +153,11 @@ model Mentor {
   id  Int  @id  @default(autoincrement())
   term_id Int 
   term Term @relation(fields: [term_id], references: [id])
-  mentor Staff @relation(fields: [staff_id], references: [user_id])
-  staff_id String @unique
+  mentor User @relation(fields: [user_id], references: [id])
+  user_id String 
   students Student[]
+
+  @@unique([user_id,term_id])
 }
 
 model Registration {
@@ -189,6 +177,7 @@ model Registration {
   endOfTermReports    EndOfTermReport[]
   paymentPlan payPlan? 
   confirmed  Boolean?
+  reports    Report[]
 
 
 }
@@ -244,7 +233,9 @@ enum AttendanceState {
 
 enum ReportType {
   teacher
+  mentor
   incident
+  other
 }
 
 enum ReportSubType {
@@ -280,10 +271,11 @@ model User {
   hashedPassword String?
   image         String?
   parent        Parent?
-  staff         Staff?
+  montor        Mentor[]
   isStaff       Boolean @default(false)
   isAdmin       Boolean @default(false)
   accounts      Account[]
+  reports       Report[]
 }
 
 model VerificationToken {
