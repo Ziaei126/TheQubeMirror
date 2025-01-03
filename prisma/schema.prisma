@@ -44,7 +44,10 @@ model Student {
   mentor              Mentor[]
   house               House[]
   registration        Registration[]
-  
+  followUp            Boolean? @default(true)
+  followUpNotes       String? @db.Text
+  followUpAssignee    User? @relation(fields: [followUpAssignee_id], references: [id])
+  followUpAssignee_id String?
   //@@unique([name, lastName, DOB])
 }
 
@@ -276,6 +279,7 @@ model User {
   isAdmin       Boolean @default(false)
   accounts      Account[]
   reports       Report[]
+  followUps      Student[]
 }
 
 model VerificationToken {
