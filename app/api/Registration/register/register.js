@@ -17,6 +17,8 @@ export async function register(parent_email, student_id) {
       return application
     }
     revalidatePath('/dashboard/term_register')
+    revalidatePath('/dashboard/registrations')
+    
     return  application
   } 
   

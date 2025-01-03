@@ -53,7 +53,7 @@ export async function POST(request) {
     console.log(`Updated registration for child ${child.name} with ID ${child.regId}`);
   }
   revalidatePath('/dashboard/term_register')
-  revalidatePath('/dashboard/term_register_new')
+  revalidatePath('/dashboard/registrations')
     return new Response('Payment Registered', {
       status: 200
     }) 

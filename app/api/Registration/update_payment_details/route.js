@@ -22,7 +22,9 @@ export async function POST(req) {
         })
       )
     );
-    revalidatePath('/dashboard/term_register_new')
+    revalidatePath('/dashboard/registrations')
+    revalidatePath('/dashboard/term_register')
+
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   } catch (error) {
     console.error('Error updating registration:', error);
