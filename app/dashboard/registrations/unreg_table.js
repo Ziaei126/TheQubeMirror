@@ -198,7 +198,7 @@ const { unregisteredStudents, users } = data;
             const status = savingStatus[studentId] || 'idle';
 
             // Suppose your server sets 'lastTermYearly = true/false'
-            const yearlyDisplay = student.lastTermYearly ? 'Yes' : 'No';
+            const yearlyDisplay = student.registration[0].paymentPlan == "year" ? 'Yes' : 'No';
 
             // Decide the border color based on 'status'
             const borderClass = getBorderClass(status);
