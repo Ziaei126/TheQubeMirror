@@ -59,7 +59,7 @@ export async function GET() {
         select: { id: true, name: true },
       });
 
-      [...unregisteredStudents].sort((a, b) =>
+      unregisteredStudents.sort((a, b) =>
         a.lastName.toLowerCase().localeCompare(b.lastName.toLowerCase())
       )
 
