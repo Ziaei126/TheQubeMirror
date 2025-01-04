@@ -29,7 +29,12 @@ export default function UnregisteredTable() {
 // 1. Use SWR
 const { data, error, mutate } = useSWR(
   '/api/dashboard/registrations/unregistered',
-  fetcher
+  fetcher,{
+    // Re-fetch whenever the component mounts 
+    revalidateOnMount: true,
+    // or if you want it to refetch even more often:
+    refreshInterval: 300000, // e.g., every 300s
+  }
 );
 
 // 2. Initialize your states *unconditionally*
