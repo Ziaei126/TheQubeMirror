@@ -2,6 +2,7 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 const termId = 11;
+export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     // Now, fetch **all** students, including follow-up fields
