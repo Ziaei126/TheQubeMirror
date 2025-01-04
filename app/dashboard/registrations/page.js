@@ -3,6 +3,8 @@ import Table from './table'
 import UnregisteredTable from './unreg_table'
 import { gradeCalculator, } from '/lib/gradeCalculator';
 import prisma from '/lib/prisma';
+import { where } from 'underscore';
+import { payPlan } from '@node_modules/.prisma/client';
 const termId = 11;
 
 export default async function TermRegister() {
@@ -57,56 +59,6 @@ export default async function TermRegister() {
       
       }));
 
-      // Now, fetch **all** students, including follow-up fields
-      const unregisteredStudents = await prisma.student.findMany({
-        where: {
-          AND: [
-            { followUp: true },
-            {
-              registration: {
-                none: {
-                  term_id: termId,
-                },
-              },
-            },
-            {
-              registration: {
-                some: {
-                  term_id: termId - 1,
-                },
-              },
-            },
-          ],
-        },
-        select: {
-          id: true,
-          name: true,
-          lastName: true,
-          // If you have other fields like "pic," "DOB," etc., add them
-          followUp: true,
-          followUpNotes: true,
-          followUpAssignee_id: true,
-          // If you store parent details in a related model, you might do:
-          parent: {
-            select: {
-              name: true,
-              lastName: true,
-              phone: true,
-              email: true,
-            },
-          },
-          // or if "parent" is a field on Student directly, just select it:
-          // parent: true,
-        },
-      });
-    
-      // If you also need a list of possible "assignees" (users):
-      const users = await prisma.user.findMany({
-        where: { isStaff: true }, 
-        select: { id: true, name: true },
-      });
-
-    console.log(users)
 
 
     return (
@@ -115,7 +67,7 @@ export default async function TermRegister() {
         <Table registrations={students} />
 
         <h1 className="text-3xl font-bold text-center mt-16 mb-8">Unregistered Students</h1>
-        <UnregisteredTable students={unregisteredStudents} users={users} />
+        <UnregisteredTable />
       </div>
     );
 }

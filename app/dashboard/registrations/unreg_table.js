@@ -1,111 +1,166 @@
-// app/term-register/components/UnregisteredTable.js
 'use client';
 
-import { set } from 'date-fns';
-import ContactModal from './ContactModal';
+import useSWR from 'swr';
 import React, { useState, useEffect } from 'react';
+import ContactModal from './ContactModal';
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+/**
+ * A utility function to decide border color classes based on status.
+ * @param {string} status - 'idle' | 'saving' | 'saved' | 'error'
+ * @returns {string} Tailwind border color class
+ */
+function getBorderClass(status) {
+  switch (status) {
+    case 'saving':
+      return 'border-blue-500 border-2 animate-pulse border-dashed';
+    case 'saved':
+      return 'border-green-500';
+    case 'error':
+      return 'border-red-500 border-3';
+    default:
+      // 'idle'
+      return 'border-gray-300';
+  }
+}
+
+export default function UnregisteredTable() {
+// 1. Use SWR
+const { data, error, mutate } = useSWR(
+  '/api/dashboard/registrations/unregistered',
+  fetcher
+);
+
+// 2. Initialize your states *unconditionally*
+const [notes, setNotes] = useState({});
+const [assignees, setAssignees] = useState({});
+const [savingStatus, setSavingStatus] = useState({});
+const [showModal, setShowModal] = useState(false);
+const [modalContent, setModalContent] = useState(null);
+
+// 3. We can do a guard for loading/error states
+const isLoading = !data && !error;
+
+// 4. Even if `data` is undefined, we still run the effect (it just won't do much).
+useEffect(() => {
+  if (!data) return;
+  const { unregisteredStudents } = data;
+
+  const initialNotes = {};
+  const initialAssignees = {};
+  const initialStatus = {};
+
+  unregisteredStudents.forEach((student) => {
+    initialNotes[student.id] = student.followUpNotes || '';
+    initialAssignees[student.id] = student.followUpAssignee_id || '';
+    initialStatus[student.id] = 'idle';
+  });
+
+  setNotes(initialNotes);
+  setAssignees(initialAssignees);
+  setSavingStatus(initialStatus);
+}, [data]);
+
+// 5. If you're waiting on data or have an error:
+if (error) {
+  return <div>Error loading students!</div>;
+}
+if (isLoading) {
+  return <div>Loading...</div>;
+}
 
 
-export default function UnregisteredTable({ students, users = [] }) {
-    const [items, setItems] = useState(students.sort((a, b) => {
-      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-        return -1;
-      }
-      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
-        return 1;
-      }
-      return 0;
-    }));
 
-  const [notes, setNotes] = useState({});
-  const [assignees, setAssignees] = useState({});
+// Now `data` is guaranteed to exist here
+const { unregisteredStudents, users } = data;
 
-  useEffect(() => {
-    // Build an object mapping each student's ID to the already assigned user (if any)
-    const initialAssignees = {};
-    items.forEach((student) => {
-      // If your data has `followUpAssignee_id`, use it:
-      initialAssignees[student.id] = student.followUpAssignee_id || '';
-    });
-    setAssignees(initialAssignees);
-
-    const initialNotes = {};
-    items.forEach((student) => {
-      initialNotes[student.id] = student.followUpNotes || '';
-    }
-    );
-    setNotes(initialNotes);
-  }, [items]);
-
-  // For the contact modal
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-
-  // Show the contact modal
+  // ---- Contact Modal Handlers ----
   const openContactModal = (student) => {
-    console.log(student);
     setModalContent(student);
     setShowModal(true);
   };
-
   const closeContactModal = () => {
     setModalContent(null);
     setShowModal(false);
   };
 
-  const handleNoteChange = (id, note) => {
-    setNotes((prev) => ({ ...prev, [id]: note }));
-  };
+  // ---- Saving Logic ----
 
-  const handleAssigneeChange = (id, assigneeId) => {
-    setAssignees((prev) => ({ ...prev, [id]: assigneeId }));
-  };
-
-  const handleSave = async (studentId) => {
-    const content = notes[studentId];
-    const assigneeId = assignees[studentId];
+  // Generic function to update DB
+  const updateFollowUp = async (studentId, newNotes, newAssigneeId) => {
+    // Set status to 'saving'
+    setSavingStatus((prev) => ({ ...prev, [studentId]: 'saving' }));
 
     try {
-      const response = await fetch('/api/dashboard/registrations', {
+      const response = await fetch('/api/dashboard/registrations/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           studentId,
           followUp: true,
-          followUpNotes: content,
-          followUpAssignee_id: assigneeId,
+          followUpNotes: newNotes,
+          followUpAssignee_id: newAssigneeId || null,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to save follow-up details');
-      }
+      console.log('Response:', response);
 
-      alert('Follow-up details saved successfully!');
-    } catch (error) {
-      console.error(error);
-      alert('Error saving follow-up details');
+      if (!response.ok) throw new Error('Failed to update follow-up details');
+
+      // If success:
+      setSavingStatus((prev) => ({ ...prev, [studentId]: 'saved' }));
+      // Revert to 'idle' after 2 seconds
+      setTimeout(() => {
+        setSavingStatus((prev) => ({ ...prev, [studentId]: 'idle' }));
+      }, 2000);
+      mutate(); // Refresh data
+    } catch (err) {
+      console.error(err);
+      setSavingStatus((prev) => ({ ...prev, [studentId]: 'error' }));
+      // Optionally revert after some time
+      setTimeout(() => {
+        setSavingStatus((prev) => ({ ...prev, [studentId]: 'idle' }));
+      }, 3000);
     }
   };
 
+  // Called when user changes the <select> for Assignee
+  const handleAssigneeChange = async (studentId, newAssigneeId) => {
+    setAssignees((prev) => ({ ...prev, [studentId]: newAssigneeId }));
+    const currentNotes = notes[studentId];
+    // Auto-save immediately
+    await updateFollowUp(studentId, currentNotes, newAssigneeId);
+  };
+
+  // Called when the user finishes editing notes (onBlur)
+  const handleNoteBlur = async (studentId) => {
+    const currentNotes = notes[studentId];
+    const currentAssignee = assignees[studentId];
+    await updateFollowUp(studentId, currentNotes, currentAssignee);
+  };
+
+  // Called every time user types in the text area
+  const handleNoteChange = (studentId, newNote) => {
+    setNotes((prev) => ({ ...prev, [studentId]: newNote }));
+  };
+
+  // Remove from follow-up
   const handleRemove = async (studentId) => {
     try {
-      const response = await fetch('/api/dashboard/registrations', {
+      const response = await fetch('/api/dashboard/registrations/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           studentId,
-          followUp: false,
+          followUp: false, // Removing from follow-up
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to remove student from follow-up list');
-      }
+      if (!response.ok) throw new Error('Failed to remove student from follow-up');
 
       alert('Student removed from follow-up list.');
-        setItems((prev) => prev.filter((student) => student.id !== studentId));
-      // Optionally update the UI or re-fetch
+      mutate(); // Refresh data
     } catch (error) {
       console.error(error);
       alert('Error removing student from follow-up list');
@@ -117,86 +172,99 @@ export default function UnregisteredTable({ students, users = [] }) {
       <table className="min-w-full bg-white table-auto">
         <thead>
           <tr>
+            {/* The remove "X" at the beginning */}
+            <th className="py-2 px-4 border-b text-center"></th>
             <th className="py-2 px-4 border-b text-left">#</th>
             <th className="py-2 px-4 border-b text-left">ID</th>
             <th className="py-2 px-4 border-b text-left">Name</th>
+            <th className="py-2 px-4 border-b text-left">Contact</th>
             <th className="py-2 px-4 border-b text-left">Assignee</th>
             <th className="py-2 px-4 border-b text-left">Notes</th>
-            <th className="py-2 px-4 border-b text-left">Contact</th>
-            <th className="py-2 px-4 border-b ">Actions</th>
+            {/* New "Yearly" column for last-term yearly registration */}
+            <th className="py-2 px-4 border-b text-left">Yearly</th>
+            
           </tr>
         </thead>
         <tbody>
-          {items.map((student, index) => (
-            <tr key={student.id}>
-              <td className="py-2 px-4 border-b">{index + 1}</td>
-              <td className="py-2 px-4 border-b">{student.id}</td>
-              <td className="py-2 px-4 border-b">
-                {student.name} {student.lastName}
-              </td>
+          {data.unregisteredStudents.map((student, index) => {
+            const studentId = student.id;
+            const currentNotes = notes[studentId] || '';
+            const currentAssignee = assignees[studentId] || '';
+            const status = savingStatus[studentId] || 'idle';
 
-              {/* Assignee Dropdown */}
-              <td className="py-2 px-4 border-b">
-                <select
-                  value={assignees[student.id] || ''}
-                  onChange={(e) => handleAssigneeChange(student.id, e.target.value)}
-                  className="border rounded px-2 py-1"
-                >
-                  <option value="">Unassigned</option>
-                  {users.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
-                    </option>
-                  ))}
-                </select>
-              </td>
+            // Suppose your server sets 'lastTermYearly = true/false'
+            const yearlyDisplay = student.lastTermYearly ? 'Yes' : 'No';
 
-              {/* Notes Textarea */}
-              <td className="py-2 px-4 border-b">
-                <textarea
-                  className="border rounded w-full px-2 py-1"
-                  placeholder="Add or remove notes here..."
-                  value={notes[student.id] || ''}
-                  onChange={(e) => handleNoteChange(student.id, e.target.value)}
-                />
-              </td>
+            // Decide the border color based on 'status'
+            const borderClass = getBorderClass(status);
 
-              {/* Contact Button */}
-              <td className="py-2 px-4 border-b">
-                <button
-                  onClick={() => openContactModal(student)}
-                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                >
-                  Contact
-                </button>
-              </td>
+            return (
+              <tr key={studentId}>
+                {/* X Remove button */}
+                <td className="py-2 px-4 border-b text-center w-10">
+                  <button
+                    onClick={() => handleRemove(studentId)}
+                    className="text-white bg-red-500 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center text-xl mx-auto"
+                    title="Remove from Follow-Up"
+                  >
+                    &times;
+                  </button>
+                </td>
 
-              {/* Save & Remove Buttons */}
-              <td className="py-2 px-4 border-b">
-                <button
-                  onClick={() => handleSave(student.id)}
-                  className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 mr-2"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => handleRemove(student.id)}
-                  className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
-                >
-                  Remove
-                </button>
-              </td>
-            </tr>
-          ))}
+                <td className="py-2 px-4 border-b w-10">{index + 1}</td>
+                <td className="w-20 py-2 px-4 border-b">{studentId}</td>
+                <td className="w-32 py-2 px-4 border-b whitespace-normal break-auto">
+                  {student.name} {student.lastName}
+                </td>
+                {/* Contact button */}
+                <td className="py-2 px-4 border-b">
+                  <button
+                    onClick={() => openContactModal(student)}
+                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                  >
+                    Contact
+                  </button>
+                </td>
+
+                {/* Assignee Dropdown, color-coded by status */}
+                <td className={`py-2 px-4 border-b w-max-32`}>
+                  <select
+                    value={currentAssignee}
+                    onChange={(e) => handleAssigneeChange(studentId, e.target.value)}
+                    className={`border rounded px-2 py-1 ${borderClass}`}
+                  >
+                    <option value="">Unassigned</option>
+                    {data.users.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.name}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+
+                {/* Notes Textarea, color-coded by status, auto-saves onBlur */}
+                <td className="py-2 px-4 border-b">
+                  <textarea
+                    className={`w-64 h-16 px-2 py-1 resize-none rounded border ${borderClass}`}
+                    placeholder="Add or remove notes..."
+                    value={currentNotes}
+                    onChange={(e) => handleNoteChange(studentId, e.target.value)}
+                    onBlur={() => handleNoteBlur(studentId)}
+                  />
+                </td>
+
+                {/* Yearly column: "Yes"/"No" */}
+                <td className="py-2 px-4 border-b">{yearlyDisplay}</td>
+
+                
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
-      {/* Contact Modal (conditionally rendered) */}
       {showModal && (
-        <ContactModal
-          student={modalContent}
-          onClose={closeContactModal}
-        />
+        <ContactModal student={modalContent} onClose={closeContactModal} />
       )}
     </div>
   );

@@ -9,8 +9,7 @@ export default function ContactModal({ student, onClose }) {
   // We assume 'student.parent' is an object with { name, lastName, phone, email }.
   // If parent's data is stored differently, adapt accordingly.
   const parent = student.parent[0];
-  console.log("parent: ", parent)
-  console.log("parent: ", parent.name)
+  
 
   return (
     <div
