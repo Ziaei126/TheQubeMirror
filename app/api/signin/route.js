@@ -1,44 +1,57 @@
-import prisma from '/lib/prisma'
-import {NextResponse} from 'next/server'
-
-
-
+import prisma from '/lib/prisma';
+import { NextResponse } from 'next/server';
 
 export async function POST(request) {
+  try {
     const body = await request.json();
-    const {email} = body;
-    console.log(email)
+    const { email } = body;
+    console.log('API running with email:', email);
 
-    if(!email) {
-        return new NextResponse("Missing Fields", {status: 400})
+    // Validate the email field
+    if (!email) {
+      return NextResponse.json(
+        { error: "Missing Fields", details: "Email is required" },
+        { status: 400 }
+      );
     }
 
+    // Fetch the user from the database
     const user = await prisma.user.findUnique({
-        where: {
-            email
-        }
+      where: { email },
     });
 
-    console.log(user)
+    console.log('User data:', user);
 
-    if(!user) {
-        return new NextResponse("User not found", {status: 400})
+    // Handle user not found
+    if (!user) {
+      console.log('User not found');
+      return NextResponse.json(
+        { error: "User not Found", details: "Please enter a valid user or consider signing up" },
+        { status: 404 }
+      );
     }
-    
-    console.log(user.emailVerified)
 
+    // Check if the user's email is verified
+    console.log('Email verified status:', user.emailVerified);
     if (user.emailVerified === null) {
-        return new NextResponse(JSON.stringify({email: true}), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        })
+      return NextResponse.json(
+        { email: true },
+        { status: 200 }
+      );
     }
 
-    return new NextResponse(JSON.stringify({email: false}), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-    })
+    // If email is verified
+    return NextResponse.json(
+      { email: false },
+      { status: 200 }
+    );
 
-
-
+  } catch (error) {
+    // Handle unexpected server errors
+    console.error('Error in API:', error);
+    return NextResponse.json(
+      { error: "Internal Server Error", details: error.message },
+      { status: 500 }
+    );
+  }
 }

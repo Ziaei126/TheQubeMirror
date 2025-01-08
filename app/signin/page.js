@@ -19,35 +19,42 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch('/api/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: username
-      }),
-    })
-    .catch(error => {
-      console.log('Error submitting form: ', error)
-    })
-    .then(response => response.json())
-    .then(({email}) => {
-      console.log('email: ', email)
+    try {
+      const response = await fetch('/api/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: username,
+        }),
+      });
+  
+      // Check for HTTP errors
+      if (!response.ok) {
+        const errorData = await response.json(); // Attempt to parse error details from the server
+        throw new Error(errorData?.details || 'An unexpected error occurred. Please try again.');
+      }
+  
+      const { email } = await response.json();
+  
+      console.log('email: ', email);
       if (email) {
         signIn('email', {
           email: username,
           callbackUrl: callbackUrl || '/',
-        })
+        });
       } else {
         signIn('credentials', {
           username,
           password,
           callbackUrl: callbackUrl || '/',
         });
-      } 
-
-    })
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error.details);
+      alert(`Error submitting form: ${error.details}`);
+    }
 
   };
 

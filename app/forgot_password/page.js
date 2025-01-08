@@ -34,40 +34,58 @@ const ForgotPassword = () => {
         : null,
     }),
     onSubmit: async (values) => {
-      if (!emailVerified) {
-        // Check if email exists in the database
-        const response = await fetch("/api/check-email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: values.email }),
-        });
-
-        if (response.ok) {
-          setEmailVerified(true); // Email is verified, show password fields
+      try {
+        if (!emailVerified) {
+          // Check if email exists in the database
+          const response = await fetch("/api/check-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: values.email }),
+          });
+    
+          if (response.ok) {
+            const data = await response.json();
+            if (data.email) {
+              setEmailVerified(true); // Email is verified, show password fields
+              alert("Email verified! Please proceed to set your password.");
+            } else {
+              alert("Unexpected response from server. Please try again.");
+            }
+          } else {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.error || "Email not found. "} Please try again or consider signing up.`);
+            console.log("Error response:", errorData.details);
+          }
         } else {
-          console.log("Email not found.");
-        }
-      } else {
-        // Submit the new password
-        fetch("/api/reset-password", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: values.email,
-            password: values.password,
-          }),
-        })
-          .then(() => {
+          // Submit the new password
+          const resetResponse = await fetch("/api/reset-password", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: values.email,
+              password: values.password,
+            }),
+          });
+    
+          if (resetResponse.ok) {
+            alert("Password reset successfully! Redirecting...");
             signIn("email", {
               email: values.email,
               callbackUrl: callbackUrl || "/",
             });
-          })
-          .catch((error) => console.error("Error resetting password:", error));
+          } else {
+            const resetErrorData = await resetResponse.json();
+            alert(`Error resetting password: ${resetErrorData.error || "Unexpected error occurred. Please try again."}`);
+            console.error("Password reset error:", resetErrorData.details);
+          }
+        }
+      } catch (error) {
+        console.error("Unexpected error:", error);
+        alert(`Unexpected error: ${error.message || "Please try again later."}`);
       }
     },
   });
