@@ -17,6 +17,7 @@ const MENU_LIST = [
     { text: "FAQ", href: "/faq" },
     { text: "Careers", href: "/careers" },
     { text: "About Us", href: "/about" },
+    { text: "Contact", href: "/contact" },
 ];
 
 const Navbar = () => {

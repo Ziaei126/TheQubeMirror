@@ -111,7 +111,8 @@ export const options = {
     },
   },
   pages: {
-    signIn: "/signin"
+    signIn: "/signin",
+    verifyRequest: "/auth/verify-request", // Email sent page
   }
 
   // Additional NextAuth configuration...

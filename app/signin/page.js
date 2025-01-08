@@ -33,6 +33,7 @@ export default function SignIn() {
       // Check for HTTP errors
       if (!response.ok) {
         const errorData = await response.json(); // Attempt to parse error details from the server
+        console.log(errorData)
         throw new Error(errorData?.details || 'An unexpected error occurred. Please try again.');
       }
   
@@ -52,8 +53,7 @@ export default function SignIn() {
         });
       }
     } catch (error) {
-      console.error('Error submitting form:', error.details);
-      alert(`Error submitting form: ${error.details}`);
+      alert(`${error}`);
     }
 
   };
