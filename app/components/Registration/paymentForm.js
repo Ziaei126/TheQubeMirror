@@ -74,8 +74,10 @@ function PaymentForm({ customer_email, regs, addChild}) {
   
       for (const reg of regs) {
         try {
+          console.log('hello')
+          console.log('checking eligibility for:', reg);
           const response = await axios.post('/api/Registration/check_yearly_plan', {
-            student_id: reg.student_id,
+            reg_id: reg.id,
             parent_email: customer_email,
           });
   

@@ -10,26 +10,29 @@ export default function DashboardPage() {
             Term Register
           </div>
         </Link>
-        <Link href="/page2">
-          <div className="bg-pastel-orange text-white p-6 rounded-lg text-center cursor-pointer hover:bg-blue-600">
-            Golden Rules
-          </div>
-        </Link>
-        <Link href="/page3">
+        <a
+          href="/golden_rules.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-pastel-orange text-white p-6 rounded-lg text-center cursor-pointer hover:bg-blue-600"
+        >
+          Golden Rules
+        </a>
+        {/* <Link href="/calendar">
           <div className="bg-pastel-orange text-white p-6 rounded-lg text-center cursor-pointer hover:bg-blue-600">
             Calendar
           </div>
-        </Link>
-        <Link href="/page4">
+        </Link> */}
+        <Link href="/dashboard/registrations">
           <div className="bg-pastel-orange text-white p-6 rounded-lg text-center cursor-pointer hover:bg-blue-600">
-            Mentor Assignments
+            Registrations
           </div>
         </Link>
-        <Link href="/page5">
+        {/* <Link href="/page5">
           <div className="bg-pastel-orange text-white p-6 rounded-lg text-center cursor-pointer hover:bg-blue-600">
             Incident Report
           </div>
-        </Link>
+        </Link> */}
         
       </div>
     </div>

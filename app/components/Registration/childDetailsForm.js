@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import CustomDatePicker from './CustomDatePicker';
+import { gradeCalculator, calculateYearOfEntry } from '@lib/gradeCalculator';
 
 
 
@@ -85,30 +86,9 @@ function ChildDetailsForm({ sucsessfulSubmit, yearGroupChosen, signedIn, email }
   }
 
   const currentSchoolYear = (yearOfEntry) => {
-    // Assuming yearOfEntry is a string representing the year, e.g., "2020"
-    const yearOfEntryInt = parseInt(yearOfEntry);
-
-    // Get the current year
-    const currentYear = new Date().getFullYear();
-
-    // Calculate the difference in years
-    const yearsSinceEntry = currentYear - yearOfEntryInt;
-
-    // Check if the student is in reception
-
-    // Otherwise, return the current school year as a string
-    return yearsSinceEntry;
-
+    return gradeCalculator(yearOfEntry);
   }
 
-  const calculateYearOfEntry = (currentSchoolYear) => {
-    // Get the current year
-    const currentYear = new Date().getFullYear();
-
-    let yearOfEntryInt = currentYear - currentSchoolYear;
-
-    return yearOfEntryInt;
-  }
 
   const formatDOB = (dob) => {
     // Assuming dob is a Date object or a string in a recognizable date format
