@@ -1,0 +1,84 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default async function handler(req, res) {
+    if (req.method === "POST") {
+        const {
+            report,
+            type,
+            year,
+            term,
+            date,
+            visibleToParent,
+            user_id,
+            registration_id,
+        } = req.body;
+
+        try {
+            // Validate required fields
+            if (
+                !report ||
+                !type ||
+                !year ||
+                !term ||
+                !user_id ||
+                !registration_id
+            ) {
+                return res.status(400).json({
+                    error: "Missing required fields. Please provide all required data.",
+                });
+            }
+
+            // Create a new report
+            const newReport = await prisma.report.create({
+                data: {
+                    report,
+                    type,
+                    course_category: null, // You can modify if course_category is required
+                    create_date: new Date(date), // Use the provided date or default to now
+                    visibleToParent: visibleToParent || false,
+                    user_id,
+                    registration_id,
+                },
+            });
+
+            return res.status(201).json(newReport);
+        } catch (error) {
+            console.error("Error creating report:", error);
+            return res.status(500).json({ error: "Failed to create the report." });
+        }
+    } else if (req.method === "GET") {
+        // Optional: Handle GET requests if needed to fetch all reports
+        try {
+            const { studentId } = req.query;
+
+            if (!studentId) {
+                return res.status(400).json({
+                    error: "Student ID is required to fetch reports.",
+                });
+            }
+
+            const reports = await prisma.report.findMany({
+                where: {
+                    registration: {
+                        studentId,
+                    },
+                },
+                include: {
+                    authour: true,
+                },
+                orderBy: {
+                    create_date: "desc",
+                },
+            });
+
+            return res.status(200).json(reports);
+        } catch (error) {
+            console.error("Error fetching reports:", error);
+            return res.status(500).json({ error: "Failed to fetch reports." });
+        }
+    } else {
+        return res.status(405).json({ error: "Method not allowed." });
+    }
+}
